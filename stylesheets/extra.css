@@ -1,0 +1,13 @@
+.md-typeset h1 {
+  font-weight: 700;
+}
+
+.level-badge {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: var(--md-primary-fg-color);
+  color: var(--md-primary-bg-color);
+}
