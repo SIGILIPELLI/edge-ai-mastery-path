@@ -1,0 +1,100 @@
+site_name: Edge AI Mastery Path
+site_description: A structured, module-wise Edge AI & TinyML training program from entry level to master level — train, quantize, and run machine-learning models on your laptop first, then deploy them to microcontrollers and edge devices.
+site_url: https://sigilipelli.github.io/edge-ai-mastery-path/
+repo_url: https://github.com/SIGILIPELLI/edge-ai-mastery-path
+repo_name: edge-ai-mastery-path
+
+theme:
+  name: material
+  custom_dir: docs/overrides
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep purple
+      accent: deep purple
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep purple
+      accent: deep purple
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.indexes
+    - content.code.copy
+    - content.code.annotate
+    - search.suggest
+    - search.highlight
+
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - toc:
+      permalink: true
+
+extra_css:
+  - stylesheets/extra.css
+
+nav:
+  - Home: index.md
+  - Privacy Policy: privacy.md
+  - "Level 1 · Entry":
+      - Overview: level-1/index.md
+      - "01 · What Is Edge AI": level-1/01-what-is-edge-ai.md
+      - "02 · The Edge AI Workflow": level-1/02-edge-ai-workflow.md
+      - "03 · Training a Tiny Model": level-1/03-training-a-tiny-model.md
+      - "04 · Converting to TFLite/LiteRT": level-1/04-converting-to-tflite.md
+      - "05 · Quantization": level-1/05-quantization.md
+      - "06 · TFLite-Micro & C Arrays": level-1/06-tflite-micro-c-arrays.md
+      - "07 · Deploying to a Microcontroller": level-1/07-deploying-to-microcontroller.md
+      - "08 · Sensors & Feature Extraction": level-1/08-sensors-feature-extraction.md
+      - "09 · Evaluating & Debugging Edge Models": level-1/09-evaluating-debugging.md
+      - "10 · Capstone — Gesture Recognition": level-1/10-capstone-gesture-recognition.md
+  - "Level 2 · Intermediate":
+      - Overview: level-2/index.md
+      - "01 · Audio Wake Words & Keyword Spotting": level-2/01-audio-wake-words.md
+      - "02 · Image Classification on Microcontrollers": level-2/02-image-classification-mcu.md
+      - "03 · Edge Impulse End-to-End Workflows": level-2/03-edge-impulse-workflows.md
+      - "04 · Data Collection & Dataset Design": level-2/04-data-collection-datasets.md
+      - "05 · Model Pruning & Knowledge Distillation": level-2/05-pruning-distillation.md
+      - "06 · Quantization-Aware Training": level-2/06-quantization-aware-training.md
+      - "07 · ESP32-CAM Vision Projects": level-2/07-esp32-cam-projects.md
+      - "08 · Person Detection (Visual Wake Words)": level-2/08-person-detection.md
+      - "09 · Optimizing Memory & Latency on MCUs": level-2/09-memory-latency-optimization.md
+      - "10 · Project — Voice-Controlled Device": level-2/10-project-voice-controlled-device.md
+  - "Level 3 · Advanced":
+      - Overview: level-3/index.md
+      - "01 · Edge NPUs & Accelerators (Coral Edge TPU)": level-3/01-npus-accelerators-coral.md
+      - "02 · Vendor NPU Toolchains (i.MX, Ethos-U)": level-3/02-vendor-npu-toolchains.md
+      - "03 · ONNX Runtime & Cross-Framework Deployment": level-3/03-onnx-runtime.md
+      - "04 · Streaming Inference & Real-Time Pipelines": level-3/04-streaming-inference.md
+      - "05 · Object Detection at the Edge": level-3/05-object-detection-edge.md
+      - "06 · ML Compiler Stacks (TVM, IREE)": level-3/06-ml-compiler-stacks.md
+      - "07 · Model Security & IP Protection": level-3/07-model-security.md
+      - "08 · Multi-Model & Sensor-Fusion Systems": level-3/08-multi-model-sensor-fusion.md
+      - "09 · Benchmarking Edge Models (MLPerf Tiny)": level-3/09-benchmarking-mlperf-tiny.md
+      - "10 · Project — Accelerated Vision Node": level-3/10-project-accelerated-vision-node.md
+  - "Level 4 · Master":
+      - Overview: level-4/index.md
+      - "01 · Production Edge AI Architecture": level-4/01-production-edge-ai-architecture.md
+      - "02 · OTA Model Updates & Versioning": level-4/02-ota-model-updates.md
+      - "03 · Fleet Monitoring & Model Drift": level-4/03-fleet-monitoring-drift.md
+      - "04 · On-Device Learning & Personalization": level-4/04-on-device-learning.md
+      - "05 · Federated Learning at the Edge": level-4/05-federated-learning.md
+      - "06 · Custom Kernels & CMSIS-NN Optimization": level-4/06-custom-kernels-cmsis-nn.md
+      - "07 · Ultra-Low-Power Always-On Inference": level-4/07-ultra-low-power-inference.md
+      - "08 · Hardware Co-Design & NPU Selection": level-4/08-hardware-codesign.md
+      - "09 · Privacy, Safety & Compliance for Edge AI": level-4/09-privacy-safety-compliance.md
+      - "10 · Capstone — Production Edge AI Product": level-4/10-capstone-production-edge-ai.md
