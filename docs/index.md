@@ -43,32 +43,50 @@ Start here → [Level 1 · Entry](level-1/index.md)
 
 ## More from the Mastery Path series
 
-Free, module-wise, entry-to-master training for other languages and platforms:
+Free, structured, module-wise training across 31 other languages and platforms:
 
-- [Python Mastery Path](https://sigilipelli.github.io/python-mastery-path/)
-- [Java Mastery Path](https://sigilipelli.github.io/java-mastery-path/)
-- [JavaScript Mastery Path](https://sigilipelli.github.io/javascript-mastery-path/)
-- [Shell Mastery Path](https://sigilipelli.github.io/shell-mastery-path/)
-- [C Mastery Path](https://sigilipelli.github.io/c-mastery-path/)
-- [C++ Mastery Path](https://sigilipelli.github.io/cpp-mastery-path/)
-- [Go Mastery Path](https://sigilipelli.github.io/go-mastery-path/)
-- [SQL Mastery Path](https://sigilipelli.github.io/sql-mastery-path/)
-- [Rust Mastery Path](https://sigilipelli.github.io/rust-mastery-path/)
-- [TypeScript Mastery Path](https://sigilipelli.github.io/typescript-mastery-path/)
-- [Ruby Mastery Path](https://sigilipelli.github.io/ruby-mastery-path/)
-- [PHP Mastery Path](https://sigilipelli.github.io/php-mastery-path/)
-- [Kotlin Mastery Path](https://sigilipelli.github.io/kotlin-mastery-path/)
-- [Swift Mastery Path](https://sigilipelli.github.io/swift-mastery-path/)
-- [Scala Mastery Path](https://sigilipelli.github.io/scala-mastery-path/)
-- [R Mastery Path](https://sigilipelli.github.io/r-mastery-path/)
-- [Dart Mastery Path](https://sigilipelli.github.io/dart-mastery-path/)
-- [PowerShell Mastery Path](https://sigilipelli.github.io/powershell-mastery-path/)
-- [AWS Mastery Path](https://sigilipelli.github.io/aws-mastery-path/)
-- [Azure Mastery Path](https://sigilipelli.github.io/azure-mastery-path/)
-- [Google Cloud Mastery Path](https://sigilipelli.github.io/gcp-mastery-path/)
-- [IBM Cloud Mastery Path](https://sigilipelli.github.io/ibm-cloud-mastery-path/)
-- [Adobe Creative Cloud Mastery Path](https://sigilipelli.github.io/adobe-mastery-path/)
-- [Embedded Systems Mastery Path](https://sigilipelli.github.io/embedded-mastery-path/)
-- [AI & ML Mastery Path](https://sigilipelli.github.io/ai-ml-mastery-path/)
-- [LLM Development Mastery Path](https://sigilipelli.github.io/llm-dev-mastery-path/)
-- [RAG Mastery Path](https://sigilipelli.github.io/rag-mastery-path/)
+<div class="mastery-grid-wrap">
+<p class="mastery-grid-category">Languages</p>
+<div class="mastery-grid">
+  <a href="https://sigilipelli.github.io/python-mastery-path/">🐍 Python</a>
+  <a href="https://sigilipelli.github.io/java-mastery-path/">☕ Java</a>
+  <a href="https://sigilipelli.github.io/javascript-mastery-path/">🟨 JavaScript</a>
+  <a href="https://sigilipelli.github.io/typescript-mastery-path/">🔷 TypeScript</a>
+  <a href="https://sigilipelli.github.io/shell-mastery-path/">🐚 Shell/Bash</a>
+  <a href="https://sigilipelli.github.io/powershell-mastery-path/">💻 PowerShell</a>
+  <a href="https://sigilipelli.github.io/c-mastery-path/">🇨 C</a>
+  <a href="https://sigilipelli.github.io/cpp-mastery-path/">➕ C++</a>
+  <a href="https://sigilipelli.github.io/go-mastery-path/">🐹 Go</a>
+  <a href="https://sigilipelli.github.io/rust-mastery-path/">🦀 Rust</a>
+  <a href="https://sigilipelli.github.io/sql-mastery-path/">🗄️ SQL</a>
+  <a href="https://sigilipelli.github.io/ruby-mastery-path/">💎 Ruby</a>
+  <a href="https://sigilipelli.github.io/php-mastery-path/">🐘 PHP</a>
+  <a href="https://sigilipelli.github.io/kotlin-mastery-path/">🟣 Kotlin</a>
+  <a href="https://sigilipelli.github.io/swift-mastery-path/">🐦 Swift</a>
+  <a href="https://sigilipelli.github.io/dart-mastery-path/">🎯 Dart</a>
+  <a href="https://sigilipelli.github.io/scala-mastery-path/">🔴 Scala</a>
+  <a href="https://sigilipelli.github.io/r-mastery-path/">📊 R</a>
+</div>
+<p class="mastery-grid-category">Cloud Platforms</p>
+<div class="mastery-grid">
+  <a href="https://sigilipelli.github.io/aws-mastery-path/">☁️ AWS</a>
+  <a href="https://sigilipelli.github.io/azure-mastery-path/">☁️ Azure</a>
+  <a href="https://sigilipelli.github.io/gcp-mastery-path/">☁️ GCP</a>
+  <a href="https://sigilipelli.github.io/ibm-cloud-mastery-path/">☁️ IBM Cloud</a>
+  <a href="https://sigilipelli.github.io/adobe-mastery-path/">🎨 Adobe</a>
+</div>
+<p class="mastery-grid-category">AI / ML / LLM</p>
+<div class="mastery-grid">
+  <a href="https://sigilipelli.github.io/ai-ml-mastery-path/">🤖 AI/ML</a>
+  <a href="https://sigilipelli.github.io/llm-dev-mastery-path/">🧠 LLM Dev</a>
+  <a href="https://sigilipelli.github.io/rag-mastery-path/">📚 RAG</a>
+</div>
+<p class="mastery-grid-category">Embedded Systems</p>
+<div class="mastery-grid">
+  <a href="https://sigilipelli.github.io/embedded-mastery-path/">🔌 Embedded</a>
+  <a href="https://sigilipelli.github.io/embedded-linux-mastery-path/">🐧 Embedded Linux</a>
+  <a href="https://sigilipelli.github.io/embedded-python-mastery-path/">🐍 Embedded Python</a>
+  <a href="https://sigilipelli.github.io/freertos-mastery-path/">⏱️ FreeRTOS</a>
+  <a href="https://sigilipelli.github.io/s32k-mastery-path/">🔧 S32K</a>
+</div>
+</div>
