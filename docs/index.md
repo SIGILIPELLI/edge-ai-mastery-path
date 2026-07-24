@@ -1,3 +1,8 @@
+---
+title: "Learn Edge AI Free: Beginner to Master Course"
+description: "Free Edge AI course from beginner to advanced -- hands-on lessons on running AI on-device, with real projects. Part of a 37-course free learning library."
+---
+
 # Edge AI Mastery Path
 
 A structured, module-wise Edge AI & TinyML training program that takes you
