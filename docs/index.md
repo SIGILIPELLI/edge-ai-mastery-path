@@ -50,7 +50,7 @@ Start here → [Level 1 · Entry](level-1/index.md)
 
 ## More from the Mastery Path series
 
-Free, structured, module-wise training across 36 other languages and platforms:
+Free, structured, module-wise training across 39 other languages, platforms and disciplines:
 
 <div class="mastery-grid-wrap">
 <p class="mastery-grid-category">Languages</p>
@@ -73,6 +73,12 @@ Free, structured, module-wise training across 36 other languages and platforms:
   <a href="https://sigilipelli.github.io/dart-mastery-path/">🎯 Dart</a>
   <a href="https://sigilipelli.github.io/scala-mastery-path/">🔴 Scala</a>
   <a href="https://sigilipelli.github.io/r-mastery-path/">📊 R</a>
+</div>
+<p class="mastery-grid-category">Testing & QA</p>
+<div class="mastery-grid">
+  <a href="https://sigilipelli.github.io/java-testing-mastery-path/">🧪 Java Testing</a>
+  <a href="https://sigilipelli.github.io/cpp-testing-mastery-path/">🧪 C/C++ Testing</a>
+  <a href="https://sigilipelli.github.io/python-testing-mastery-path/">🧪 Python Testing</a>
 </div>
 <p class="mastery-grid-category">Cloud Platforms</p>
 <div class="mastery-grid">
