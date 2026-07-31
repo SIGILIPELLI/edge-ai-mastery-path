@@ -67,38 +67,6 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9440969811959397"
      crossorigin="anonymous"></script>
 
-  <!-- Mastery Path premium gate: homepage + Level 1 stay free and crawlable;
-       Levels 2-4 require a signed-in account. -->
-  <script>
-    (function () {
-      if (!/\/level-[234]\//.test(window.location.pathname)) return;
-
-      var root = document.documentElement;
-      root.style.visibility = "hidden";
-
-      function reveal() { root.style.visibility = "visible"; }
-      function toLogin() {
-        window.location.replace(
-          "/login.html?redirect=" + encodeURIComponent(window.location.href)
-        );
-      }
-
-      var settled = false;
-      window.addEventListener("mastery-auth-ready", function (e) {
-        if (settled) return;
-        settled = true;
-        if (e.detail && e.detail.user) { reveal(); } else { toLogin(); }
-      }, { once: true });
-
-      // Fail closed: if Firebase never loads (blocked/offline), send to login
-      // rather than leaving a blank page or silently exposing the content.
-      setTimeout(function () {
-        if (!settled) { settled = true; toLogin(); }
-      }, 8000);
-    })();
-  </script>
-  <script type="module" src="/mastery-auth.js"></script>
-
   </head>
   
   
