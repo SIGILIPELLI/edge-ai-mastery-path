@@ -62,8 +62,19 @@ nav:
       - "08 · Sensors & Feature Extraction": level-1/08-sensors-feature-extraction.md
       - "09 · Evaluating & Debugging Edge Models": level-1/09-evaluating-debugging.md
       - "10 · Capstone — Gesture Recognition": level-1/10-capstone-gesture-recognition.md
+  - "Level 2 · Intermediate":
+      - Overview: level-2/index.md
+      - "Audio Wake Words & Keyword Spotting": level-2/01-audio-wake-words.md
+      - "Image Classification on Microcontrollers": level-2/02-image-classification-mcu.md
+      - "Edge Impulse End-to-End Workflows": level-2/03-edge-impulse-workflows.md
+      - "Data Collection & Dataset Design": level-2/04-data-collection-datasets.md
+      - "Model Pruning & Knowledge Distillation": level-2/05-pruning-distillation.md
+      - "Quantization-Aware Training": level-2/06-quantization-aware-training.md
+      - "ESP32-CAM Vision Projects": level-2/07-esp32-cam-projects.md
+      - "Person Detection (Visual Wake Words)": level-2/08-person-detection.md
+      - "Optimizing Memory & Latency on MCUs": level-2/09-memory-latency-optimization.md
+      - "Project — Voice-Controlled Device": level-2/10-project-voice-controlled-device.md
 # --- auto-pruned stub levels (see AdSense low-value-content fix) ---
 exclude_docs: |
-  level-2/*.md
   level-3/*.md
   level-4/*.md

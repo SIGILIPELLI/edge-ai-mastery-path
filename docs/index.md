@@ -24,7 +24,7 @@ in the browser.
 | Level | Focus | Modules |
 |-------|-------|---------|
 | [Level 1 · Entry](level-1/index.md) | The edge AI workflow end-to-end: train → convert → quantize → deploy, TFLite-Micro, sensors & features, a gesture-recognition capstone | 9 topics + 1 capstone |
-| Level 2 · Intermediate (coming soon) | Wake words, image classification on MCUs, Edge Impulse, pruning & distillation, ESP32-CAM projects | 9 topics + 1 project |
+| [Level 2 · Intermediate](level-2/index.md) | Wake words, image classification on MCUs, Edge Impulse, pruning & distillation, ESP32-CAM projects | 9 topics + 1 project |
 | Level 3 · Advanced (coming soon) | NPUs & accelerators (Coral, Ethos-U), ONNX Runtime, streaming inference, compilers, model security | 9 topics + 1 project |
 | Level 4 · Master (coming soon) | Production edge fleets, OTA model updates, on-device learning, custom kernels & CMSIS-NN | 9 topics + 1 capstone |
 
