@@ -52,4 +52,48 @@
          <loc>https://sigilipelli.github.io/edge-ai-mastery-path/level-1/10-capstone-gesture-recognition/</loc>
          <lastmod>2026-08-22</lastmod>
     </url>
+    <url>
+         <loc>https://sigilipelli.github.io/edge-ai-mastery-path/level-2/</loc>
+         <lastmod>2026-08-22</lastmod>
+    </url>
+    <url>
+         <loc>https://sigilipelli.github.io/edge-ai-mastery-path/level-2/01-audio-wake-words/</loc>
+         <lastmod>2026-08-22</lastmod>
+    </url>
+    <url>
+         <loc>https://sigilipelli.github.io/edge-ai-mastery-path/level-2/02-image-classification-mcu/</loc>
+         <lastmod>2026-08-22</lastmod>
+    </url>
+    <url>
+         <loc>https://sigilipelli.github.io/edge-ai-mastery-path/level-2/03-edge-impulse-workflows/</loc>
+         <lastmod>2026-08-22</lastmod>
+    </url>
+    <url>
+         <loc>https://sigilipelli.github.io/edge-ai-mastery-path/level-2/04-data-collection-datasets/</loc>
+         <lastmod>2026-08-22</lastmod>
+    </url>
+    <url>
+         <loc>https://sigilipelli.github.io/edge-ai-mastery-path/level-2/05-pruning-distillation/</loc>
+         <lastmod>2026-08-22</lastmod>
+    </url>
+    <url>
+         <loc>https://sigilipelli.github.io/edge-ai-mastery-path/level-2/06-quantization-aware-training/</loc>
+         <lastmod>2026-08-22</lastmod>
+    </url>
+    <url>
+         <loc>https://sigilipelli.github.io/edge-ai-mastery-path/level-2/07-esp32-cam-projects/</loc>
+         <lastmod>2026-08-22</lastmod>
+    </url>
+    <url>
+         <loc>https://sigilipelli.github.io/edge-ai-mastery-path/level-2/08-person-detection/</loc>
+         <lastmod>2026-08-22</lastmod>
+    </url>
+    <url>
+         <loc>https://sigilipelli.github.io/edge-ai-mastery-path/level-2/09-memory-latency-optimization/</loc>
+         <lastmod>2026-08-22</lastmod>
+    </url>
+    <url>
+         <loc>https://sigilipelli.github.io/edge-ai-mastery-path/level-2/10-project-voice-controlled-device/</loc>
+         <lastmod>2026-08-22</lastmod>
+    </url>
 </urlset>
