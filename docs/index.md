@@ -50,7 +50,7 @@ Start here → [Level 1 · Entry](level-1/index.md)
 
 ## More from the Mastery Path series
 
-Free, structured, module-wise training across 51 other languages, platforms and disciplines:
+Free, structured, module-wise training across 59 other languages, platforms and disciplines:
 
 <div class="mastery-grid-wrap">
 <p class="mastery-grid-category">Languages</p>
@@ -101,6 +101,8 @@ Free, structured, module-wise training across 51 other languages, platforms and 
   <a href="https://sigilipelli.github.io/data-science-mastery-path/">📈 Data Science</a>
   <a href="https://sigilipelli.github.io/tableau-mastery-path/">📊 Tableau</a>
   <a href="https://sigilipelli.github.io/excel-mastery-path/">📗 Excel</a>
+  <a href="https://sigilipelli.github.io/pyspark-mastery-path/">⚡ PySpark</a>
+  <a href="https://sigilipelli.github.io/etl-datalake-mastery-path/">🏞️ ETL & Data Lake</a>
 </div>
 <p class="mastery-grid-category">AI / ML / LLM</p>
 <div class="mastery-grid">
@@ -109,6 +111,7 @@ Free, structured, module-wise training across 51 other languages, platforms and 
   <a href="https://sigilipelli.github.io/rag-mastery-path/">📚 RAG</a>
   <a href="https://sigilipelli.github.io/claude-training-mastery-path/">🔶 Claude Training</a>
   <a href="https://sigilipelli.github.io/ai-tools-mastery-path/">🧰 AI Tools</a>
+  <a href="https://sigilipelli.github.io/ml-math-mastery-path/">➗ ML Math Foundations</a>
 </div>
 <p class="mastery-grid-category">Embedded Systems</p>
 <div class="mastery-grid">
@@ -130,5 +133,16 @@ Free, structured, module-wise training across 51 other languages, platforms and 
 <div class="mastery-grid">
   <a href="https://sigilipelli.github.io/english-fluency-mastery-path/">🗣️ English Fluency & IELTS</a>
   <a href="https://sigilipelli.github.io/workday-mastery-path/">🧑‍💼 Workday</a>
+</div>
+<p class="mastery-grid-category">Process & APIs</p>
+<div class="mastery-grid">
+  <a href="https://sigilipelli.github.io/agile-mastery-path/">🔄 Agile/Scrum/Kanban</a>
+  <a href="https://sigilipelli.github.io/rest-api-mastery-path/">🔗 REST API</a>
+  <a href="https://sigilipelli.github.io/playwright-mastery-path/">🎭 Playwright</a>
+</div>
+<p class="mastery-grid-category">Infrastructure & Ops</p>
+<div class="mastery-grid">
+  <a href="https://sigilipelli.github.io/server-ops-mastery-path/">🖥️ Server Ops</a>
+  <a href="https://sigilipelli.github.io/nodemcu-mastery-path/">📶 NodeMCU/IoT</a>
 </div>
 </div>
