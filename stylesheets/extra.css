@@ -50,26 +50,33 @@
 
 /* --- Mastery Path brand mark (rotating globe header logo) --- */
 :root {
-  --sm-ocean-1: #3AC0A0;
-  --sm-ocean-2: #1F7A65;
-  --sm-land: #F7F3E9;
-  --sm-accent: #E0B457;
+  --sm-ocean: #FAF7EF;
+  --sm-c1: #2FA98D;
+  --sm-c2: #7FC9B7;
+  --sm-c3: #E0B457;
+  --sm-c4: #4C8C7A;
+  --sm-c5: #9FBF6E;
+  --sm-c6: #C97B4A;
+  --sm-grid: #2FA98D;
 }
 .sm-globe-mask {
   width: 28px; height: 28px; border-radius: 50%; overflow: hidden; position: relative;
   display: inline-block; vertical-align: middle;
-  background: linear-gradient(160deg, var(--sm-ocean-1), var(--sm-ocean-2));
-  box-shadow: inset 0 -3px 6px rgba(0,0,0,.35), inset 0 2px 4px rgba(255,255,255,.15);
+  background: var(--sm-ocean);
+  box-shadow: inset 0 0 0 1.4px var(--sm-c1), inset 0 -2px 5px rgba(0,0,0,.12);
 }
 .sm-globe-strip {
   position: absolute; top: 0; left: 0; width: 56px; height: 28px;
-  animation: sm-spin 6s linear infinite;
+  animation: sm-spin 7s linear infinite;
 }
-.sm-continent { position: absolute; background: var(--sm-land); }
-.sm-continent.accent { background: var(--sm-accent); }
+.sm-continent { position: absolute; }
+.sm-grid-line {
+  position: absolute; top: 3px; bottom: 3px; border-left: 1px solid var(--sm-grid);
+  opacity: 0.22; border-radius: 50%;
+}
 .sm-globe-sheen {
   position: absolute; inset: 0; border-radius: 50%;
-  background: radial-gradient(circle at 32% 26%, rgba(255,255,255,.45), transparent 55%);
+  background: radial-gradient(circle at 32% 26%, rgba(255,255,255,.55), transparent 55%);
   pointer-events: none;
 }
 @keyframes sm-spin {
