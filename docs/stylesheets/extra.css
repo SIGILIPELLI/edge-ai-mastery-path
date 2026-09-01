@@ -87,3 +87,47 @@
   .sm-globe-strip { animation: none; }
 }
 /* --- end Mastery Path brand mark --- */
+
+/* --- Mastery Path Bootcamp hero lockup --- */
+.mp-hero-lockup {
+  display: flex; align-items: center; gap: clamp(16px, 4vw, 32px);
+  padding: 28px 8px 32px;
+  margin: 4px 0 28px;
+  flex-wrap: wrap;
+}
+.mp-hero-globe { flex-shrink: 0; }
+.mp-globe-svg {
+  width: clamp(88px, 18vw, 140px);
+  height: clamp(88px, 18vw, 140px);
+  display: block;
+}
+.mp-globe-strip {
+  animation: mp-globe-spin 14s linear infinite;
+}
+@keyframes mp-globe-spin {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-160px); }
+}
+.mp-hero-divider {
+  width: 1px; align-self: stretch; background: var(--md-default-fg-color--lightest, #ddd);
+  min-height: 70px;
+}
+.mp-hero-text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.mp-hero-title {
+  font-family: 'Space Grotesk', 'Sora', system-ui, sans-serif;
+  font-size: clamp(1.5rem, 4vw, 2.4rem); font-weight: 700;
+  color: var(--md-default-fg-color, #1a1a1a);
+  letter-spacing: -0.01em; line-height: 1.05;
+}
+.mp-hero-sub {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 0.95rem; font-weight: 700; letter-spacing: 0.18em; color: #2FA98D;
+}
+.mp-hero-rule { height: 1px; background: var(--md-default-fg-color--lightest, #ddd); margin: 10px 0 8px; max-width: 220px; }
+.mp-hero-byline {
+  font-size: 0.7rem; font-weight: 500; letter-spacing: 0.16em; color: var(--md-default-fg-color--light, #888);
+}
+@media (prefers-reduced-motion: reduce) {
+  .mp-globe-strip { animation: none; }
+}
+/* --- end Mastery Path Bootcamp hero lockup --- */
