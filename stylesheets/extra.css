@@ -47,3 +47,38 @@
   background-color: var(--md-accent-fg-color--transparent);
   border-color: var(--md-accent-fg-color);
 }
+
+/* --- SkillMastery brand mark (rotating globe header logo) --- */
+:root {
+  --sm-c1: oklch(0.62 0.19 25);
+  --sm-c2: oklch(0.70 0.17 75);
+  --sm-c3: oklch(0.68 0.16 145);
+  --sm-c4: oklch(0.58 0.17 230);
+  --sm-c5: oklch(0.53 0.19 300);
+  --sm-ocean-1: oklch(0.30 0.08 250);
+  --sm-ocean-2: oklch(0.22 0.07 255);
+}
+.sm-globe-mask {
+  width: 28px; height: 28px; border-radius: 50%; overflow: hidden; position: relative;
+  display: inline-block; vertical-align: middle;
+  background: linear-gradient(160deg, var(--sm-ocean-1), var(--sm-ocean-2));
+  box-shadow: inset 0 -3px 6px rgba(0,0,0,.35), inset 0 2px 4px rgba(255,255,255,.15);
+}
+.sm-globe-strip {
+  position: absolute; top: 0; left: 0; width: 56px; height: 28px;
+  animation: sm-spin 6s linear infinite;
+}
+.sm-continent { position: absolute; }
+.sm-globe-sheen {
+  position: absolute; inset: 0; border-radius: 50%;
+  background: radial-gradient(circle at 32% 26%, rgba(255,255,255,.5), transparent 55%);
+  pointer-events: none;
+}
+@keyframes sm-spin {
+  from { transform: translateX(0); }
+  to { transform: translateX(-28px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sm-globe-strip { animation: none; }
+}
+/* --- end SkillMastery brand mark --- */
