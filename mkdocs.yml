@@ -6,6 +6,7 @@ repo_name: edge-ai-skillmastery
 
 theme:
   name: material
+  favicon: assets/favicon.svg
   custom_dir: docs/overrides
   palette:
     - media: "(prefers-color-scheme: light)"
