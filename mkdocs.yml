@@ -1,8 +1,8 @@
 site_name: Edge AI Mastery Path
 site_description: A structured, module-wise Edge AI & TinyML training program from entry level to master level — train, quantize, and run machine-learning models on your laptop first, then deploy them to microcontrollers and edge devices.
-site_url: https://sigilipelli.github.io/edge-ai-skillmastery/
-repo_url: https://github.com/SIGILIPELLI/edge-ai-skillmastery
-repo_name: edge-ai-skillmastery
+site_url: https://sigilipelli.github.io/edge-ai-mastery-path/
+repo_url: https://github.com/SIGILIPELLI/edge-ai-mastery-path
+repo_name: edge-ai-mastery-path
 
 theme:
   name: material

@@ -39,9 +39,9 @@ in the browser.
 - Use the search bar (top of the page) to jump straight to a topic.
 
 New to machine learning itself? The
-[AI & ML Mastery Path](https://sigilipelli.github.io/ai-ml-skillmastery/)
+[AI & ML Mastery Path](https://sigilipelli.github.io/ai-ml-mastery-path/)
 covers model training fundamentals. New to microcontrollers? The
-[Embedded Systems Mastery Path](https://sigilipelli.github.io/embedded-skillmastery/)
+[Embedded Systems Mastery Path](https://sigilipelli.github.io/embedded-mastery-path/)
 covers Arduino/ESP32 basics. Neither is strictly required to start here.
 
 Start here → [Level 1 · Entry](level-1/index.md)
@@ -55,94 +55,94 @@ Free, structured, module-wise training across 59 other languages, platforms and 
 <div class="mastery-grid-wrap">
 <p class="mastery-grid-category">Languages</p>
 <div class="mastery-grid">
-  <a href="https://sigilipelli.github.io/python-skillmastery/">🐍 Python</a>
-  <a href="https://sigilipelli.github.io/java-skillmastery/">☕ Java</a>
-  <a href="https://sigilipelli.github.io/javascript-skillmastery/">🟨 JavaScript</a>
-  <a href="https://sigilipelli.github.io/typescript-skillmastery/">🔷 TypeScript</a>
-  <a href="https://sigilipelli.github.io/csharp-skillmastery/">🔵 C#</a>
-  <a href="https://sigilipelli.github.io/shell-skillmastery/">🐚 Shell/Bash</a>
-  <a href="https://sigilipelli.github.io/powershell-skillmastery/">💻 PowerShell</a>
-  <a href="https://sigilipelli.github.io/c-skillmastery/">🇨 C</a>
-  <a href="https://sigilipelli.github.io/cpp-skillmastery/">➕ C++</a>
-  <a href="https://sigilipelli.github.io/go-skillmastery/">🐹 Go</a>
-  <a href="https://sigilipelli.github.io/rust-skillmastery/">🦀 Rust</a>
-  <a href="https://sigilipelli.github.io/sql-skillmastery/">🗄️ SQL</a>
-  <a href="https://sigilipelli.github.io/ruby-skillmastery/">💎 Ruby</a>
-  <a href="https://sigilipelli.github.io/php-skillmastery/">🐘 PHP</a>
-  <a href="https://sigilipelli.github.io/kotlin-skillmastery/">🟣 Kotlin</a>
-  <a href="https://sigilipelli.github.io/swift-skillmastery/">🐦 Swift</a>
-  <a href="https://sigilipelli.github.io/dart-skillmastery/">🎯 Dart</a>
-  <a href="https://sigilipelli.github.io/scala-skillmastery/">🔴 Scala</a>
-  <a href="https://sigilipelli.github.io/r-skillmastery/">📊 R</a>
-  <a href="https://sigilipelli.github.io/matlab-skillmastery/">🟧 MATLAB</a>
+  <a href="https://sigilipelli.github.io/python-mastery-path/">🐍 Python</a>
+  <a href="https://sigilipelli.github.io/java-mastery-path/">☕ Java</a>
+  <a href="https://sigilipelli.github.io/javascript-mastery-path/">🟨 JavaScript</a>
+  <a href="https://sigilipelli.github.io/typescript-mastery-path/">🔷 TypeScript</a>
+  <a href="https://sigilipelli.github.io/csharp-mastery-path/">🔵 C#</a>
+  <a href="https://sigilipelli.github.io/shell-mastery-path/">🐚 Shell/Bash</a>
+  <a href="https://sigilipelli.github.io/powershell-mastery-path/">💻 PowerShell</a>
+  <a href="https://sigilipelli.github.io/c-mastery-path/">🇨 C</a>
+  <a href="https://sigilipelli.github.io/cpp-mastery-path/">➕ C++</a>
+  <a href="https://sigilipelli.github.io/go-mastery-path/">🐹 Go</a>
+  <a href="https://sigilipelli.github.io/rust-mastery-path/">🦀 Rust</a>
+  <a href="https://sigilipelli.github.io/sql-mastery-path/">🗄️ SQL</a>
+  <a href="https://sigilipelli.github.io/ruby-mastery-path/">💎 Ruby</a>
+  <a href="https://sigilipelli.github.io/php-mastery-path/">🐘 PHP</a>
+  <a href="https://sigilipelli.github.io/kotlin-mastery-path/">🟣 Kotlin</a>
+  <a href="https://sigilipelli.github.io/swift-mastery-path/">🐦 Swift</a>
+  <a href="https://sigilipelli.github.io/dart-mastery-path/">🎯 Dart</a>
+  <a href="https://sigilipelli.github.io/scala-mastery-path/">🔴 Scala</a>
+  <a href="https://sigilipelli.github.io/r-mastery-path/">📊 R</a>
+  <a href="https://sigilipelli.github.io/matlab-mastery-path/">🟧 MATLAB</a>
 </div>
 <p class="mastery-grid-category">Testing & QA</p>
 <div class="mastery-grid">
-  <a href="https://sigilipelli.github.io/java-testing-skillmastery/">🧪 Java Testing</a>
-  <a href="https://sigilipelli.github.io/cpp-testing-skillmastery/">🧪 C/C++ Testing</a>
-  <a href="https://sigilipelli.github.io/python-testing-skillmastery/">🧪 Python Testing</a>
-  <a href="https://sigilipelli.github.io/automotive-testing-skillmastery/">🚗 Automotive Testing</a>
+  <a href="https://sigilipelli.github.io/java-testing-mastery-path/">🧪 Java Testing</a>
+  <a href="https://sigilipelli.github.io/cpp-testing-mastery-path/">🧪 C/C++ Testing</a>
+  <a href="https://sigilipelli.github.io/python-testing-mastery-path/">🧪 Python Testing</a>
+  <a href="https://sigilipelli.github.io/automotive-testing-mastery-path/">🚗 Automotive Testing</a>
 </div>
 <p class="mastery-grid-category">Security</p>
 <div class="mastery-grid">
-  <a href="https://sigilipelli.github.io/cybersecurity-skillmastery/">🛡️ Cybersecurity</a>
+  <a href="https://sigilipelli.github.io/cybersecurity-mastery-path/">🛡️ Cybersecurity</a>
 </div>
 <p class="mastery-grid-category">Cloud Platforms</p>
 <div class="mastery-grid">
-  <a href="https://sigilipelli.github.io/aws-skillmastery/">☁️ AWS</a>
-  <a href="https://sigilipelli.github.io/azure-skillmastery/">☁️ Azure</a>
-  <a href="https://sigilipelli.github.io/gcp-skillmastery/">☁️ GCP</a>
-  <a href="https://sigilipelli.github.io/ibm-cloud-skillmastery/">☁️ IBM Cloud</a>
-  <a href="https://sigilipelli.github.io/adobe-skillmastery/">🎨 Adobe</a>
+  <a href="https://sigilipelli.github.io/aws-mastery-path/">☁️ AWS</a>
+  <a href="https://sigilipelli.github.io/azure-mastery-path/">☁️ Azure</a>
+  <a href="https://sigilipelli.github.io/gcp-mastery-path/">☁️ GCP</a>
+  <a href="https://sigilipelli.github.io/ibm-cloud-mastery-path/">☁️ IBM Cloud</a>
+  <a href="https://sigilipelli.github.io/adobe-mastery-path/">🎨 Adobe</a>
 </div>
 <p class="mastery-grid-category">Data & Analytics</p>
 <div class="mastery-grid">
-  <a href="https://sigilipelli.github.io/data-engineering-skillmastery/">🛠️ Data Engineering</a>
-  <a href="https://sigilipelli.github.io/data-science-skillmastery/">📈 Data Science</a>
-  <a href="https://sigilipelli.github.io/tableau-skillmastery/">📊 Tableau</a>
-  <a href="https://sigilipelli.github.io/excel-skillmastery/">📗 Excel</a>
-  <a href="https://sigilipelli.github.io/pyspark-skillmastery/">⚡ PySpark</a>
-  <a href="https://sigilipelli.github.io/etl-datalake-skillmastery/">🏞️ ETL & Data Lake</a>
+  <a href="https://sigilipelli.github.io/data-engineering-mastery-path/">🛠️ Data Engineering</a>
+  <a href="https://sigilipelli.github.io/data-science-mastery-path/">📈 Data Science</a>
+  <a href="https://sigilipelli.github.io/tableau-mastery-path/">📊 Tableau</a>
+  <a href="https://sigilipelli.github.io/excel-mastery-path/">📗 Excel</a>
+  <a href="https://sigilipelli.github.io/pyspark-mastery-path/">⚡ PySpark</a>
+  <a href="https://sigilipelli.github.io/etl-datalake-mastery-path/">🏞️ ETL & Data Lake</a>
 </div>
 <p class="mastery-grid-category">AI / ML / LLM</p>
 <div class="mastery-grid">
-  <a href="https://sigilipelli.github.io/ai-ml-skillmastery/">🤖 AI/ML</a>
-  <a href="https://sigilipelli.github.io/llm-dev-skillmastery/">🧠 LLM Dev</a>
-  <a href="https://sigilipelli.github.io/rag-skillmastery/">📚 RAG</a>
-  <a href="https://sigilipelli.github.io/claude-training-skillmastery/">🔶 Claude Training</a>
-  <a href="https://sigilipelli.github.io/ai-tools-skillmastery/">🧰 AI Tools</a>
-  <a href="https://sigilipelli.github.io/ml-math-skillmastery/">➗ ML Math Foundations</a>
+  <a href="https://sigilipelli.github.io/ai-ml-mastery-path/">🤖 AI/ML</a>
+  <a href="https://sigilipelli.github.io/llm-dev-mastery-path/">🧠 LLM Dev</a>
+  <a href="https://sigilipelli.github.io/rag-mastery-path/">📚 RAG</a>
+  <a href="https://sigilipelli.github.io/claude-training-mastery-path/">🔶 Claude Training</a>
+  <a href="https://sigilipelli.github.io/ai-tools-mastery-path/">🧰 AI Tools</a>
+  <a href="https://sigilipelli.github.io/ml-math-mastery-path/">➗ ML Math Foundations</a>
 </div>
 <p class="mastery-grid-category">Embedded Systems</p>
 <div class="mastery-grid">
-  <a href="https://sigilipelli.github.io/embedded-skillmastery/">🔌 Embedded</a>
-  <a href="https://sigilipelli.github.io/embedded-linux-skillmastery/">🐧 Embedded Linux</a>
-  <a href="https://sigilipelli.github.io/embedded-python-skillmastery/">🐍 Embedded Python</a>
-  <a href="https://sigilipelli.github.io/freertos-skillmastery/">⏱️ FreeRTOS</a>
-  <a href="https://sigilipelli.github.io/s32k-skillmastery/">🔧 S32K</a>
+  <a href="https://sigilipelli.github.io/embedded-mastery-path/">🔌 Embedded</a>
+  <a href="https://sigilipelli.github.io/embedded-linux-mastery-path/">🐧 Embedded Linux</a>
+  <a href="https://sigilipelli.github.io/embedded-python-mastery-path/">🐍 Embedded Python</a>
+  <a href="https://sigilipelli.github.io/freertos-mastery-path/">⏱️ FreeRTOS</a>
+  <a href="https://sigilipelli.github.io/s32k-mastery-path/">🔧 S32K</a>
 </div>
 <p class="mastery-grid-category">Leadership & Management</p>
 <div class="mastery-grid">
-  <a href="https://sigilipelli.github.io/product-manager-skillmastery/">📋 Product Manager</a>
-  <a href="https://sigilipelli.github.io/product-lead-skillmastery/">🧭 Product Lead</a>
-  <a href="https://sigilipelli.github.io/project-manager-skillmastery/">📅 Project Manager</a>
-  <a href="https://sigilipelli.github.io/ai-manager-skillmastery/">🤖 AI Manager</a>
-  <a href="https://sigilipelli.github.io/servant-leadership-skillmastery/">🤝 Servant Leadership</a>
+  <a href="https://sigilipelli.github.io/product-manager-mastery-path/">📋 Product Manager</a>
+  <a href="https://sigilipelli.github.io/product-lead-mastery-path/">🧭 Product Lead</a>
+  <a href="https://sigilipelli.github.io/project-manager-mastery-path/">📅 Project Manager</a>
+  <a href="https://sigilipelli.github.io/ai-manager-mastery-path/">🤖 AI Manager</a>
+  <a href="https://sigilipelli.github.io/servant-leadership-mastery-path/">🤝 Servant Leadership</a>
 </div>
 <p class="mastery-grid-category">Professional Skills</p>
 <div class="mastery-grid">
-  <a href="https://sigilipelli.github.io/english-fluency-skillmastery/">🗣️ English Fluency & IELTS</a>
-  <a href="https://sigilipelli.github.io/workday-skillmastery/">🧑‍💼 Workday</a>
+  <a href="https://sigilipelli.github.io/english-fluency-mastery-path/">🗣️ English Fluency & IELTS</a>
+  <a href="https://sigilipelli.github.io/workday-mastery-path/">🧑‍💼 Workday</a>
 </div>
 <p class="mastery-grid-category">Process & APIs</p>
 <div class="mastery-grid">
-  <a href="https://sigilipelli.github.io/agile-skillmastery/">🔄 Agile/Scrum/Kanban</a>
-  <a href="https://sigilipelli.github.io/rest-api-skillmastery/">🔗 REST API</a>
-  <a href="https://sigilipelli.github.io/playwright-skillmastery/">🎭 Playwright</a>
+  <a href="https://sigilipelli.github.io/agile-mastery-path/">🔄 Agile/Scrum/Kanban</a>
+  <a href="https://sigilipelli.github.io/rest-api-mastery-path/">🔗 REST API</a>
+  <a href="https://sigilipelli.github.io/playwright-mastery-path/">🎭 Playwright</a>
 </div>
 <p class="mastery-grid-category">Infrastructure & Ops</p>
 <div class="mastery-grid">
-  <a href="https://sigilipelli.github.io/server-ops-skillmastery/">🖥️ Server Ops</a>
-  <a href="https://sigilipelli.github.io/nodemcu-skillmastery/">📶 NodeMCU/IoT</a>
+  <a href="https://sigilipelli.github.io/server-ops-mastery-path/">🖥️ Server Ops</a>
+  <a href="https://sigilipelli.github.io/nodemcu-mastery-path/">📶 NodeMCU/IoT</a>
 </div>
 </div>
