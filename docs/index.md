@@ -114,7 +114,7 @@ Start here → [Level 1 · Entry](level-1/index.md)
 
 ## More from the Mastery Path series
 
-Free, structured, module-wise training across 59 other languages, platforms and disciplines:
+Free, structured, module-wise training across 63 other languages, platforms and disciplines:
 
 <div class="mastery-grid-wrap">
 <p class="mastery-grid-category">Languages</p>
@@ -208,5 +208,9 @@ Free, structured, module-wise training across 59 other languages, platforms and 
 <div class="mastery-grid">
   <a href="https://sigilipelli.github.io/server-ops-mastery-path/">🖥️ Server Ops</a>
   <a href="https://sigilipelli.github.io/nodemcu-mastery-path/">📶 NodeMCU/IoT</a>
+  <a href="https://sigilipelli.github.io/terraform-mastery-path/">🌍 Terraform</a>
+  <a href="https://sigilipelli.github.io/kubernetes-mastery-path/">☸️ Kubernetes</a>
+  <a href="https://sigilipelli.github.io/docker-mastery-path/">🐳 Docker</a>
+  <a href="https://sigilipelli.github.io/github-mastery-path/">🐙 GitHub & Git</a>
 </div>
 </div>
