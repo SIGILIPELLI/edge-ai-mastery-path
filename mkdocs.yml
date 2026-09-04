@@ -52,6 +52,7 @@ extra_css:
 nav:
   - Home: index.md
   - Privacy Policy: privacy.md
+  - License: license.md
   - "Level 1 · Entry":
       - Overview: level-1/index.md
       - "01 · What Is Edge AI": level-1/01-what-is-edge-ai.md
