@@ -149,6 +149,43 @@ accuracy** while everything appears to work. Defenses, in order of value:
 | Spectrogram | FFTs of sub-frames stacked over time (audio → image) |
 | Rule zero | train-time and device preprocessing must match exactly |
 
+## How It Actually Works
+
+**Why the FFT is O(N log N) and that matters on an MCU.** The naive
+definition of the discrete Fourier transform (`X[k] = Σ x[n] e^{-2πikn/N}`)
+is O(N²) — for a 200-sample window that's 40,000 complex multiplies. The
+Fast Fourier Transform (Cooley–Tukey) exploits the fact that a size-N DFT
+decomposes into two size-N/2 DFTs plus O(N) combination work, recursively,
+giving O(N log N) — for N=200 (rounded to 256 for a radix-2 FFT), that's
+roughly 256 × 8 = 2,048 operations, a ~20× reduction. This is precisely why
+CMSIS-DSP and ESP-DSP ship hand-tuned fixed-point radix-2/radix-4 FFT
+kernels rather than letting you write the O(N²) version in a loop: on a
+sensor sampling continuously, the difference between the two decides
+whether the FFT finishes before the next window is even full.
+
+**Why the magnitude spectrum discards phase and that's usually fine.**
+`np.fft.rfft` returns complex numbers `a + bi` per frequency bin; taking
+`np.abs()` computes `sqrt(a² + b²)` — the energy at that frequency,
+discarding *when within the window* that frequency's oscillation was
+aligned (its phase). For classification tasks like "is this vibrating at
+5 Hz," phase is irrelevant — a 5 Hz sine shifted by any amount has the same
+energy at bin 5. This is why the magnitude spectrum, not the raw complex
+FFT output, is the standard classifier input: it makes the features
+invariant to exactly the kind of window-alignment differences that would
+otherwise force you to phase-align every capture.
+
+**Why Nyquist puts a hard ceiling on which frequencies you can ever see.**
+Sampling at `sample_rate` Hz can only unambiguously represent frequencies up
+to `sample_rate / 2` (Nyquist) — any real signal energy above that folds
+back ("aliases") into the visible band, corrupting the bins below it. This
+is a consequence of the sampling theorem, not a software limitation: at
+100 Hz sampling, a 60 Hz vibration is not just missed, it aliases down to
+appear as a false 40 Hz signal. This is why real sensor front-ends put an
+analog anti-aliasing low-pass filter *before* the ADC — no amount of
+clever feature engineering after the fact can undo energy that already
+aliased into the wrong bin, which is also why `fft_features` here correctly
+only ever looks at `rfft` output up to N/2+1 bins.
+
 ## Exercise
 
 1. Generate three synthetic 3-axis "activities" (still: tiny noise; walk:

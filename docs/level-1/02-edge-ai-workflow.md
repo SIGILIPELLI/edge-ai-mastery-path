@@ -119,6 +119,43 @@ because a model that doesn't fit has 0% accuracy.
 | Run on-device | C array → predictions | TFLite-Micro | `interpreter.Invoke()` in C++ |
 | Verify | any stage → numbers | Python/NumPy | compare outputs stage vs. stage |
 
+## How It Actually Works
+
+**The flatbuffer is why conversion is a format change, not a re-training.**
+A `.tflite` file is a [FlatBuffers](https://google.github.io/flatbuffers/)
+serialization: a flat byte layout describing a `Model` table that holds a
+list of `SubGraph`s, each a list of `Tensor` descriptors (shape, dtype,
+buffer index, quantization params) and `Operator` entries (an opcode index
+plus input/output tensor indices). Crucially, FlatBuffers supports
+**zero-copy reads** — the interpreter accesses fields directly from the
+mmap'd/flash-resident byte buffer via pointer arithmetic, with no
+deserialization pass and no heap allocation to unpack it. That's precisely
+why the converted model can be linked into firmware as a `const` C array in
+flash and executed in place: reading a weight is just `base_ptr + offset`,
+no parsing step stands between "bytes in flash" and "value the CPU uses."
+
+**Why the interpreter needs a static graph at all.** Keras/PyTorch build
+their graphs dynamically at Python runtime with a full language behind them;
+TFLite instead needs a graph that's *closed* — a fixed, finite list of
+operators from a known opcode set, each with statically-known tensor shapes
+— because TFLite-Micro's execution loop is a simple `for op in subgraph.
+operators: op.eval(op.inputs) -> op.outputs` with no control flow, no
+dynamic shapes, and no ability to call back into Python. The converter's job
+is exactly this graph-closure step: it traces the Keras model, maps each
+layer to a TFLite opcode (`FULLY_CONNECTED`, `CONV_2D`, `DEPTHWISE_CONV_2D`,
+…), and freezes all shapes to concrete numbers.
+
+**Why the tensor arena is a bump allocator, not a heap.** TFLM computes, at
+`AllocateTensors()` time, a static memory plan: it walks the operator list
+once, tracks which tensors are "alive" (produced but not yet consumed) at
+each step, and assigns each tensor a fixed offset into one contiguous arena
+buffer, reusing the space of tensors that are already dead. This is why the
+arena size in the cheat sheet's "RAM budget" row is governed by the *largest
+concurrent set* of live tensors, not the sum of all tensors in the model —
+and why, unlike `malloc`, there is no fragmentation risk or allocation
+failure at runtime: the entire memory layout is solved once, offline,
+before a single inference runs.
+
 ## Exercise
 
 1. Draw the four-stage pipeline from memory, labeling the file/artifact that

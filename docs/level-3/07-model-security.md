@@ -166,6 +166,58 @@ channel as the model file).
 | Tampering / malicious OTA update | signed manifest + hash verification at boot | needs a boot ROM/bootloader that enforces signature checks |
 | All three | defense in depth (all of the above together) | full stack cost; still not "unbreakable," only "expensive to break" |
 
+## How It Actually Works
+
+**Why encrypting a model at rest only raises the bar if the key never
+touches unprotected memory.** A `.tflite` flatbuffer read directly from
+flash (Module 06's earlier "zero-copy, execute-in-place" property) is
+exactly why extraction is trivial by default — there's no decode step to
+intercept, just bytes in an openly documented format. Encrypting the file
+at rest defeats a raw flash dump, but the model must still be decrypted
+into plaintext *somewhere* before TFLite-Micro's interpreter can walk its
+flatbuffer structure, since the interpreter has no concept of an encrypted
+graph. If that decryption happens in ordinary RAM using a key stored in
+ordinary flash, an attacker with the same JTAG/flash-dump access simply
+extracts the key alongside the ciphertext and the encryption adds no real
+security — the entire point of a secure element or TrustZone is that the
+decryption key is generated or stored in hardware specifically designed
+so it cannot be read out by software or debug-port access, only used
+internally by a hardware crypto engine, which is the categorical
+difference the module draws between "slower" and "categorically harder."
+
+**Why a gradient-direction perturbation is the mathematically optimal
+way to flip a linear classifier's decision with bounded input change.**
+For `toy_linear_classifier`, the decision boundary is the hyperplane
+`w·x + b = 0`; moving `x` in the direction that increases `w·x` fastest
+per unit of perturbation *is* the direction of `w` itself (or, bounded per
+element rather than in total magnitude, `sign(w)` — moving each
+coordinate by its maximum allowed step in the direction that most
+increases the dot product). This is precisely FGSM's insight generalized
+to any differentiable model: the gradient of the loss (or, here, of the
+decision score) with respect to the input tells you, to first order,
+which direction changes the output fastest, so a small step in that
+exact direction produces the largest possible output change per unit of
+perturbation "budget" (`epsilon`) — which is why the same construction,
+using a real CNN's backpropagated gradient instead of a linear model's
+weight vector directly, produces the visually-near-imperceptible
+adversarial images the module references.
+
+**Why a hash check's security depends entirely on the channel the
+expected hash travels over, not on the hash algorithm's strength.**
+SHA-256 is computationally infeasible to forge a second input for — but
+`verify_model_integrity` only proves "these bytes hash to this value,"
+not "these bytes are the ones I intended to ship." If an attacker can
+replace both the model file *and* the expected-hash value together (e.g.
+both fetched over the same unauthenticated HTTP endpoint), they simply
+compute the hash of their own malicious file and ship that as the
+"expected" value — the check passes cleanly on tampered content. A signed
+manifest closes this gap by having the expected hash itself be part of a
+message signed with a private key the attacker doesn't have, verified at
+boot using a public key burned into the device's boot ROM (which the
+attacker can't rewrite without breaking the chain of trust entirely) —
+moving the security property from "the file matches some hash" to "the
+file matches a hash that only the legitimate signer could have produced."
+
 ## Exercise
 
 Take the `verify_model_integrity` function and extend it to also check a

@@ -150,6 +150,42 @@ rewrote something (unsupported op, fallback path) and you want to know
 | Read output | `get_tensor(out_index)` |
 | Verify stage | `np.max(np.abs(keras_out - tflite_out))` |
 
+## How It Actually Works
+
+**What "op fusion" during conversion actually rewrites.** Keras represents
+`Dense(16, activation="relu")` as two conceptual steps: a matmul+bias, then a
+separate ReLU. The converter's graph optimizer fuses the activation into the
+`FULLY_CONNECTED` op itself — the flatbuffer's operator has an
+`activation_function` field set to `RELU`, so the kernel applies
+`max(x, 0)` inline on each output element right after the matmul, in the
+same loop, instead of writing the linear output to memory, then re-reading
+it for a separate ReLU pass. This is exactly why the ~1e-7 "floating-point
+dust" appears: fused multiply-add instructions and reordered summation change
+the order floating-point rounding happens in, which is mathematically
+inexact but functionally identical — and why the assertion threshold is a
+loose `1e-5`, not zero.
+
+**Why `allocate_tensors()` is a required, separate step.** The interpreter
+object initially only holds the graph description; nothing has been laid
+out in memory yet. `allocate_tensors()` runs the same static memory-planning
+pass TFLite-Micro runs on-device (Module 06): it walks the operator list,
+computes every tensor's shape by propagating from the input shape through
+each op's shape-inference rule, and assigns byte offsets. Only after this
+call do `get_input_details()`/`get_output_details()` report real `index`
+values you can read and write — those indices are literally offsets into
+the interpreter's internal tensor table, the same table structure the C++
+`MicroInterpreter` builds on a microcontroller.
+
+**Why shape/dtype mismatches are fatal rather than silently coerced.** The
+interpreter's `set_tensor()` writes raw bytes into a pre-allocated buffer
+sized and typed exactly for one shape and one dtype (float32, 4 bytes per
+element here) — there is no dynamic resizing at invoke time by design,
+because resizing would mean re-running the memory planner, which TFLM
+cannot afford to do per-inference on a microcontroller. The Python
+interpreter enforces the same discipline on desktop deliberately, as
+training for the fact that on-device a shape mismatch doesn't raise a
+Python exception — it corrupts adjacent tensors in the arena silently.
+
 ## Exercise
 
 1. Convert your Module 03 model and report: `.keras` file size, `.tflite`

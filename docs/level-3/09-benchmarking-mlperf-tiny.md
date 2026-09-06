@@ -160,6 +160,54 @@ it implying the accuracy floor was met.
 | Setup cost | minutes | real submissions require reference model + harness + review |
 | Best fit | day-to-day development iteration | publishable, cross-comparable claims |
 
+## How It Actually Works
+
+**Why median (p50), not mean, is the robust measure of "typical"
+latency.** The mean is pulled arbitrarily far by outliers — a single 100 ms
+stall among 200 measurements of 2 ms each shifts the mean noticeably, even
+though 199 of 200 runs behaved identically. The median is the value at
+the 50th-percentile rank, so it is completely insensitive to *how extreme*
+outliers are, only to *how many* there are — a statistical property called
+robustness, formally quantified by a statistic's "breakdown point" (the
+median's is 50%, the mean's is 0%, meaning even one arbitrarily large
+outlier can move the mean without bound). This is precisely why
+`summarize_latency` reports p50 as the headline "typical" number while
+still reporting `mean_ms`/`std_ms` separately for context — the gap
+between the two, as seen in the worked example (p50≈2.6ms vs mean≈2.7ms,
+with p99≈10ms), is itself diagnostic: a mean pulled well above the median
+signals a real tail problem worth p99 tracking, not measurement noise.
+
+**Why percentiles (not "min/max") are the right way to characterize a
+tail for a real-time deadline.** A single observed maximum in a
+finite sample is itself a random variable with high variance — the exact
+worst value seen depends heavily on how many runs you happened to
+measure, so "the max was 12ms" from 200 runs is a poor predictor of what
+the max would be over 200,000 runs in the field. A percentile like p99
+instead makes a probabilistic claim that generalizes: "99% of inferences
+complete within this time," which is exactly the guarantee a real-time
+budget needs (e.g. "the keyword spotter must respond within its 500 ms
+window at least 99% of the time") and is far more stable across sample
+sizes than a raw observed extremum, because it's estimating a quantile of
+the underlying distribution rather than reporting one realization of its
+extreme value.
+
+**Why warm-up runs must be discarded before any measurement begins, not
+averaged in and corrected for afterward.** The first several calls to any
+inference pipeline pay one-time costs that never recur: dynamic library
+loading, first-touch page faults bringing memory pages into the working
+set, branch predictor and cache warming, and — for interpreted or JIT-
+compiled runtimes — one-time graph optimization or code generation. These
+costs are not drawn from the same statistical distribution as
+steady-state inference time (they're a fixed, roughly constant overhead
+paid exactly once, not a repeatable random variable), so including them
+in a percentile calculation doesn't just add noise, it corrupts the shape
+of the distribution being estimated — a handful of warm-up calls could
+single-handedly dominate a p99 computed over only 20 total runs. Running
+a fixed number of untimed warm-up calls first, as `benchmark_with_warmup`
+does before starting its timing loop, ensures every measured sample is
+drawn from the same steady-state distribution the benchmark is actually
+trying to characterize.
+
 ## Exercise
 
 Modify `simulated_infer` to model thermal throttling instead of random

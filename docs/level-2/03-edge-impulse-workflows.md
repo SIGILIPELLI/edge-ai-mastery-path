@@ -173,6 +173,45 @@ keep the "raw model export" path in your back pocket.
 | Estimate cost | Performance calculator | `arena_used_bytes()`, flash size math (Module 02) |
 | Export | Arduino/C++/firmware/WASM/.tflite | TFLite Micro C array pipeline (Level 1 Module 06) |
 
+## How It Actually Works
+
+**Why "EON" (Edge Optimized Neural) compiler output can beat a plain
+TFLite-Micro build of the same architecture.** Edge Impulse's EON compiler
+translates the trained graph directly into C++ source code with the
+op sequence unrolled and hardcoded, rather than shipping a generic
+interpreter that walks a flatbuffer graph at runtime. This eliminates the
+interpreter's per-op dispatch overhead (looking up each operator in the
+resolver, following pointers through the FlatBuffer schema for every
+`Invoke()`) and lets the compiler inline and constant-fold shapes that are
+fixed at export time — the same class of win a specializing JIT gets over
+a bytecode interpreter. The tradeoff is exactly what the module's
+"portability" tradeoff row implies: the generated code is specific to that
+exact graph, so it isn't a drop-in replacement for the general-purpose
+TFLite-Micro C-array pipeline from Level 1.
+
+**Why the performance calculator's numbers are measured, not estimated.**
+Edge Impulse maintains a benchmarking database built by actually flashing
+and running compiled impulses on real reference devices (specific
+Cortex-M4/M7/ESP32 boards) and recording wall-clock latency and peak
+arena usage from the device itself. That is mechanically identical to what
+Module 02's `interpreter.arena_used_bytes()` measurement does locally,
+just performed once centrally per (model, chip) pair and cached — which is
+exactly why the module says the underlying math is the same and the value
+Edge Impulse adds is doing the measurement for you at scale, not a
+different measurement technique.
+
+**Why session/train-test-split enforcement in the UI is a data-integrity
+control, not a UX nicety.** Explicitly tagging samples with a collection
+session and forcing "held out entirely" test sessions (rather than a
+per-sample random shuffle) closes the exact leakage bug Module 04 formalizes
+as `session_based_split`: a random shuffle can place two frames from the
+same continuous recording — sharing the same background noise, same
+lighting, same microphone self-noise — on opposite sides of the split,
+letting the model "cheat" by memorizing session-specific artifacts instead
+of the target signal. Edge Impulse structurally prevents this by making
+session identity a first-class property of the dataset rather than
+something you'd have to remember to track yourself in a CSV.
+
 ## Exercise
 
 1. Implement `summarize_labels` against a small synthetic manifest you

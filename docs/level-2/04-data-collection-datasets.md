@@ -196,6 +196,52 @@ definitional drift before it poisons the whole dataset.
 | `flag_label_disagreement` | catches ambiguous labeling instructions early |
 | Re-check coverage after every collection round | datasets grow unevenly by default |
 
+## How It Actually Works
+
+**Why a leaky split inflates accuracy through the model's actual learned
+weights, not through evaluation bookkeeping.** A neural network trained on
+samples from session 4 alongside samples from sessions 0–3 will, during
+gradient descent, happily fit *any* feature that reduces training loss —
+including session-specific artifacts like a particular room's background
+hum, a specific microphone's frequency response, or JPEG compression
+quirks from one camera unit. If a test sample from session 4 is held out
+by simple random shuffling, its label is technically unseen but its
+*session-identity features* were seen thousands of times during training on
+other session-4 samples — so the model's high test score partly reflects
+memorized session fingerprints rather than the target concept. Splitting
+by session removes every one of those fingerprints from the training set
+entirely, forcing the measured accuracy to depend only on features that
+generalize across sessions — which is the only kind of accuracy that
+predicts field performance.
+
+**Why SNR-targeted noise mixing is a power-ratio computation, not a
+volume slider.** `augment_audio_snr` computes `sig_power = mean(clean²)`
+and `noise_power = mean(noise²)` (both are proportional to the physical
+power of each signal), then solves for the scale factor that makes the
+*ratio* of the two, in decibels, equal the target: `SNR_dB = 10·log10(
+sig_power / (scale²·noise_power))`. Solving that equation for `scale`
+gives exactly the `sqrt(target_noise_power / noise_power)` line in the
+code. This is why the function scales by a square root, not a linear
+factor — power scales with the square of amplitude, so achieving a
+specific power ratio requires taking a square root of the corresponding
+power ratio to get the amplitude ratio.
+
+**Why augmentation multiplying "apparent" dataset size doesn't multiply
+information content.** Each of the 10 real dim-lit photos encodes one
+specific real-world scene: one exact arrangement of light sources,
+surfaces, and shadows. Applying `augment_image_brightness` to it explores
+one narrow, deterministic transformation (global brightness scaling) of
+that same scene — it cannot synthesize the genuinely novel spatial
+information a photo of a *different* dim room would contain (different
+shadow shapes, different reflective surfaces, different noise patterns
+from a different sensor). In information-theoretic terms, augmentation
+increases the training set's *support* along dimensions the transform
+covers (brightness) while leaving its support along uncovered dimensions
+(scene geometry, sensor noise characteristics) exactly as narrow as the
+original 10 samples — which is precisely why coverage reports must track
+real and augmented counts separately rather than treating a bigger dataset
+number as automatically more capable of generalizing.
+
 ## Exercise
 
 1. Implement `session_based_split` and, using 4 synthetic sessions of

@@ -152,6 +152,44 @@ Total time with recorded data and stage isolation: minutes. Without: days.
 | Field data different? | collect labeled windows from the device, evaluate offline |
 | Debug method | record inputs, replay through isolated stages, diff |
 
+## How It Actually Works
+
+**Why the confusion matrix is the ground truth and "accuracy" is a lossy
+summary of it.** Accuracy is `trace(cm) / sum(cm)` — a single scalar
+computed by collapsing an n×n matrix down to its diagonal sum. That
+collapse necessarily discards *which* off-diagonal cells hold the errors,
+which is exactly the information that separates "the model is confidently
+wrong about one dangerous class" from "the model is uniformly a little
+noisy everywhere." Precision for class c is `cm[c,c] / sum(cm[:,c])`
+(of everything predicted c, how much really was c) and recall is
+`cm[c,c] / sum(cm[c,:])` (of everything that really was c, how much was
+caught) — two numbers that can move in opposite directions as you slide the
+decision threshold, which is why "false accept vs. false reject" is a
+tunable operating point on a curve (the ROC/precision-recall curve), not a
+fixed property of the model.
+
+**Why threshold tuning is free but retraining accuracy is not.** A softmax
+classifier's raw output is a probability vector; converting it to a hard
+decision applies a threshold (`argmax`, or `p > 0.5` for binary) *after*
+inference has already happened. Moving that threshold costs zero additional
+compute — it only changes which existing confusion-matrix cell a borderline
+prediction falls into — so tuning the false-accept/false-reject tradeoff for
+"novelty toy" vs. "industrial alarm" is a one-line software change on a
+frozen model, never a reason to retrain. This is precisely why the module
+separates "which cells changed" (Module 09's diagnostic) from "where do we
+set the threshold" (a product decision applied downstream of the model).
+
+**Why bisecting a pipeline halves the search space every time.** Each
+pipeline stage (raw window → C features → quantized input → int8 output →
+dequantized result) is a pure function of its input, so recording the
+bytes at any boundary and replaying them through just one stage in
+isolation turns "the whole system produced a wrong number" into a binary
+search: check the midpoint stage, and the fault is now known to be strictly
+before or after it. With five stages that's ~3 comparisons instead of
+combinatorially many end-to-end retries — the mathematical reason the
+worked debugging session above resolves in four bounded steps instead of
+undirected trial and error.
+
 ## Exercise
 
 1. For your Module 08 activity classifier, compute confusion matrices for

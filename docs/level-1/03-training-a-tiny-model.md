@@ -145,6 +145,47 @@ output difference is attributable to the stage, never to the data.
 | Save arrays | `np.savez("f.npz", a=a, b=b)` / `np.load("f.npz")` |
 | Reproducibility | `np.random.default_rng(seed)`, fixed splits |
 
+## How It Actually Works
+
+**Backprop on this net is 321 numbers doing gradient descent.** Each forward
+pass computes `h1 = relu(W1·x + b1)` (16 units), `h2 = relu(W2·h1 + b2)`
+(16 units), `y = W3·h2 + b3` (1 unit). Adam then updates every one of the
+321 weights using the chain rule: the loss gradient flows backward through
+`W3`, through the ReLU derivative (1 where the pre-activation was positive,
+0 where it was clipped — this is literally why "dead ReLUs" that never
+activate stop receiving gradient), through `W2`, and into `W1`. With only
+321 parameters and 600 training points, this is over-determined enough that
+300 epochs of full-batch-ish (batch=32) gradient descent reliably converges
+to a smooth global fit rather than getting stuck memorizing individual
+points — which is also why MAE bottoms out near the injected noise's
+standard deviation (0.1) rather than going lower: the optimizer has run out
+of *signal* to fit, only noise remains, and fitting noise doesn't reduce
+error on held-out points.
+
+**Why two ReLU layers of 16 units can approximate a sine curve.** A single
+ReLU unit computes a "hinge" — flat, then a slope, with a kink at
+`-b/w`. A layer of 16 ReLUs produces 16 independently-placed kinks; the next
+Dense layer takes a weighted sum of those 16 piecewise-linear hinges,
+producing a piecewise-linear function with up to that many segments. Stack
+two such layers and the composition can bend those segments into a smooth-
+looking curve over [0, 2π] — this is the universal approximation theorem in
+miniature: a shallow net with enough ReLU units approximates any continuous
+function on a bounded domain by tiling it with enough tiny linear pieces
+that it looks smooth from a distance. `Dense(8)` gives fewer, coarser
+hinges (higher error); `Dense(64)` gives more than the noisy 1-D problem can
+usefully place (diminishing or zero MAE improvement, more flash for nothing)
+— exactly what exercise 1 asks you to observe.
+
+**Why parameter count is the number that actually matters for TinyML, not
+FLOPs.** `(1×16+16) + (16×16+16) + (16×1+1) = 32+272+17 = 321` counts every
+weight *and* bias that must be stored. In float32 that's `321 × 4 = 1,284`
+bytes; after int8 quantization (Module 05) it becomes `321 × 1 ≈ 321` bytes
+plus per-tensor scale/zero-point overhead. This is why `model.summary()` is
+called out as the single most important line: on an MCU, storage (flash)
+and the arena (RAM for activations) are the hard walls, and parameter count
+is a near-exact proxy for the flash side of that budget from the very first
+line of Keras code you write.
+
 ## Exercise
 
 1. Run the full script and report your test MAE. Then retrain with

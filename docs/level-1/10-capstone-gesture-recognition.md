@@ -234,6 +234,49 @@ Module 06/07 code plus a ring buffer — and these real-world differences:
 | Deploy (hardware) | Arduino sketch + ring buffer | on-device vs. Python int8 parity |
 | Field truth | recorded real gestures | offline eval on device-collected data |
 
+## How It Actually Works
+
+**Why the classes separate almost perfectly on just 18 hand-crafted
+numbers.** RMS (`sqrt(mean(s²))`) is the signal's energy, and by
+construction *shake* has 3–5× the amplitude of *circle*, which has 5–10×
+the amplitude of *still* — so RMS alone nearly linearly separates the
+classes before the classifier ever sees them. The remaining confusion
+(circle↔shake) survives because both are genuinely oscillatory motion; what
+finally distinguishes them is frequency content (shake: 6–10 Hz, circle:
+0.8–1.5 Hz) and the x/y phase relationship (circle's quadrature vs. shake's
+independent random phases) — information the *mean absolute diff* feature
+(a crude proxy for how fast the signal changes per sample) partially
+captures without needing a full FFT. This is the concrete lesson underneath
+"good features beat bigger models": 18 numbers that already encode the
+physics of the problem let a 355-parameter softmax do in one matmul what a
+much larger model would need many more parameters to discover from raw
+samples alone.
+
+**Why the quantization-vs-float accuracy gate is a real safety net, not
+ceremony.** `assert int8_acc >= float_acc - 0.02` encodes a fact from
+Module 05: post-training int8 quantization on a well-calibrated,
+well-behaved model typically costs a fraction of a percentage point of
+accuracy, because the per-tensor affine mapping's rounding error is small
+relative to the trained weights' dynamic range. A gap larger than ~2 points
+signals either bad calibration (the representative dataset didn't cover
+the real activation range — Module 05's sabotage scenario) or a numerically
+fragile model (very large dynamic range packed into few int8 levels); the
+assertion turns "quantization silently made the model worse" from a bug
+discovered after deployment into a build failure discovered in `verify.py`,
+which is the entire discipline this course has been building toward.
+
+**Why majority voting over the last 3 predictions removes flicker for
+free.** Overlapping windows (100-sample hop over a 200-sample window) mean
+consecutive classifications share half their input data, so a genuinely
+ambiguous instant (e.g. transitioning from *still* to *shake*) can flip the
+argmax back and forth between adjacent windows purely from small feature
+noise near a decision boundary. A 3-vote majority filter is a cheap
+temporal low-pass on the *decision* stream itself — a device must see the
+same class win 2 of 3 consecutive windows before it acts — which
+suppresses single-window flicker at the cost of a few hundred milliseconds
+of decision latency, a trade nearly every production gesture/wake-word
+system makes because a jittery output is worse than a slightly delayed one.
+
 ## Exercise
 
 1. Build the project. Fill the README results table: float accuracy, int8

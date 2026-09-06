@@ -183,6 +183,55 @@ weights) — on a microcontroller, this is almost always the right trade.
 | Preprocessing pitfall | resize/color-convert must match training exactly |
 | Measure, don't guess | `interpreter.arena_used_bytes()` on real model |
 
+## How It Actually Works
+
+**Why the depthwise/pointwise split costs less without changing the
+receptive field.** A standard `3×3` conv computes, per output pixel and
+output channel, a weighted sum over a `3×3×Cin` volume — every output
+channel mixes every input channel *and* spatial neighborhood at once,
+which is why its cost multiplies `Cin × Cout`. Splitting it factors that
+one big mixing operation into two smaller ones done in sequence: the
+depthwise step only mixes spatially (each channel convolved independently,
+no cross-channel mixing — cost scales with `Cin`, not `Cin×Cout`), and the
+pointwise step only mixes channels (a `1×1` conv is literally a matmul
+across the channel axis, no spatial extent — cost scales with `Cin×Cout`
+but with a `1×1` kernel instead of `3×3`, so no factor of 9). The
+receptive field after both steps still covers the same `3×3` spatial
+neighborhood and touches every input channel — the network loses some
+*joint* spatial-and-channel expressiveness per layer (it can't have a
+weight that depends on both a specific spatial offset and a specific
+channel pairing in one step), which MobileNet compensates for with more
+layers, exactly as the module notes.
+
+**Why global average pooling, not Flatten+Dense, is almost mandatory on an
+MCU.** `Flatten()` followed by `Dense(n_classes)` on a `24×24×32` feature
+map creates a weight matrix of `24×24×32×n_classes` parameters — for even
+3 classes that's `24×24×32×3 = 55,296` weights, roughly 55 KB in int8,
+often larger than every convolutional layer in the network combined.
+`GlobalAveragePooling2D` instead computes one scalar per channel (the
+mean over all `24×24` spatial positions), collapsing the feature map to a
+`32`-length vector before the Dense layer, so the classifier head shrinks
+to `32×n_classes` weights — a reduction of nearly three orders of
+magnitude here. The tradeoff is real: GAP assumes *that a channel's
+average activation over the whole image* is sufficient signal, discarding
+exactly where in the image that activation occurred — fine for "is this
+class present," much weaker for anything needing spatial layout (e.g.
+counting or localization).
+
+**Why RGB565 decoding must match bit-for-bit, not just visually.**
+RGB565 packs a pixel into 16 bits: 5 bits red, 6 bits green, 5 bits blue —
+chosen unevenly because the human eye is more sensitive to green. Shifting
+`(raw >> 11) & 0x1F` extracts the 5-bit red field but leaves it in the
+range 0–31, not 0–255; the `<< 3` left-shift is not decoration, it's
+restoring the missing 3 low-order bits (approximately, by zero-padding)
+so the value occupies the full 8-bit dynamic range a training-time RGB888
+image would have used. Skip that shift, or use a different bit-width
+assumption than the actual sensor's byte order (endianness — `<u2` here
+is little-endian, matching common camera DMA output), and every decoded
+pixel is systematically too dark or shifted by exactly the missing bits —
+an error small enough to look "roughly right" on inspection but large
+enough to shift every activation in the first conv layer.
+
 ## Exercise
 
 1. Implement `depthwise_conv2d` and `pointwise_conv2d` above, run them on a

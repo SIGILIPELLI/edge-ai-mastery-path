@@ -149,6 +149,57 @@ between connections.
 | Retraining loop | offline, one-off | ongoing, sometimes on-device (Modules 04-05) |
 | Data handling | whatever's convenient during development | privacy/compliance constraints from day one (Module 09) |
 
+## How It Actually Works
+
+**Why "always local inference, cloud only for slow-moving concerns" is
+the architectural decision that makes every other Level 4 module
+tractable.** If inference itself depended on a live cloud connection, the
+system's correctness would be coupled to network availability at the
+same timescale as its core function — a dropped connection would mean
+the device simply stops working, at exactly the moments (storms,
+congested networks, remote installations) reliability matters most. By
+keeping the entire Level 1-3 inference stack self-contained on-device and
+routing only OTA updates and telemetry through the network, the system's
+correctness becomes decoupled from connectivity at a much slower
+timescale: a device can go offline for hours or days and keep making
+correct local decisions the whole time, only falling behind on updates
+and monitoring — a degraded-but-functioning state, not a failed one. This
+single property is what allows Module 02's staged rollouts, Module 03's
+drift detection, and Module 04's on-device learning to all treat network
+access as optional and intermittent rather than a hard dependency.
+
+**Why hardware eligibility must be checked against the device's actual
+profile before an OTA push, not discovered from a failed boot
+afterward.** A model compiled or quantized with a specific tensor arena
+size assumption, or one that requires an NPU delegate to hit its latency
+target, is not a "smaller/bigger" variant of a model that runs anywhere —
+it is a binary artifact tied to specific hardware capabilities
+(available RAM for the arena, presence of specific accelerator hardware).
+Attempting to load such a model on an incompatible device fails at
+`AllocateTensors()` or delegate-creation time (Level 1 Module 06, Level 3
+Module 02) — a failure that, without the `eligible_for_model` check
+performed centrally before the push, would have to be detected and
+recovered from independently by every incompatible device in the fleet,
+turning one preventable mismatch into thousands of individual on-device
+failure-and-rollback events instead of zero pushes to ineligible devices
+in the first place.
+
+**Why version comparison ("already up to date or newer") must be a
+first-class field, not inferred from hash equality.** Two different model
+builds can be functionally equivalent-or-better yet produce completely
+different hash values (different training runs, different but equally
+valid quantization outcomes) — hash equality only proves "identical
+bytes," never "this device doesn't need this update" or "this update is
+older than what's installed." Tracking `current_model_version` as an
+explicit monotonically increasing integer, checked before any hash or
+compatibility work is even attempted, is what lets a fleet safely skip
+redundant pushes to already-current devices and — as the exercise's
+semver-ordering extension makes concrete — correctly reject a
+numerically-smaller version string even when naive string comparison
+would get the ordering of `"1.2.0"` vs `"1.10.0"` wrong (since
+lexicographic string comparison treats `"1.10.0"` as less than `"1.2.0"`,
+comparing the character `'1'` against `'2'` at the second position).
+
 ## Exercise
 
 Extend `DeviceProfile` and `eligible_for_model` with a third eligibility

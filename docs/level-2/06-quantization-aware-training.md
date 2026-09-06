@@ -198,6 +198,55 @@ weight quantization uses; asymmetric better fits activations after a ReLU
 | Asymmetric quant | nonzero `zero_point`, used for post-ReLU activations |
 | Decision rule | try PTQ first; reach for QAT only if PTQ's accuracy loss is unacceptable |
 
+## How It Actually Works
+
+**Why fake-quantizing during the forward pass, not just at the end,
+changes what gradient descent actually optimizes.** With plain PTQ,
+gradient descent minimizes loss on exact float32 weights, and quantization
+is applied only after training is finished — so the optimizer has no way
+to know or care that some final weight value will land on a bad side of a
+rounding boundary. With a fake-quant node in the forward pass, every
+forward pass during training already reflects the *rounded* value the
+weight will actually take on-device, so the loss landscape gradient
+descent is descending is the quantized model's loss landscape, not the
+float model's. The optimizer therefore naturally settles into regions of
+weight-space that are "flat" with respect to int8 rounding (nearby
+quantization levels give similar loss) rather than regions that happen to
+work well in float32 but sit right at a rounding cliff — which is exactly
+the mechanism the module's linear-regression toy experiment demonstrates
+numerically.
+
+**Why STE's "pretend it's identity" backward pass is a justified
+approximation rather than a hack.** `np.round` is piecewise constant, so
+its true derivative is zero almost everywhere and undefined (a Dirac
+delta) at the rounding boundaries — literally no gradient signal survives
+a mathematically honest backward pass through a rounding operation. STE
+instead computes the backward pass as if the forward operation had been
+`clip(x, qmin·scale, qmax·scale)` with the rounding step removed — the
+gradient is 1 inside the representable range and 0 outside it (where the
+value was clipped, matching a ReLU-like saturating nonlinearity's
+gradient). This is an approximation, but a directionally correct one: the
+gradient direction (whether increasing or decreasing this weight would
+reduce quantized loss) is almost always the same as the gradient computed
+on the un-rounded value, since rounding perturbs the value by less than
+half a quantization step — small enough that it rarely flips the sign of
+the useful gradient direction.
+
+**Why per-channel scales fix a problem per-tensor scales structurally
+cannot.** A single per-tensor `scale` must be sized to accommodate the
+*single largest-magnitude value anywhere in the tensor* (or, for
+symmetric quantization, `max(abs(x))`) — every other value shares that
+same scale even if its own channel's typical magnitude is 100× smaller.
+Concretely, if channel A's weights span ±0.01 and channel B's span ±1.0,
+a per-tensor scale sized for B (`1.0/127 ≈ 0.0079`) quantizes channel A's
+entire dynamic range into roughly `0.01/0.0079 ≈ 1` representable int8
+level — total collapse. Per-channel scales instead give each output
+channel its own `scale`/`zero_point` pair computed from only that
+channel's own value range, so channel A gets its own fine-grained scale
+independent of channel B's — which is precisely why the module's exercise
+on weight arrays of very different spread demonstrates growing round-trip
+error under a shared scale.
+
 ## Exercise
 
 1. Implement `fake_quantize` and run it on weight arrays of increasing

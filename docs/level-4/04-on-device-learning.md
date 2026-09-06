@@ -205,6 +205,57 @@ introduced, not just drift from the environment.
 | Needs a frozen backbone already deployed | yes | yes |
 | Risk of catastrophic forgetting | moderate, needs anchor-data mitigation | lower, but so is capacity to learn complex patterns |
 
+## How It Actually Works
+
+**Why freezing the backbone eliminates the exact memory cost that makes
+full backprop infeasible.** Backpropagation through a network needs, for
+every layer, the forward-pass activations that layer produced — the chain
+rule for a weight in layer L requires the gradient flowing backward from
+later layers *and* the activation that layer received as input, so
+gradient computation for an early layer in a deep CNN requires the entire
+forward pass's intermediate activations to have been retained in memory
+simultaneously (unless using memory-costly-in-compute-instead techniques
+like gradient checkpointing, itself impractical on an MCU). Freezing the
+backbone means gradients are only ever computed with respect to the
+single last layer's weights, so the only activation that must be kept
+around is that layer's *input* — the backbone's final feature vector,
+here 16 floats — rather than every intermediate feature map the backbone
+produced on its way there. This is precisely why `LastLayerFineTuner`'s
+memory footprint is `feature_dim × n_classes` weights plus one
+`feature_dim`-length activation, orders of magnitude below what
+backpropagating through the backbone itself would require.
+
+**Why the softmax-plus-cross-entropy gradient collapses to
+`probs - one_hot`, a fact the update step exploits directly.** For a
+softmax output `p_i = exp(z_i)/Σexp(z_j)` and cross-entropy loss
+`-log(p_true)`, differentiating the loss with respect to the pre-softmax
+logit `z_i` yields exactly `p_i - 1{i=true}` — one of the cleanest
+gradient derivations in all of deep learning, because the softmax's own
+normalization exactly cancels the cross-entropy's logarithm in the chain
+rule. `tuner.update`'s `grad_z = probs.copy(); grad_z[true_class] -= 1.0`
+is this closed-form result written out directly, with no need for
+automatic differentiation machinery at all — which is exactly why a
+last-layer fine-tuning loop can be implemented in a few lines of plain
+NumPy (or, on-device, a few lines of fixed-point C) rather than requiring
+a general-purpose autodiff engine: the gradient of this specific,
+extremely common loss/output pairing is a known, hand-derivable formula.
+
+**Why nearest-centroid classification with an incremental mean update
+never needs to store any raw samples at all.** The incremental mean
+formula `new_mean = old_mean + (x - old_mean) / n` is algebraically
+identical to recomputing the mean of all `n` samples seen so far from
+scratch — it can be derived directly from the definition of an arithmetic
+mean by isolating the effect of adding one new sample to the running sum
+— but it requires only the current mean and count as state, never the
+individual samples that produced it. This is why `OnlineMeanAdapter`'s
+memory cost is fixed at `n_classes × feature_dim` regardless of how many
+labeled corrections the device has processed over its entire lifetime (a
+device running for a year accumulates the same state size as one running
+for an hour), in sharp contrast to any approach that would need to retain
+a growing buffer of raw examples to recompute statistics — the
+incremental-update identity is what makes truly unbounded-duration
+on-device adaptation possible within a fixed, small memory budget.
+
 ## Exercise
 
 Add an anchor-replay mechanism to `LastLayerFineTuner`: store a small

@@ -164,6 +164,57 @@ afterthought.
 | Dev-without-hardware | yes (CPU fallback path) | limited (Vela needs the target config, but no HW needed to *compile*) |
 | Typical use case | camera + vision gateway, industrial HMI | always-on sensor node, battery-powered wearable |
 
+## How It Actually Works
+
+**Why the delegate model and the ahead-of-time model are fundamentally
+different runtime contracts, not just implementation styles.**
+`ModifyGraphWithDelegate` is a *runtime* decision: the interpreter walks
+the already-loaded graph, asks the delegate object which ops it will
+claim, and rewires the execution plan accordingly — all of this happens
+after the binary is built and running, which is exactly why a delegate can
+return NULL gracefully (no NPU driver present, or no NPU at all) and fall
+back to CPU kernels already linked into the same binary. Vela's
+"rewrite the `.tflite` file" model instead makes that decision at *compile*
+time and bakes the answer into the file's bytes as a custom op containing
+a literal, pre-encoded command stream for one specific Ethos-U
+configuration (U55 vs U65, its exact SRAM size, its clock). There is no
+runtime negotiation left to do — TFLite Micro's interpreter treats the
+custom op as a black box and executes whatever binary payload it contains
+against the actual Ethos-U driver, which is why a Vela-compiled model
+built for a U55-256 SRAM config cannot simply be dropped onto a U55-128
+board: the command stream's memory addressing assumes the larger SRAM.
+
+**Why on-chip SRAM turns a "supported op" into a "rejected op" on
+Ethos-U in a way that never happens on Coral or i.MX.** Coral's Edge TPU
+and i.MX's Neutron NPU both operate against a full DRAM address space
+(gigabytes, effectively unconstrained relative to any individual layer's
+activations), so op eligibility is purely a question of instruction-set
+coverage. The Ethos-U55/U65 instead executes entirely out of a small
+dedicated on-chip SRAM (128–512 KB) with no DRAM fallback for its working
+set — every intermediate tensor a fused NPU segment touches must fit
+inside that budget simultaneously, the same "sum of concurrently live
+tensors" constraint TFLite-Micro's arena planner enforces (Level 1 Module
+02), just enforced by Vela at compile time instead of by a software
+allocator at init time. `vela_partition`'s `running_bytes` accumulator
+models exactly this: `conv2`'s op type is on the supported list, but
+admitting its 180 KB tensor would blow the 256 KB budget already
+consumed by earlier ops in the same fused segment, so Vela is forced to
+cut the segment there and route it to the CPU regardless of instruction
+coverage.
+
+**Why the delegate pattern lets you develop before hardware exists but
+the ahead-of-time pattern doesn't.** Because `NeutronDelegate_Create`
+returning NULL is a normal, handled code path, the exact same firmware
+binary that will run accelerated on real i.MX silicon already runs
+correctly (just slower, on CPU kernels) on a desktop or emulator — there
+is no separate "CPU-only build" to maintain. Vela's model has no
+equivalent graceful-degradation path: the `.tflite` file produced by
+compiling against a specific Ethos-U config *is* the deployable artifact,
+so a project targeting Ethos-U genuinely cannot test the accelerated path
+without either the real silicon or a cycle-accurate simulator of that
+exact NPU variant, even though — as the module notes — compiling with
+Vela itself needs no hardware present.
+
 ## Exercise
 
 Pick a quantized model from an earlier level. Using the `vela_partition`

@@ -183,6 +183,60 @@ followed) already exist for other reasons.
 | Implementation cost | none | requires sensitivity analysis per statistic released |
 | Query budget management | not applicable | must track cumulative epsilon per individual, enforce a cutoff |
 
+## How It Actually Works
+
+**Why Laplace-distributed noise, specifically, is what makes the DP
+guarantee hold, not just "add some randomness."** Differential privacy's
+formal definition requires that the *ratio* of probabilities of observing
+any particular output, with versus without one individual's data
+included, be bounded by `e^epsilon` — a multiplicative, not additive,
+bound on how much one person's presence can change the output
+distribution's shape. The Laplace distribution's probability density
+`∝ exp(-|x|/scale)` decays exponentially in a way that makes exactly this
+ratio bound provable in closed form when noise scale is set to
+`sensitivity/epsilon`: shifting the true value by at most `sensitivity`
+(the maximum any one individual could have changed it) changes the
+Laplace density at any point by a factor of at most `exp(sensitivity/
+scale) = exp(epsilon)`, which is precisely the required bound. This is
+why `private_mean_release`'s `sensitivity = (max-min)/n` term matters
+exactly as much as `epsilon` itself: the noise scale is a ratio of the two,
+so a wrongly-computed sensitivity silently invalidates the privacy proof
+even if the code runs and produces plausible-looking noisy output.
+
+**Why privacy loss composes additively across independent queries, a
+consequence of the same ratio bound applied repeatedly.** If a single
+query's output distribution can shift by at most a factor `e^epsilon`
+due to one individual's data, then two independent queries against data
+including that individual can each shift by that same factor, and the
+*joint* distribution of both outputs together can shift by up to the
+product of the two per-query factors — `e^epsilon × e^epsilon =
+e^(2·epsilon)` — because the queries are independent draws, not because
+of any weakness in either individual mechanism. Taking the logarithm of
+that product bound gives exactly the linear composition rule
+`composed_epsilon = epsilon_per_query × n_queries`. This is a
+mathematical consequence of chaining ratio bounds, not a pessimistic
+convention — which is why the module is careful to note that *tighter*
+"advanced composition" bounds exist (they exploit statistical
+cancellation across many queries to grow sub-linearly) but the basic
+linear bound is always a mathematically valid, if sometimes loose, upper
+bound on true accumulated privacy loss.
+
+**Why an allowlist and a denylist are not symmetric defenses despite
+looking like mirror images.** `redact_telemetry_payload`'s allowlist
+approach defines the *complete, closed* set of fields ever permitted to
+leave the device — any field not explicitly named, present or future, is
+dropped by construction, so a new field added to the payload dictionary
+by a future code change (a new sensor, a debug field someone forgot to
+remove) is excluded automatically without anyone updating the redaction
+logic. A denylist instead defines only the set of fields *known today* to
+be sensitive — its correctness depends entirely on every future
+contributor remembering to add every future sensitive field to that list
+before it ships, an open-ended, unenforceable obligation. This is the
+precise mechanical reason the module calls the allowlist "fail-closed"
+and the denylist "fail-open": the default behavior when someone forgets
+to update the list is opposite in the two designs, and only one of those
+defaults is safe.
+
 ## Exercise
 
 Implement a `PrivacyBudgetTracker` class that maintains a running total

@@ -124,6 +124,55 @@ tree:
 | Build/tune time | fast | auto-tuning search can take hours per operator shape |
 | Best fit | single fixed target, ship fast | multi-target fleets, custom ops, research-to-production |
 
+## How It Actually Works
+
+**Why fusion saves memory bandwidth specifically, not compute.** Without
+fusion, `CONV_2D → BIAS_ADD → RELU` executes as three separate kernel
+launches: the conv writes its full output tensor to memory, the bias-add
+kernel reads that entire tensor back in, adds the bias, and writes it out
+again, and the ReLU kernel repeats the read-modify-write a third time.
+Each of those tensors can be tens or hundreds of KB — on hardware where
+SRAM bandwidth (not ALU throughput) is the bottleneck, as the module notes
+is common on microcontrollers, those extra round trips to memory cost real
+cycles even though the *arithmetic* (bias-add, max-with-zero) is nearly
+free. A fused kernel instead keeps each output value in a register or
+local buffer across all three operations before writing it to memory once
+— `greedy_fuse`'s grouping is a compile-time decision about exactly which
+memory round trips can be eliminated, which is why the module ties the
+"how many groups vs. raw op count" ratio directly to a memory-bandwidth
+savings estimate rather than a compute-savings one.
+
+**Why auto-tuning needs to physically run candidates on real hardware
+rather than reason about them analytically.** A convolution's actual
+runtime on a specific chip depends on cache line sizes, register file
+capacity, vector instruction width, and memory latency — a tangle of
+microarchitectural details that differ between even closely related chips
+and are impractical to model accurately by hand for every operator shape.
+Systems like AutoTVM/Ansor sidestep needing that model entirely: they
+generate many syntactically valid implementations of the same
+mathematical operation (different loop orders, tile sizes, unrolling
+factors), actually execute each one on the target device or a faithful
+simulator, measure wall-clock time, and keep the empirically fastest.
+This is precisely why auto-tuning "search can take hours per operator
+shape," as the tradeoff table notes — each candidate is a real compile-
+and-run cycle, not a cheap cost estimate, and the search space of
+loop-order × tile-size combinations grows combinatorially with tensor
+dimensionality.
+
+**Why "IR in the middle" turns an O(frameworks×targets) engineering
+problem into O(frameworks+targets), concretely.** Without a shared IR, a
+new architecture idea would require someone to hand-write a kernel for it
+in every accelerator's own toolchain (edgetpu_compiler's op set, eIQ's
+Neutron, Vela's Ethos-U set) — supporting `F` frontends and `T` backends
+without a shared layer means, in the worst case, up to `F×T` distinct
+integration efforts. Because a frontend importer only needs to lower its
+framework's ops into the shared IR once, and a backend code generator only
+needs to lower the shared IR into its target's instructions once, adding
+one new frontend or one new backend is a single additional piece of work
+that immediately benefits from every existing target or framework already
+supported — the same amortization argument that motivates every
+"compiler with a middle IR" design, from LLVM onward.
+
 ## Exercise
 
 Extend `greedy_fuse` above with a new fusible pair, `("DEPTHWISE_CONV_2D",

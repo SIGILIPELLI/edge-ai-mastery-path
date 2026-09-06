@@ -175,6 +175,54 @@ whatever real model and target hardware you actually deploy.
 | Model format | flatbuffer `.tflite` | protobuf-based `.onnx` |
 | Quantization tooling | built into `tf.lite.TFLiteConverter` | separate `onnxruntime.quantization` module, similar int8 PTQ workflow |
 
+## How It Actually Works
+
+**Why ONNX's graph is nodes-plus-initializers rather than a Python
+object tree.** `helper.make_graph` assembles a protobuf message: a flat
+list of `NodeProto` entries (each an op type plus named input/output
+string identifiers) and a list of `TensorProto` initializers (the actual
+weight arrays serialized as raw bytes with a shape and dtype). There is no
+Python class hierarchy underneath — a `Gemm` node is just a string
+`"Gemm"` plus the string names `["input", "w1", "b1"]`, and the runtime
+resolves those names to actual tensors purely by matching strings against
+the graph's initializer and intermediate-value tables at load time. This
+is precisely why `onnx.checker.check_model` matters as a distinct,
+non-optional step: because nothing in the construction API enforces that
+`w1`'s declared shape `(8, 16)` actually matches what the preceding
+`Gemm` node's `input` tensor requires, a name or shape mismatch is
+otherwise only caught when the runtime tries to execute the node and fails
+— the checker runs the same shape-inference logic ahead of time, without
+needing real input data.
+
+**Why `InferenceSession` construction is expensive and inference calls
+afterward are cheap.** Creating a session performs graph-level
+optimization passes (constant folding, operator fusion — e.g. combining a
+`Gemm` immediately followed by an elementwise add into one fused op) and
+negotiates with every requested execution provider in order, asking each
+"which of these nodes can you claim," before finally partitioning the
+graph into provider-specific subgraphs it can dispatch to at `run()` time.
+All of that analysis happens exactly once, at construction, which is
+exactly why the module's benchmarking code carefully times `sess.run()` in
+a loop *after* the session already exists rather than including
+`InferenceSession(...)` inside the timed region — folding in that
+one-time cost would make a model look far slower per-inference than it
+actually is in steady state.
+
+**Why an Execution Provider claiming an op is a static, offline decision
+per session, not a per-call negotiation.** When `providers=[...]` is
+passed to `InferenceSession`, ORT walks the graph once and asks each
+provider, in the given priority order, which ops in the graph it is
+capable of executing — this partitioning happens once at session creation
+and is fixed for the session's lifetime, the same "decide once, execute
+many times" structure the delegate pattern uses in TFLite (Module 02).
+`get_provider_options()` reports the *actual* outcome of that negotiation
+— which provider each op ended up assigned to — which is why the module
+insists on checking it rather than trusting the requested provider list:
+a provider can be present and requested yet still decline every op in a
+particular graph (unsupported op types, unsupported data layouts), leaving
+the entire model running on `CPUExecutionProvider` despite a GPU/NPU
+provider having been available.
+
 ## Exercise
 
 Modify the `build_and_run` code above to add a third `Gemm` layer, re-run

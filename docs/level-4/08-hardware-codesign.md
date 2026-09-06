@@ -195,6 +195,61 @@ smart speakers) where the crossover volume is realistically achievable.
 | When it pays off | almost always worth doing given a fixed target | only clearly worth custom silicon above the NRE crossover volume |
 | This module's verification | tested cost-model code; real hardware measurement not possible here | — |
 
+## How It Actually Works
+
+**Why Pareto-front filtering, not a single scalar score, is the correct
+way to compare architectures under co-design.** Collapsing accuracy and
+cost into one weighted score requires committing to a specific tradeoff
+rate ahead of time (how many accuracy points is one unit of latency
+worth?) — a decision that's genuinely product-specific and often not
+known until later in development. The Pareto-front test
+(`dominated = any other candidate is both ≥ accurate AND ≤ costly`)
+instead makes no such commitment: it discards only candidates that are
+strictly worse on *every* axis simultaneously, preserving every candidate
+that could be the right choice under *some* reasonable weighting of
+accuracy versus cost. This is exactly why the MCU and NPU searches over
+the identical candidate pool produce different front compositions — the
+dominance relation is defined entirely in terms of each target's own cost
+model, so a candidate dominated on one hardware's cost surface can be
+non-dominated (Pareto-optimal) on another's, without any change to the
+model architectures being compared.
+
+**Why the same depthwise convolution can be "cheap" on one target and
+"expensive" on another, mechanically, not just as a cost-model
+convention.** A depthwise convolution reduces FLOP count by not mixing
+channels (Level 2 Module 02's derivation), but FLOP count is not what
+either an MCU or an NPU's execution time is actually proportional to.
+On a Cortex-M-class core running CMSIS-NN, depthwise convs execute with
+lower arithmetic intensity per byte loaded — the multiply-accumulate work
+per weight loaded is `k²` regardless of channel count, versus a full
+conv's `Cin×Cout×k²` — so on a bandwidth-bound MCU, depthwise convs
+still save real cycles despite the FLOP savings not translating 1:1 (the
+model's `depthwise_efficiency=0.6` factor). On a systolic-array NPU
+(Level 3 Module 01), the array's parallelism comes from loading many
+weights once and reusing them across many MACs simultaneously — a
+depthwise conv's per-channel independence means each systolic-array
+column processes a narrower slice of work with less reuse opportunity,
+under-utilizing the array's designed-for parallelism far more severely
+(the model's `0.35` factor for NPU vs `0.6` for MCU) — the same
+architectural feature (channel independence) that helps one memory-bound
+hardware model hurts a different, parallelism-bound one.
+
+**Why the NRE/crossover-volume calculation is a genuine economic
+argument, not just a rule of thumb.** Total cost for `N` units is
+`NRE + N × unit_cost`; setting the two options' total costs equal and
+solving for `N` gives exactly `nre_cost / (off_the_shelf_cost -
+custom_cost)` — the volume at which the *fixed* extra investment has been
+fully amortized by the *per-unit* savings. Below that volume, the fixed
+NRE cost dominates and custom silicon is strictly more expensive in
+total; above it, the linear per-unit savings eventually overtake any
+fixed cost, no matter how large, given enough volume. This is precisely
+why the FPGA scenario (`custom_unit_cost=8.00` exceeding the off-the-
+shelf option's `4.50`) returns "never cheaper at any volume": if the
+custom option doesn't even win on unit cost, there is no volume large
+enough to overcome a linear cost that's higher per unit at every point —
+the crossover formula only produces a meaningful (positive, finite)
+answer when the custom option's marginal cost is actually lower.
+
 ## Exercise
 
 Add a third `target="fpga"` branch to `hardware_cost_model` with its own

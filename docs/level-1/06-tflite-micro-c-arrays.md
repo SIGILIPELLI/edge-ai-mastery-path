@@ -173,6 +173,44 @@ over identical bytes, so they should agree essentially exactly).
 | Run | `interpreter.Invoke()` |
 | Desktop build | TFLM repo `Makefile`, `hello_world` target |
 
+## How It Actually Works
+
+**Why `const` moves the array from RAM to flash — the linker's doing.**
+On embedded toolchains, `const` data with a compile-time value is placed by
+the linker script into a read-only section (`.rodata`, often merged into
+`.text`) that lives in flash and is *executed in place* (XIP) — the CPU's
+load/store unit reads it directly from the flash memory bus, never copying
+it anywhere. Drop `const` and the compiler must assume the array could be
+written at runtime, so the C runtime startup code (`crt0`) copies the
+entire initialized array from flash into a writable RAM section (`.data`)
+before `main()`/`setup()` even runs — for a 2.5 KB array that's invisible;
+for a 300 KB vision model it silently consumes nearly all of a typical
+MCU's SRAM before a single inference has happened, which is exactly the
+failure Module 07 has you deliberately trigger.
+
+**Why the interpreter walks the flatbuffer instead of "loading" the
+model.** `tflite::GetModel()` does not parse anything — it reinterprets the
+raw byte pointer as a `Model` FlatBuffer root and returns a lightweight
+accessor object; every subsequent call (`model->subgraphs()`,
+`operators()`, `tensors()`) walks vtables and byte offsets embedded in the
+buffer itself. This is why the version check (`model->version() !=
+TFLITE_SCHEMA_VERSION`) exists as literally the first line of code: the
+FlatBuffer schema is versioned, and reading a newer/older schema with the
+wrong field layout would silently misinterpret offsets rather than fail
+loudly, which is worse than a version mismatch that halts at boot.
+
+**Why the resolver is templated on op *count*, not just op *type*.**
+`MicroMutableOpResolver<N>` allocates a fixed-size internal array of `N`
+function-pointer/name pairs at compile time — no heap, no `std::vector`,
+because TFLM guarantees zero dynamic allocation even for its own
+bookkeeping structures. Each `Add*()` call registers one (opcode name →
+kernel function pointer) pair into that array; at `AllocateTensors()` time,
+for every operator in the graph, the interpreter linearly searches the
+resolver's array for a matching name. Miss one and the lookup returns
+nothing — hence "op not found" fails at the exact call that needed it,
+before any tensor memory has even been touched, which is why Module 06 can
+say the interpreter fails "cleanly" rather than corrupting state.
+
 ## Exercise
 
 1. Convert your `sine_model_int8.tflite` to a C array both ways (`xxd` and

@@ -206,6 +206,52 @@ may reach the same size/accuracy point with far less engineering effort.
 | `alpha` (distillation) | -- | weight on soft-teacher loss vs. hard-label loss |
 | Order of operations | prune/distill first, quantize last | quantization further shrinks whatever comes out |
 
+## How It Actually Works
+
+**Why unstructured sparsity needs a different memory layout to pay off at
+all.** A dense matmul kernel (the only kind TFLite-Micro ships) computes
+every `output[i][j] = Σ_k input[k] × weight[k][j]` term regardless of
+whether `weight[k][j]` happens to be zero — the ALU still executes the
+multiply-add, and the memory access pattern still walks every element in
+row/column order. Exploiting sparsity requires a compressed format (CSR/CSC,
+storing only nonzero values plus their indices) *and* a kernel written to
+skip zeros using those indices — extra branching and indirection that
+generic dense-matmul-optimized MCU kernels don't implement, because
+branch mispredictions and irregular memory access on a small in-order
+core can cost more than the multiply-adds saved. This is precisely the
+gap between "90% of weights are zero" and "90% smaller/faster on this
+chip": the zeros are real, but the hardware/runtime pairing has to be
+built to notice them.
+
+**Why the STE-free cousin — structured channel pruning — degrades
+accuracy faster per unit of compression.** Ranking channels by L2 norm and
+removing the smallest assumes a channel's *overall magnitude* predicts its
+*usefulness*, which is a much coarser proxy than per-weight magnitude:
+a channel can have a modest average magnitude but be the *only* one
+encoding some rare, decisive feature (e.g. a specific edge orientation
+that appears in one class only). Removing a whole channel removes that
+capability outright with no chance for other weights to compensate at
+prune time — the compensation only reappears afterward, during
+fine-tuning, when remaining channels' weights are updated by gradient
+descent to partially cover the gap. This is the concrete mechanism behind
+"structured pruning costs more accuracy per unit of sparsity": unstructured
+pruning removes the least-important *individual connections*, while
+structured pruning removes the least-important *whole feature detector*,
+which is a strictly coarser and more destructive unit of removal.
+
+**Why the temperature-squared factor in distillation loss is not
+arbitrary.** `softmax_with_temperature` divides logits by `T` before the
+exponential; differentiating the resulting soft cross-entropy loss with
+respect to a logit gives a gradient that scales roughly as `1/T` relative
+to the un-tempered case (from the chain rule through the softmax
+derivative, which itself carries a `1/T` factor from the division).
+Multiplying the soft-loss term by `T²` exactly cancels that `1/T` shrinkage
+and leaves gradient magnitude order-`T` independent overall — that's the
+"keeps gradient magnitude comparable" claim made concrete: without the
+`T²` correction, raising `temperature` to reveal more dark knowledge would
+also silently shrink the soft loss's influence relative to the hard loss,
+making `alpha` mean something different at every temperature setting.
+
 ## Exercise
 
 1. Implement `magnitude_prune` and, on a `(128, 128)` random Gaussian

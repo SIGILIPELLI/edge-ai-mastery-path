@@ -214,6 +214,52 @@ spike doesn't permanently bias normalization for the rest of the stream.
 | Wrong choice looks like | missed detections at buffer boundaries | unbounded latency growth, eventual OOM |
 | Needs persistent state? | only if preprocessing is stateful (see normalizer above) | no — the queue itself is the only state |
 
+## How It Actually Works
+
+**Why `deque(maxlen=window_size)` is the right data structure for a
+sliding window, mechanically.** A `collections.deque` with a fixed
+`maxlen` is implemented as a doubly-linked block structure that supports
+O(1) appends at either end; when `maxlen` is reached, appending one new
+element automatically evicts the oldest element from the opposite end in
+the same O(1) operation, with no shifting of the remaining elements'
+positions in memory. This is what makes `SlidingWindowBuffer.push`
+correct and cheap per-sample: each incoming sample costs one constant-time
+append/evict pair regardless of `window_size`, rather than the O(window_size)
+cost a plain list would incur from shifting every element down by one
+position on each new arrival — a difference that matters enormously once
+`window_size` is 16,000 samples of audio arriving in real time.
+
+**Why bounded-queue drop-oldest is the correct backpressure policy for
+a fresh-data consumer, mathematically.** With a producer rate `λ` exceeding
+consumer service rate `μ`, an unbounded queue's expected length grows
+without limit over time (there is no steady state — this is the basic
+result behind M/M/1 queueing theory when `λ > μ`), so any fixed processing
+latency downstream compounds into unbounded staleness. Capping the queue
+at a small `capacity` and evicting the oldest entry on overflow instead
+guarantees the *maximum age* of the item the consumer next processes is
+bounded by `capacity / λ` regardless of how long the burst lasts — the
+system trades completeness (some frames are never processed at all) for a
+hard latency ceiling, which is precisely the right trade for something
+whose value decays with staleness (a live camera preview) and the wrong
+trade for something whose value doesn't (a security log), exactly as the
+module's tradeoff table states.
+
+**Why Welford's algorithm computes running variance without ever
+re-reading old data or losing precision.** Naively computing variance from
+a running sum of `x` and running sum of `x²` is numerically unstable: for
+large `mean` values, `sum(x²) - n·mean²` subtracts two large, nearly-equal
+floating-point numbers, and the catastrophic cancellation can produce a
+negative "variance" or wildly wrong results. Welford's method instead
+updates the mean incrementally (`mean += delta/n`) and accumulates `m2`
+(the running sum of squared deviations from the *current* running mean,
+updated using both the pre-update and post-update deviation) so that no
+step ever computes a difference of two large similar numbers — each
+update only needs the new sample and the previous mean, which is also
+exactly why it composes correctly with streaming: `StreamingNormalizer`
+never needs to revisit the samples that produced its current state, only
+carry `n`, `mean`, and `m2` forward, which is the numerical justification
+for the module's warning against re-instantiating it per window.
+
 ## Exercise
 
 Extend `BoundedFrameQueue` with a `drop_newest` policy (reject the

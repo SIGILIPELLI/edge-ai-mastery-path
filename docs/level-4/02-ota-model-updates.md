@@ -187,6 +187,57 @@ either way, rather than triggering a false rollback on too little data.
 | Implementation complexity | low | moderate (slot state machine) |
 | Suitable for | severely flash-constrained MCUs where 2x storage isn't affordable | anything that can spare the flash — the default choice |
 
+## How It Actually Works
+
+**Why A/B slots make rollback an O(1) pointer flip instead of a
+recovery operation.** The critical property of `DualSlotUpdater` is that
+the previous active slot is never overwritten or erased during an
+update — `verify_and_activate` writes the new model into the *inactive*
+slot and only changes which slot the `active_slot` variable points to
+after verification succeeds, leaving the old model's bytes fully intact
+in the other slot. This means "rollback" requires no data transfer,
+re-download, or reconstruction at all: it is the same single-variable
+flip performed in the forward direction, just pointed the other way,
+which is exactly why it can be issued instantly and safely even from a
+degraded or partially-failed boot state — there is no window where the
+device has neither model fully present, because both slots always
+contain a complete model file simultaneously except during the brief
+staging write itself.
+
+**Why hashing the device ID (not random sampling) is what makes a
+rollout cohort assignment stable and monotonically nested.** A
+device's cohort membership must be reproducible across repeated checks
+— the same device asking "am I in the rollout?" tomorrow must get the
+same answer, or it would repeatedly flip in and out of an update. Because
+SHA-256 is a deterministic function of its input, `rollout_cohort` always
+maps a given `device_id` to the exact same bucket value in `[0,1)`, so
+comparing that fixed bucket against a growing threshold percentage is
+what produces the monotonic-inclusion property: a device with bucket
+value 0.03 is included once the threshold reaches 3% and remains included
+at every larger threshold checked afterward, because the comparison
+`bucket < rollout_percentage` can only flip from false to true as
+`rollout_percentage` grows, never the reverse. This is the same
+hash-bucketing technique used by real feature-flag and staged-rollout
+systems specifically because it needs no server-side state per device —
+the device's own ID and the current threshold are sufficient to
+compute cohort membership independently on either side of the OTA
+channel.
+
+**Why the sample-size gate is not a minor safeguard but the difference
+between a valid statistical comparison and noise.** `canary_error_rate`
+computed from only 40 observations is itself a random variable with
+substantial variance — for a true underlying error rate of 2%, a sample of
+40 trials can easily show an observed rate anywhere from 0% to 10%+ purely
+by chance (the standard error of a proportion scales as
+`sqrt(p(1-p)/n)`, which shrinks slowly, as the square root of sample
+size). Comparing such a noisy estimate against a stable, large-sample
+baseline and treating any observed gap as a real regression would trigger
+rollbacks driven mostly by sampling noise rather than genuine model
+degradation — precisely why `rollout_gate`'s `min_sample_size` check
+short-circuits to `"hold"` before the relative-regression comparison is
+even computed, deferring judgment until the canary sample is large enough
+for the observed error rate to be a trustworthy estimate of the true one.
+
 ## Exercise
 
 Extend `rollout_gate` to also check a **secondary metric** — average

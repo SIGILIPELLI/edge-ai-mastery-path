@@ -141,6 +141,54 @@ unless the cross-sensor correlation itself is the signal you need.
 | Memory/compute footprint | sum of independent small models | one larger joint model |
 | Typical edge use | most multi-sensor edge products | specialized cases needing cross-modal correlation |
 
+## How It Actually Works
+
+**Why a weighted average is a maximum-likelihood combination under a
+specific noise assumption, not an arbitrary heuristic.** If each sensor's
+score is treated as a noisy, independent estimate of the true probability
+with variance inversely proportional to its assigned weight, the
+statistically optimal (minimum-variance) combination of several
+independent noisy estimates is exactly the inverse-variance-weighted
+average — a classical result from estimation theory. `weights` in
+`late_fusion_weighted_average` is standing in for each sensor's inverse
+noise variance: a sensor known to be reliable in current conditions gets a
+higher weight because its errors are smaller, and the weighted average
+mathematically discounts noisier sensors' contributions proportional to
+how unreliable they are — which is precisely why the microphone's strong,
+heavily-weighted 0.85 reading can pull an otherwise-borderline fused score
+past the decision threshold in the worked example, rather than being
+diluted evenly by three equally-trusted opinions.
+
+**Why sensors with genuinely independent failure modes reduce the
+system's overall failure probability multiplicatively, not additively.**
+If a camera's failure probability in some condition is `p_cam` and a
+microphone's is `p_mic`, and their failure causes are truly independent
+(dark rooms don't make microphones fail; loud rooms don't make cameras
+fail), the probability that *both* fail simultaneously on the same
+event is `p_cam × p_mic` — multiplying two probabilities less than 1
+always yields something smaller than either alone. This is the precise
+mathematical content behind "a fused system only fails when multiple
+sensors' blind spots overlap": it's not a vague synergy claim, it's
+independence turning an OR of failure conditions (either sensor fails)
+into an AND of failure conditions for the *fused* system to fail
+outright, which only holds to the extent the chosen sensors' failure
+modes are actually uncorrelated — correlated failures (e.g. camera and
+IR-illuminated microphone both failing in the same power brownout)
+don't get this multiplicative benefit.
+
+**Why adaptive weighting must scale weight, not directly rewrite the raw
+score, to correctly represent "no information."** `adaptive_weights`
+multiplies a sensor's base weight by its condition quality (`light_level`,
+`noise_level`) rather than, say, forcing a low-light camera's score toward
+0.5 directly. This distinction matters mechanically in the weighted
+average: shrinking a sensor's *weight* toward zero makes its score
+contribute almost nothing to the sum regardless of what that score
+happens to be, correctly modeling "this sensor's reading, whatever it
+is, should barely count right now" — whereas overwriting the raw score
+would conflate "the sensor is unreliable" with "the sensor is reporting
+uncertainty," two different pieces of information the fusion formula
+needs to keep separate to remain a valid weighted average at all.
+
 ## Exercise
 
 Extend `adaptive_weights` to also degrade the microphone's weight under a

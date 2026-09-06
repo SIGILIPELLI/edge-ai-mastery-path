@@ -174,6 +174,48 @@ small fraction of that budget — most of the 500ms is the 1-second sliding
 window plus debounce delay), and a real false-accept count from at least 10
 minutes of ambient recorded audio containing no commands.
 
+## How It Actually Works
+
+**Why a ring buffer, not a growing array, is the only correct way to hold
+streaming audio on-device.** `audio_ring_buffer` is a fixed-size array
+where `ring_write_pos` wraps modulo `kWindowSamples` — new I2S samples
+overwrite the oldest ones in place, so the buffer always holds exactly the
+most recent one second of audio using a constant, pre-allocated amount of
+RAM. This is the streaming analogue of the tensor arena's static
+allocation: an MCU has no heap to grow a buffer into as audio keeps
+arriving forever, so the buffer's size must be fixed at compile time and
+reused indefinitely — the wraparound arithmetic (`% kWindowSamples`) is
+what makes "always the latest window" possible without ever calling
+`malloc` or shifting existing data (which would cost a full buffer copy
+per sample instead of one write).
+
+**Why I2S delivers samples in fixed-size chunks rather than one at a
+time.** The I2S peripheral is a hardware serial audio interface driven by
+its own bit clock independent of the CPU; `i2s_read()` blocks until its
+internal DMA buffer has accumulated a chunk (here, 512 samples) rather
+than interrupting the CPU per sample, because per-sample interrupts at
+16 kHz (one every 62.5 µs) would consume a large fraction of CPU time in
+interrupt overhead alone. Reading in chunks amortizes that overhead: 512
+samples arrive as one `i2s_read()` call and one loop copying them into the
+ring buffer, letting the CPU spend the rest of its time on feature
+extraction and inference between reads — the same batching principle
+behind why network sockets and disk I/O also transfer in blocks rather
+than bytes.
+
+**Why the false-accept-rate target is a statistical claim about the
+"unknown" class's decision boundary, not a fixed property of the model.**
+"Fewer than 1 false trigger per 10 minutes" is really a statement about
+how often ambient audio's spectrogram lands on the wrong side of the
+softmax decision boundary between "unknown" and any command class. Because
+that boundary was shaped entirely by which hard negatives appeared in
+training (Module 04's principle, applied here to background/unknown
+audio), the false-accept rate is fundamentally a *data coverage* metric
+being measured, not a model-capacity one — which is why the project
+insists on measuring it against real ambient recordings rather than
+trusting validation accuracy: a model can show 95%+ validation accuracy on
+a dataset with narrow negative-class coverage and still false-trigger
+constantly on real household sounds the training data never included.
+
 ## Stretch goals
 
 1. **Add a second confirmation stage.** After the on-device model fires,

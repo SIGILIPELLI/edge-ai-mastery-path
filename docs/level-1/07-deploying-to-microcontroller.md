@@ -160,6 +160,46 @@ file. Practical notes from the trenches:
 | Serial output | `Serial.begin(115200)` + Serial Monitor |
 | Browser simulation | wokwi.com ESP32 project + `libraries.txt` |
 
+## How It Actually Works
+
+**Why `static` inside `setup()` is required, not stylistic.** Arduino's
+`setup()` returns and its stack frame is torn down before `loop()` starts
+running repeatedly; a `MicroInterpreter` (and the tensors/pointers it hands
+back) built on that stack would become a dangling reference the instant
+`setup()` returns. `static` gives the object static storage duration — it
+lives in a fixed, non-stack memory region for the entire life of the
+program, exactly like the file-scope `tensor_arena` — so `interpreter`,
+`input`, and `output` remain valid pointers into that object for every
+`loop()` iteration afterward. This is a C++ storage-class detail, but on an
+MCU with no memory protection unit catching use-after-scope bugs, getting
+it wrong doesn't crash predictably — it corrupts whatever memory the stack
+happens to reuse next.
+
+**Why the ESP32's flash-mapped execution changes the const/RAM story
+further than a typical MCU.** The ESP32 doesn't just place `const` arrays
+in a flash *address range* the CPU can read directly — it runs code and
+constant data through the **flash cache/MMU**, which maps 4 MB (or more) of
+external SPI flash into the CPU's addressable memory in fixed-size pages,
+demand-cached the way a desktop OS pages virtual memory, just far simpler.
+A `const` model array is read straight through this cache with no copy;
+removing `const` forces the loader to place it in the `.data` section,
+which — because SPI flash is not directly writable-in-place by ordinary
+stores — *must* be copied into real SRAM at boot by the startup code,
+which is where the "several-hundred-KB difference" the module warns about
+actually comes from physically.
+
+**Why WiFi silently steals tens of KB of RAM before your model ever runs.**
+The ESP-IDF WiFi stack pre-allocates DMA-capable buffer pools for TX/RX at
+`WiFi.begin()`-equivalent init — packet buffers, encryption scratch space,
+and driver control structures — sized for worst-case throughput, not for
+whatever your app actually needs. Because TFLM's tensor arena is also a
+single static allocation requested at compile/init time, the two compete
+for the same finite internal SRAM pool with no negotiation: if WiFi
+allocates first and takes 40+ KB, the linker or runtime allocator simply
+has less left to satisfy your arena request, which is precisely why sizing
+an arena "the desktop way" (start huge, shrink later) fails on a
+radio-equipped board in a way it never does on a bare Cortex-M eval board.
+
 ## Exercise
 
 1. (Board or Wokwi) Get the sketch running and record: arena bytes used,

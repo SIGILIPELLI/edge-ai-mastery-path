@@ -193,6 +193,59 @@ provable privacy bound.
 | Formal privacy guarantee | none inherent | none inherent either, without added DP (Module 09) |
 | Coordination complexity | none | requires a working OTA/telemetry loop (Modules 02-03) |
 
+## How It Actually Works
+
+**Why averaging independently-trained local models approximates
+centralized gradient descent, mathematically.** For a loss function that
+decomposes additively across examples (true of cross-entropy and MSE),
+one step of gradient descent on the pooled dataset computes the gradient
+as a data-size-weighted average of per-example gradients — exactly what
+`fedavg_round`'s dataset-size weighting reconstructs, just computed in two
+separate stages (several local steps per device, then one weighted
+average across devices) instead of one centralized batch. This is why
+FedAvg converges toward the same solution centralized training would
+reach on well-behaved (convex-ish, similar-distribution) problems: with
+`local_steps=1` and a single global step, FedAvg is *exactly* equivalent
+to one step of mini-batch gradient descent on the pooled data, weighted
+correctly; running several local steps before averaging is an
+approximation that trades some fidelity to that equivalence for a large
+reduction in communication rounds, which is the whole communication-
+efficiency point of the algorithm.
+
+**Why weighting by local dataset size is the variance-minimizing choice,
+not merely a fairness convention.** Each client's local gradient estimate
+is itself a noisy estimate of the "true" gradient on that client's
+underlying distribution, and the variance of a gradient estimated from
+`n` samples scales as `1/n` — a client with 15 examples produces an
+estimate with roughly `100/15 ≈ 6.7×` the variance of a client with 100
+examples. Averaging estimates with weights proportional to their inverse
+variance (here, proportional to sample count) is again the
+minimum-variance combination, the same statistical principle behind
+Level 3 Module 08's sensor-fusion weighting — which is precisely why the
+gap between weighted and unweighted FedAvg widens as client dataset sizes
+diverge by orders of magnitude: the unweighted average lets the
+noisiest, least-trustworthy local estimates pull the global model exactly
+as hard as the most reliable ones.
+
+**Why a model update is harder to invert than raw data without being
+formally private.** A weight delta or gradient computed from a small
+local batch is a highly compressed summary — for a linear model, the
+gradient is literally a specific weighted combination of the input
+features and their errors, which loses information about any individual
+example whenever multiple examples' gradient contributions overlap or
+cancel in the sum. This makes exact reconstruction of a specific training
+example generally infeasible from the aggregate alone. But "generally
+infeasible from the aggregate" is an empirical/practical claim, not a
+mathematical guarantee: gradient-leakage research has shown that for
+small batches, high-dimensional models, or gradients computed from a
+single example, enough structure survives the aggregation that
+optimization-based reconstruction attacks can recover recognizable
+approximations of the original input — which is exactly why the module
+is careful to describe FedAvg's privacy property as "raises the bar," not
+"solves privacy," and why differential privacy (adding calibrated,
+provably-bounded noise before the update ever leaves the device) is
+needed to convert that empirical difficulty into a quantifiable guarantee.
+
 ## Exercise
 
 Modify `make_client_data` so one client (say client index 2) has a

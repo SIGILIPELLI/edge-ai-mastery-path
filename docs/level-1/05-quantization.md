@@ -157,6 +157,52 @@ is simply the default in TinyML.
 | Dequantize a value | `x = (q − zero_point) × scale` |
 | Judge success | size ratio + metric delta on the same held-out test set |
 
+## How It Actually Works
+
+**Why the affine mapping `real ≈ scale × (q − zero_point)` is the entire
+mathematical content of int8 quantization.** An int8 spans 256 discrete
+integers; a float32 weight tensor spans a continuous range of real
+values. The affine map is a linear rescaling that stretches the 256
+integer steps to cover exactly the tensor's observed value range: `scale`
+sets how many real units one integer step represents, and `zero_point`
+shifts the integer origin so that real zero (often meaningful — the
+resting value of a ReLU'd activation, or a centered weight) lands exactly
+on a representable integer rather than being approximated. Every other
+piece of the quantization workflow — calibration, per-channel scales,
+requantization after a matmul — is a variation on correctly computing or
+applying this one formula; there is no additional mathematical machinery
+hiding underneath.
+
+**Why full-integer quantization needs a representative dataset but
+weight quantization does not.** A weight tensor's values are fully known
+the instant training finishes — `scale`/`zero_point` can be computed
+directly from `min(weights)`/`max(weights)` with no additional data. An
+activation tensor's range, by contrast, depends on what inputs flow
+through the network, which isn't knowable from the weights alone; the
+converter must actually run example inputs through the float model and
+record the min/max seen at every intermediate tensor. This is precisely
+why `representative_dataset` exists as a generator the converter calls
+repeatedly during conversion, not a one-time argument: it's performing a
+calibration pass, observing real activation statistics, before it can
+compute the scale/zero-point pairs full-integer quantization requires for
+every tensor in the graph, not just the weights.
+
+**Why the sabotage exercise's miscalibrated range causes accuracy to
+collapse only on real data, not on the representative set used to
+calibrate.** If calibration observes inputs from `[0,1]` and computes a
+scale/zero_point sized to that narrow range, then a real inference input
+from, say, x=5 (well inside the true `[0,2π]` operating range but far
+outside what calibration saw) produces an activation value that the
+narrow scale cannot represent — it saturates at the int8 range's edge
+(clipped to 127 or -128) rather than mapping proportionally. The model
+was never wrong about *its own calibration data* — accuracy against
+inputs drawn from `[0,1]` would look fine — the failure is entirely a
+mismatch between the range calibration observed and the range production
+inputs actually occupy, which is exactly why this class of bug is
+"maddening to find later": every metric computed during development, if
+computed against the same narrow calibration-adjacent data, looks
+perfectly healthy.
+
 ## Exercise
 
 1. Produce all three versions of the sine model (float, dynamic, full-int8)

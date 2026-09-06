@@ -190,6 +190,61 @@ static TfLiteRegistration custom_hard_activation_reg = {
 | When justified | almost always, if the op exists in the library | only for ops the library genuinely doesn't provide |
 | Verification method used here | — | manual code review only; genuinely untested, no hardware available |
 
+## How It Actually Works
+
+**Why requantization needs a 64-bit intermediate and what the
+multiplier-plus-shift encoding is actually doing.** A quantized layer's
+true rescaling factor between accumulator and output (`input_scale ×
+weight_scale / output_scale`) is a real number, often not expressible
+exactly in fixed-point — CMSIS-NN's convention approximates it as a
+fixed-point `multiplier` (a normalized int32, conventionally in
+`[0.5, 1)` scaled to the int32 range) combined with a right-`shift`
+count, computed once offline from the three known scales via
+`frexp`-style decomposition, so that `(acc * multiplier) >> shift`
+reconstructs the intended real-valued rescaling to within one unit in the
+last place. The accumulator `acc` can be as large as roughly
+`num_terms × 127 × 127` for an int8×int8 dot product — multiplying that
+by an int32 multiplier can overflow 32 bits before the shift ever brings
+the value back down, which is exactly why the intermediate must be
+computed in 64-bit arithmetic: truncating to 32 bits mid-computation
+silently wraps the product to a wildly wrong value that only manifests
+for accumulators large enough to overflow, making it invisible in casual
+testing with small inputs.
+
+**Why saturating instead of wrapping on overflow is a correctness
+requirement, not a defensive nicety.** Two's-complement wraparound turns
+"value slightly too large to represent" into "a value on the opposite
+end of the representable range" — `127 + 1` wrapping to `-128` doesn't
+just lose a small amount of precision, it flips the sign and magnitude of
+the result entirely, which for a neural network's activations is a
+qualitatively different, much larger error than simple clipping produces.
+Clamping to `[-128, 127]` instead means the requantized value is at worst
+off by the amount it exceeded the range — a bounded, predictable
+error that behaves like the standard "clipped activation" case models are
+generally robust to (similar in spirit to a naturally saturating
+activation like a bounded ReLU variant), rather than an unbounded,
+sign-flipping corruption that can propagate destructively through every
+subsequent layer that consumes the corrupted value.
+
+**Why NHWC channel-innermost looping is a cache/prefetch argument, not an
+arithmetic one.** In NHWC layout, consecutive memory addresses correspond
+to consecutive channel values at the same spatial position — element
+`(y,x,ch)` and `(y,x,ch+1)` are adjacent in memory. A Cortex-M's memory
+system (even without a full cache hierarchy, many Cortex-M7/M55 cores
+have some form of instruction/data cache or at least benefit from
+burst-mode SRAM/flash access) fetches memory in contiguous bursts more
+efficiently than scattered accesses; looping channel-innermost means each
+step of the innermost loop touches the next contiguous address, matching
+what the memory controller is optimized to stream. Looping channel-
+outermost instead strides by `c` elements between consecutive accesses —
+each access lands in a different burst/cache-line region, defeating
+sequential prefetch even though the total number of loads, stores, and
+requantization operations performed is identical between the two
+versions. This is precisely why the module stresses that no unit test
+comparing only *output values* between the fast and slow versions would
+ever catch the difference — both are bit-identical in output; the defect
+is purely in cycle count.
+
 ## Exercise
 
 Take `scale_shift_nhwc_slow` above and rewrite it with the loop order

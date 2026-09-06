@@ -175,6 +175,54 @@ accelerator hardware. In practice this means:
 | Maps to NPU cleanly? | yes, fully | backbone yes, NMS almost never |
 | Typical model family | MobileNet, tiny CNN | SSD-MobileNet, MobileDet, YOLO-tiny |
 
+## How It Actually Works
+
+**Why dense anchor prediction turns a variable-length problem into a
+fixed-size tensor op the backbone can just... output.** The core trick is
+reframing "predict a list of unknown length" as "predict a fixed, large
+grid of yes/no-plus-offset answers, most of which will be 'no.'" Every
+anchor position is decided ahead of time (`generate_anchor_grid`'s
+geometry), so the network's final layer is an ordinary convolution
+producing a fixed-shape tensor of shape
+`(grid×grid×anchors_per_cell, 5+n_classes)` — exactly as fixed-size as a
+classifier's `(n_classes,)` output, just much larger. This is precisely
+why detection backbones reuse the same depthwise-separable convolutional
+machinery from Level 2 unmodified: nothing about the network architecture
+itself needs to know "detection" is happening until the very last
+convolution, which is why the module correctly frames the detection head
+as cheap compared to the shared feature-extraction cost.
+
+**Why IoU, not simple distance, is the right overlap metric for
+suppression.** Two boxes can be close in center-distance yet describe very
+different objects (a tiny box near a huge box's edge), while two very
+differently-shaped boxes covering the same real object can have centers
+far apart. `IoU = intersection_area / union_area` is scale-invariant and
+directly answers the question NMS actually needs answered: "do these two
+boxes describe approximately the same region of the image, regardless of
+their absolute size or aspect ratio?" A threshold of 0.5 means boxes must
+share at least a third of their combined area to count as duplicates
+(algebraically, IoU=0.5 implies intersection is exactly half of the
+union, a fairly generous overlap requirement) — which is why box 3
+(non-overlapping) survives NMS trivially while box 1 (near-identical to
+box 0) is suppressed even though its own score (0.80) would have ranked
+second overall.
+
+**Why NMS's cost is inherently sequential and data-dependent in a way
+convolution's cost is not.** Convolution performs the exact same
+arithmetic operation at every spatial position regardless of the data
+values — this uniformity is exactly what lets it map onto a systolic array
+or SIMD/vectorized CPU code with predictable, data-independent timing.
+`non_max_suppression`'s `while len(order) > 0` loop, by contrast, has a
+number of iterations and an amount of per-iteration work (`iou` checks
+against every remaining box) that depends entirely on *how many boxes
+survived thresholding and how much they overlap* — data no accelerator
+can know ahead of time. This data-dependent, branch-heavy, sequential
+structure is fundamentally the same class of computation general-purpose
+CPUs are built for and fixed-function accelerators are built to avoid,
+which is the precise mechanical reason NMS is the one stage of a detector
+that reliably falls back to host CPU execution even when the entire
+backbone runs on an NPU.
+
 ## Exercise
 
 Extend the `non_max_suppression` function to run per-class (group boxes by

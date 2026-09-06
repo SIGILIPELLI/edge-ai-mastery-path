@@ -174,6 +174,46 @@ keyword — never just against clean lab recordings.
 | Power trick | cheap VAD gate before running the CNN |
 | Latency budget | detection within ~300-500 ms of keyword end |
 
+## How It Actually Works
+
+**Why the Mel filterbank's triangles are wider at high frequencies.**
+`hz_to_mel(f) = 2595·log10(1 + f/700)` is a compressive (logarithmic-like)
+mapping that mirrors human pitch perception: equal steps in mel-space
+correspond to equal *perceptual* steps in pitch, but ever-wider steps in
+raw Hz as frequency rises. Building the filterbank by placing filter
+centers at equal *mel* spacing (`np.linspace` over mel, then converting
+back to Hz) and connecting each triangle's edges to its neighbors' centers
+is why `mel_filterbank`'s triangles are narrow near 20 Hz and wide near
+8000 Hz — it deliberately spends more of the 40 output bands resolving the
+low frequencies where speech carries most of its distinguishing energy
+(formants), and fewer bands on the high end where a coarser summary loses
+little.
+
+**Why log-mel-energy, not linear mel-energy, is what the CNN trains on.**
+Human loudness perception and the dynamic range of real audio are both
+roughly logarithmic — a whisper and a shout differ by orders of magnitude
+in raw power but far less in perceived loudness. Taking `np.log(mel_energy
++ 1e-6)` compresses that huge dynamic range into a numerically tame range
+the network's weights can fit efficiently, and — just as importantly —
+turns the *multiplicative* effect of a microphone gain change or distance
+change (which scales power multiplicatively) into an *additive* shift in
+log-space, which a linear layer downstream can partially cancel out. This
+is a big part of why log-mel features generalize better across recording
+conditions than raw power spectra do.
+
+**Why sliding-window streaming inference costs far less than it looks
+like.** Re-running the full CNN on a completely fresh buffer every
+200–500 ms sounds wasteful, but the alternative — a truly incremental
+streaming model that updates hidden state per audio frame — is
+substantially more complex to implement and quantize correctly. A small
+DS-CNN inference (15–25K parameters, a handful of conv layers over a
+98×40 input) costs only a few milliseconds on a Cortex-M4, so running it
+2–5 times per second is a rounding error against a coin-cell power budget
+*so long as* a cheap RMS/energy gate suppresses invocation during silence
+— which is precisely why the module treats the VAD gate as the real power
+lever, not the inference cost itself: 10 ms of RMS-threshold checking is
+roughly two orders of magnitude cheaper than a spectrogram-plus-CNN pass.
+
 ## Exercise
 
 1. Implement `framed_fft_features` and `log_mel_spectrogram` above (they're

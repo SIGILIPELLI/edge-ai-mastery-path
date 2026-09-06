@@ -162,6 +162,49 @@ percentages) tells you whether an optimization actually worked.
 | Resolution scaling law | arena/compute scale ~ `(new_side/old_side)^2` | first-pass estimate before remeasuring |
 | Combine techniques in order | prune/distill -> quantize (QAT or PTQ) last | smallest model gets the final lossy step |
 
+## How It Actually Works
+
+**Why the layer-truncation trick's successive differences isolate one
+layer's cost cleanly.** A `.tflite` model truncated after layer N still
+executes the interpreter's normal `AllocateTensors()` + `Invoke()` path,
+so the measured total time already includes every layer's fixed overhead
+(op dispatch, tensor-index lookups) up to and including N — that overhead
+is present identically in the truncation at N and at N+1. Subtracting
+`time(N+1) - time(N)` therefore cancels every shared cost and leaves only
+the marginal cost layer N+1 itself added, which is why `np.diff` recovers
+a clean per-layer attribution from cumulative measurements without needing
+a hardware profiler that instruments each op individually — the same
+logic behind "differencing a monotonic cumulative series recovers the
+per-step deltas" used throughout numerical analysis.
+
+**Why compute scales quadratically, not linearly, with input side
+length.** A conv layer's MAC count is proportional to `H × W × Cin × Cout
+× k²` — the `H × W` term is the number of output pixel positions the
+kernel slides across. Doubling the side length of a square input
+quadruples `H × W` (both dimensions double), so MACs (and, by the same
+argument, most activation tensor sizes) scale with the *square* of the
+resolution change, not the resolution change itself. This is precisely
+why `project_arena_after_resolution_change` uses `(new_side/old_side)**2`
+as its scaling law, and why a modest-looking resolution cut (96→64, a
+33% reduction per side) produces a much larger drop in compute and memory
+(64/96)² ≈ 0.44, more than halving both — quadratic scaling is what makes
+input resolution the single highest-leverage lever in the entire
+optimization table.
+
+**Why "prune/distill then quantize last" is not just a convention but a
+compounding-error argument.** Each lossy transformation (pruning removes
+information, quantization rounds it) introduces error relative to the
+*previous* stage's output, and fine-tuning after pruning gives the
+remaining weights a chance to partially compensate for what was removed —
+but quantization (in the PTQ path used here) has no such recovery step
+afterward. Applying quantization to the already-pruned, already-fine-tuned
+model means its rounding error is the *last* error introduced, measured
+and gated (as in Module 05's capstone) with nothing to hide behind;
+quantizing first and then pruning would instead have the pruning step
+operate on weights whose sensitivity to further disturbance is unknown,
+risking a compounded degradation that no single validation step cleanly
+attributes to either stage.
+
 ## Exercise
 
 1. Implement `conv_macs` and build a MAC-count table for an architecture of

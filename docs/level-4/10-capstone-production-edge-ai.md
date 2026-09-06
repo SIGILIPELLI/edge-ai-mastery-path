@@ -209,6 +209,61 @@ nine preceding modules aren't nine separate techniques — they compose
 into one system, each module's output feeding a specific, identifiable
 input of another.
 
+## How It Actually Works
+
+**Why eligibility filtering and rollout-percentage sampling must compose
+in that specific order, not the reverse.** `should_receive_update` first
+calls `eligible_for_release` (a hard, deterministic pass/fail on
+hardware/version compatibility) and only then checks `rollout_cohort` (a
+probabilistic hash-bucket membership test) on whatever survives. Reversing
+this order — sampling a rollout cohort from the full fleet, then checking
+eligibility within it — would make the *effective* rollout percentage
+depend on how much of the sampled cohort happens to be eligible, which
+varies fleet to fleet and release to release in a way nobody set
+intentionally. Filtering first means "25% rollout" always means exactly
+"25% of the devices this release could possibly run on," which is
+precisely why the module surfaces the 14-of-67 (not 14-of-200) arithmetic
+explicitly: the rollout percentage's denominator is the eligible
+population, and hiding that distinction would make a "25% rollout"
+silently mean something different depending on fleet composition on any
+given day.
+
+**Why uniform per-bin DP noise protects sparse and dense histogram bins
+asymmetrically, and why that's an unavoidable property of the mechanism,
+not a tuning miss.** `release_fleet_confidence_histogram` adds
+i.i.d. Laplace noise with a *fixed* scale (`sensitivity/epsilon`) to every
+bin, because each bin's count has the same sensitivity — one device's
+reading can move any single bin's count by at most 1, regardless of that
+bin's current size. The absolute noise magnitude is therefore identical
+across bins by construction, but its impact *relative to the true count*
+is not: a fixed noise standard deviation is negligible against a true
+count in the thousands and can dwarf (or exceed, producing the observed
+negative "count") a true count of 0. This is a direct, structural
+consequence of using a sensitivity-based noise calibration uniformly
+across bins of wildly different magnitude — the fix (used by more
+sophisticated DP histogram releases) is bin-size-aware noise or
+post-processing that clips to non-negative integers, not a larger
+`epsilon`, which would weaken the privacy guarantee for every bin
+including the already-reliable dense ones.
+
+**Why this system's nine modules compose into a strict dependency chain
+rather than nine independent features.** Each design decision in the
+capstone's lifecycle only functions correctly because an earlier module's
+output is exactly the input it needs: staged rollout gates (Module 02)
+only work because eligibility filtering (Module 01) has already narrowed
+the candidate pool to compatible hardware; drift detection (Module 03)
+only has data to work with because telemetry was collected and minimized
+according to Module 09's redaction rules; federated aggregation
+(Module 05) only produces a trustworthy improved model because each
+device's local update came from the last-layer adaptation mechanism of
+Module 04, not raw uncoordinated retraining. This is precisely why the
+module states the nine modules "compose into one system" rather than
+listing nine separate techniques — removing any single stage doesn't
+just weaken that stage's own guarantee, it invalidates an assumption a
+later stage was built on (an ineligible device receiving an update it
+can't run, an unredacted payload defeating the DP layer downstream, or
+an un-adapted local model polluting the federated average).
+
 ## Stretch goals
 
 - Extend the `should_receive_update` eligibility+rollout combination to

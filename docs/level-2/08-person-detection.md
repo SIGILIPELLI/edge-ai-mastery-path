@@ -172,6 +172,55 @@ counting feature.
 | Failure to watch for | model keying on frame brightness/blob size, not features |
 | When presence detection is the wrong tool | you need counting or localization |
 
+## How It Actually Works
+
+**Why global-average-pooled depthwise-separable CNNs are close to
+scale-invariant by construction, but not fully.** Convolutional filters
+apply the same learned weights at every spatial location, so a feature
+detector (say, "vertical edge with skin-tone gradient") fires wherever
+that pattern appears in the frame, regardless of position — this is
+translation invariance, built into convolution itself. Scale invariance is
+weaker: a filter tuned to a person's shoulder-width edge at one pixel
+scale will respond differently (or not at all) to the same edge appearing
+at 3× the pixel size, because the *spatial extent* of the pattern relative
+to the fixed-size kernel has changed. This is exactly why
+`scale_bucket_report`'s coverage check matters mechanically, not just
+statistically: with zero training examples in the small-bounding-box
+bucket, no combination of weights ever received a gradient signal
+teaching it to recognize a person at that pixel scale — the network
+literally never had the chance to learn it, no matter how large or
+well-regularized it is.
+
+**Why EMA smoothing plus asymmetric hysteresis is a discrete two-state
+control system, not just noise filtering.** The exponential moving
+average `smoothed = α·prob + (1-α)·smoothed` is a first-order IIR low-pass
+filter — its effective time constant is roughly `1/α` frames, so `α=0.3`
+means the smoothed value takes several frames to fully react to a step
+change in raw probability, damping single-frame spikes from motion blur.
+Layering two different thresholds on top (`enter=0.75`, `exit=0.45`)
+creates a Schmitt trigger: once the state flips to "present," probability
+has to fall *below* the exit threshold, not just below the entry
+threshold, to flip back. A single shared threshold at say 0.6 would let
+any noise that straddles 0.6 flip the reported state every frame; because
+the enter/exit thresholds don't overlap, prob values in the 0.45–0.75 "dead
+band" can never cause a flip regardless of which side of it they land on
+— which is precisely the mathematical reason hysteresis eliminates flicker
+that pure smoothing alone cannot.
+
+**Why sub-5fps sampling barely hurts detection despite seeming to throw
+away 85%+ of frames.** A person entering a frame and remaining present
+is not a single-instant event — it persists for at least the time it
+takes to walk through the scene, typically seconds, which at even 2fps
+still produces multiple independent samples during the dwell time. The
+"detection latency" that matters for a presence sensor is bounded by
+`1/sampling_rate` in the worst case (a person could enter right after a
+sample and be first seen at the next one), so at 5fps the worst-case
+detection delay is 200 ms — negligible for the doorbell/occupancy-sensor
+use cases this task targets, while the power savings scale linearly with
+the frame-rate reduction because both the camera capture and the
+inference cost recur once per sampled frame, not once per available
+camera frame.
+
 ## Exercise
 
 1. Implement `scale_bucket_report` on a synthetic array of 30 bounding-box

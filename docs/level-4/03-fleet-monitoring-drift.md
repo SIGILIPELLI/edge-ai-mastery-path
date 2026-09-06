@@ -176,6 +176,58 @@ meant to: ignore isolated noise, catch a pattern shared across the fleet.
 | Fleet-level aggregation | low (booleans/counts only) | catches fleet-wide patterns, misses single-device issues by design | no |
 | True accuracy (ideal, rarely available) | requires labeled ground truth | highest | yes |
 
+## How It Actually Works
+
+**Why the KS test needs no assumption about the distribution's shape,
+mechanically.** The Kolmogorov-Smirnov statistic is defined as the
+maximum vertical gap between two samples' empirical cumulative
+distribution functions (ECDFs) — `sup_x |F_baseline(x) - F_current(x)|`.
+An ECDF is built purely by sorting the sample and counting what fraction
+falls below each value, which requires no parametric assumption (no
+"assume normality," no fitted mean/variance) at all — it is a direct,
+nonparametric estimate of the true CDF that converges to it as sample
+size grows (the Glivenko-Cantelli theorem). This is exactly why the test
+is the right tool for real sensor feature distributions, whose true shape
+is rarely known or even well-approximated by a standard distribution: the
+test only ever compares two empirically-observed shapes against each
+other, not against an assumed model of either.
+
+**Why watching output confidence is a legitimate low-bandwidth substitute
+for watching raw features, not just a cheaper approximation.** A
+well-calibrated classifier's confidence score reflects how far the input
+sits from the model's learned decision boundaries in its internal
+representation space — an input that resembles training data lands
+confidently on one side of a boundary, while an input from a shifted
+distribution tends to land closer to boundaries or in regions the model
+saw less of during training, producing lower peak-class probability. This
+means the confidence score is already a heavily compressed (one float)
+projection of exactly the same underlying "does this look like training
+data" signal a full feature-level KS test measures directly — the
+tradeoff table's "moderate, indirect" sensitivity rating reflects that
+compression: real drift is often visible in the confidence signal, but a
+drift pattern that happens not to move the model's confidence (a shift
+along a direction irrelevant to the current decision boundary) can be
+invisible to this cheaper proxy even while fully visible to a feature-level
+test.
+
+**Why alerting on a *fraction* of a fleet, not any single device, is the
+statistically correct way to separate signal from single-device noise.**
+Any individual device can produce anomalous telemetry for reasons
+uncorrelated with a genuine systemic problem — a faulty sensor unit, a
+one-off temperature excursion, a corrupted flash sector. If those
+per-device failure causes are independent across the fleet (the same
+independence argument used for sensor fusion in Level 3 Module 08), the
+probability that a *specific* fraction of an entire large fleet flags
+simultaneously purely by chance drops sharply as that fraction grows,
+even though the probability of any single device flagging by chance
+alone can be non-trivial. `aggregate_fleet_drift`'s threshold-on-fraction
+design exploits exactly this: a 2% flag rate is well within what
+independent single-device noise would produce on its own, while a 26%
+flag rate sharing a discernible pattern (every 4th device in the
+synthetic example) is vanishingly unlikely to arise from independent
+per-device noise alone, which is precisely the statistical basis for
+treating it as a real, fleet-wide signal worth paging someone about.
+
 ## Exercise
 
 Run `confidence_drift_score` against a third scenario: a baseline with a

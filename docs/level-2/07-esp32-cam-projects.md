@@ -181,6 +181,54 @@ with a small `FRAMESIZE`, this is what makes person-detection-class models
 | GPIO conflict to remember | GPIO4 = flash LED and an SD-card pin |
 | Vision model arena size | tens to ~100+ KB, not the 4 KB sine-model arena |
 
+## How It Actually Works
+
+**Why requesting `PIXFORMAT_GRAYSCALE` at the model's exact resolution
+moves work from software into the sensor's own analog/digital pipeline.**
+The OV2640 sensor has an internal image signal processor (ISP) that
+performs demosaicing (its raw photodiode array is actually a Bayer color
+filter, RGB, even when you never see raw Bayer data), scaling, and
+color-space conversion in hardware, on dedicated silicon, before handing
+finished pixels over the parallel DVP bus (the `Y0`–`Y9`/`D0`–`D7` pins,
+`VSYNC`/`HREF`/`PCLK` timing signals in `init_camera()`). Asking for
+`FRAMESIZE_96X96` grayscale directly means the ISP performs the resize and
+the RGB→gray luma conversion using its own fixed-function circuitry at
+essentially zero additional CPU cost or code — versus capturing a larger
+JPEG or RGB frame and running a software resize/color-convert on the
+ESP32's general-purpose core, which costs cycles, RAM for an intermediate
+buffer, and a second place a rounding/algorithm mismatch with training-time
+preprocessing (Module 02) could creep in.
+
+**Why frame buffer count interacts with DMA, not just "using more RAM."**
+The camera driver streams pixel data into a frame buffer via DMA (direct
+memory access) — the sensor's PCLK-clocked byte stream is written into
+SRAM without CPU intervention, freeing the core to do other work while a
+frame fills. With `fb_count = 1`, the single buffer being DMA-filled for
+frame N+1 is the same buffer your code just finished reading for frame N,
+which forces a strict "wait for full frame, read it, only then request
+the next" sequence — the DMA engine cannot start writing a new frame into
+a buffer your inference loop hasn't released yet. `fb_count = 2` lets DMA
+fill buffer B while your code still reads buffer A, pipelining capture and
+inference — real throughput gain, but it needs a second full-size buffer
+existing simultaneously, which is exactly why it requires PSRAM once
+frames grow past what fits twice in internal SRAM.
+
+**Why the int8 conversion in `run_one_inference` reintroduces exactly
+Module 05's affine mapping, byte for byte.** Camera pixels arrive as
+`uint8` (0–255, unsigned); the model's quantized input tensor is `int8`
+(-128–127, signed) with its own `(scale, zero_point)` learned during
+calibration. Dividing by 255 first normalizes to a float in `[0,1]` — the
+same range the training pipeline's images were normalized to before
+quantization-aware calibration saw them — and then applying
+`pixel_float/scale + zero_point` performs the identical quantize step
+Level 1 Module 05's `int8_predict` applied to sine-wave inputs. Skipping
+the `/255.0f` normalization (feeding raw 0–255 uint8 values straight into
+the scale/zero_point formula) is a common on-device bug that produces
+outputs that are numerically valid int8 values yet completely
+uncorrelated with the model's trained expectations — because the affine
+mapping now operates on a value range 255× larger than what the scale was
+calibrated for.
+
 ## Exercise
 
 1. Read through `init_camera()` and `capture_for_inference()` above and

@@ -214,6 +214,52 @@ portable code sample. What transfers regardless of target hardware is the
 architecture: verify-then-load, bound-then-drop, measure-per-stage,
 fuse-when-ambiguous.
 
+## How It Actually Works
+
+**Why verify-then-load must happen strictly before the pipeline touches
+the model bytes, architecturally.** `verify_and_load_manifest` checks both
+the SHA-256 hash *and* the manifest's version number before anything
+downstream (ONNX Runtime session creation, NPU provider negotiation) ever
+reads the model file as a graph. This ordering is load-bearing: TFLite's
+and ONNX's parsers have no built-in concept of "untrusted input" — they
+will happily walk whatever flatbuffer/protobuf structure they're handed,
+including one an attacker crafted to exploit a parser bug or that simply
+encodes a backdoored graph. Performing the hash-and-version check as a
+strictly prior, separate step means a tampered or rolled-back file is
+rejected as raw bytes, before it is ever interpreted as a graph at all —
+the security property "we only ever execute verified graphs" only holds if
+verification is structurally unavoidable, not merely conventional.
+
+**Why per-stage timing turns "the pipeline is slow" into an actionable,
+falsifiable claim.** `run_pipeline_tick` records `t1-t0`, `t2-t1`, and
+`t3-t2` as three independent samples rather than one `t3-t0` total. This
+matters because latency contributions across stages are not
+interchangeable in what fixes them: the worked measurement showing
+`infer` at p50≈19ms dominating `preprocess` (≈1ms) and `postprocess`
+(≈5ms) is a direct, falsifiable pointer to where NPU/compiler
+optimization effort (Modules 01, 06) would pay off, whereas a single
+end-to-end number showing "25ms total" gives no such direction — the same
+25ms could equally have come from a slow preprocessing resize, in which
+case NPU tuning would have been wasted effort. This is precisely the
+layer-truncation/differencing principle from Module 09's optimization
+module, applied to pipeline stages instead of network layers.
+
+**Why fusing a borderline vision score with a binary motion reading
+moves the decision cleanly across a fixed threshold rather than just
+nudging it.** `fuse_detection_with_motion`'s weighted average treats the
+PIR sensor's binary state as a strong prior: `motion_score` jumps between
+0.9 (motion) and 0.3 (no motion) rather than a continuous value, because a
+PIR sensor's physics (a pyroelectric element responding to a change in
+infrared radiation, essentially a step-function trigger) genuinely
+produces close to a binary signal with very low false-positive
+probability for actual movement. Combined with even a modest weight
+(0.4 against the camera's 1.0), that near-binary corroborating evidence is
+enough to swing the fused score from 0.479 (below a 0.6 threshold) to
+0.650 (above it) for the identical 0.55 camera reading — demonstrating
+concretely why the system design "fuse-when-ambiguous" only needs a
+cheap, low-power secondary sensor to meaningfully resolve exactly the
+borderline cases a single sensor would otherwise report as a coin flip.
+
 ## Stretch goals
 
 - Replace the fixed confidence/motion weights in Component 3 with the
