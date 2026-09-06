@@ -784,6 +784,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2283,6 +2294,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2510,6 +2532,50 @@ covers the Arduino/ESP32 fundamentals.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><strong>Where the multiply-adds physically happen.</strong> A neural network is, at
+runtime, a sequence of matrix multiplications and elementwise nonlinearities.
+"Cloud inference" means those multiply-accumulate (MAC) operations execute on
+a GPU/TPU sitting in a data center, fed by a request your device serialized
+over TCP/IP; "edge inference" means the exact same class of MAC operations
+execute on the ALU/FPU sitting a few millimeters from the sensor's ADC. The
+model architecture doesn't change — only the physical location of the
+silicon doing the arithmetic, and everything else (latency, power, privacy)
+falls out of that one fact.</p>
+<p><strong>Why the network round trip is slow in a way compute isn't.</strong> A cloud call
+is bounded by the speed of light and queuing, not by how fast the model runs:
+TCP handshake (if not kept alive) + TLS handshake + request serialization +
+propagation delay (~5 ms per 1,000 km one-way, doubled for round trip) +
+server queuing + GPU inference (often &lt;5 ms for a small model) + response
+trip back. Even on a fast network this rarely drops under 30–80 ms, and on
+cellular or congested Wi-Fi it can spike to seconds or fail outright. An MCU
+doing on-chip inference instead pays only the deterministic cost of its own
+clock cycles — a ~1 mm² Cortex-M4 running a 20 KB model finishes in low
+single-digit milliseconds, every single time, with zero variance from
+network conditions because there is no network in the path.</p>
+<p><strong>The power argument is a radio-vs-ALU energy comparison.</strong> Radios spend
+energy per <em>bit transmitted</em>; a Wi-Fi or LTE radio's transmit amplifier draws
+hundreds of milliwatts while active. A Cortex-M0/M4 doing integer MAC
+operations draws single-digit milliwatts, and each MAC costs picojoules.
+Concretely: streaming one second of 16 kHz 16-bit audio is 256,000 bits;
+sending that over a low-power radio can cost more energy than running a
+20,000-parameter int8 keyword-spotting model (roughly 40,000 MACs per
+10 ms frame) hundreds of times over, because the radio's fixed per-packet
+overhead (waking the transceiver, synchronizing, handshaking) dwarfs the
+marginal cost of a few thousand integer multiplies. This is the precise
+physical reason "compute locally, transmit only the verdict" saves battery
+life by orders of magnitude rather than a modest percentage.</p>
+<p><strong>Why kilobytes of RAM is a hard architectural wall, not just "slower."</strong>
+An MCU's RAM is SRAM on the same die or package as the CPU — there is no
+virtual memory, no swap, no OS to page things in from disk. Every tensor a
+model needs during inference (inputs, intermediate activations, outputs)
+must fit simultaneously in that fixed SRAM budget, because TFLite-Micro (and
+similar runtimes) pre-allocate one static "tensor arena" at startup and never
+call <code>malloc</code> again — there is nowhere to fail over to if a tensor is too
+big. This is why the whole discipline of TinyML — quantization, small input
+resolutions, pruning — exists: it isn't optimization for speed, it's
+satisfying a fixed, unforgiving memory ceiling that a laptop or phone never
+has to think about.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>For each of the following, decide <strong>edge, cloud, or hybrid</strong> and write one

@@ -2086,6 +2086,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2232,6 +2243,17 @@
     <span class="md-ellipsis">
       
         Edge-AI tradeoffs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
       
     </span>
   </a>
@@ -2473,6 +2495,57 @@ smart speakers) where the crossover volume is realistically achievable.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><strong>Why Pareto-front filtering, not a single scalar score, is the correct
+way to compare architectures under co-design.</strong> Collapsing accuracy and
+cost into one weighted score requires committing to a specific tradeoff
+rate ahead of time (how many accuracy points is one unit of latency
+worth?) — a decision that's genuinely product-specific and often not
+known until later in development. The Pareto-front test
+(<code>dominated = any other candidate is both ≥ accurate AND ≤ costly</code>)
+instead makes no such commitment: it discards only candidates that are
+strictly worse on <em>every</em> axis simultaneously, preserving every candidate
+that could be the right choice under <em>some</em> reasonable weighting of
+accuracy versus cost. This is exactly why the MCU and NPU searches over
+the identical candidate pool produce different front compositions — the
+dominance relation is defined entirely in terms of each target's own cost
+model, so a candidate dominated on one hardware's cost surface can be
+non-dominated (Pareto-optimal) on another's, without any change to the
+model architectures being compared.</p>
+<p><strong>Why the same depthwise convolution can be "cheap" on one target and
+"expensive" on another, mechanically, not just as a cost-model
+convention.</strong> A depthwise convolution reduces FLOP count by not mixing
+channels (Level 2 Module 02's derivation), but FLOP count is not what
+either an MCU or an NPU's execution time is actually proportional to.
+On a Cortex-M-class core running CMSIS-NN, depthwise convs execute with
+lower arithmetic intensity per byte loaded — the multiply-accumulate work
+per weight loaded is <code>k²</code> regardless of channel count, versus a full
+conv's <code>Cin×Cout×k²</code> — so on a bandwidth-bound MCU, depthwise convs
+still save real cycles despite the FLOP savings not translating 1:1 (the
+model's <code>depthwise_efficiency=0.6</code> factor). On a systolic-array NPU
+(Level 3 Module 01), the array's parallelism comes from loading many
+weights once and reusing them across many MACs simultaneously — a
+depthwise conv's per-channel independence means each systolic-array
+column processes a narrower slice of work with less reuse opportunity,
+under-utilizing the array's designed-for parallelism far more severely
+(the model's <code>0.35</code> factor for NPU vs <code>0.6</code> for MCU) — the same
+architectural feature (channel independence) that helps one memory-bound
+hardware model hurts a different, parallelism-bound one.</p>
+<p><strong>Why the NRE/crossover-volume calculation is a genuine economic
+argument, not just a rule of thumb.</strong> Total cost for <code>N</code> units is
+<code>NRE + N × unit_cost</code>; setting the two options' total costs equal and
+solving for <code>N</code> gives exactly <code>nre_cost / (off_the_shelf_cost -
+custom_cost)</code> — the volume at which the <em>fixed</em> extra investment has been
+fully amortized by the <em>per-unit</em> savings. Below that volume, the fixed
+NRE cost dominates and custom silicon is strictly more expensive in
+total; above it, the linear per-unit savings eventually overtake any
+fixed cost, no matter how large, given enough volume. This is precisely
+why the FPGA scenario (<code>custom_unit_cost=8.00</code> exceeding the off-the-
+shelf option's <code>4.50</code>) returns "never cheaper at any volume": if the
+custom option doesn't even win on unit cost, there is no volume large
+enough to overcome a linear cost that's higher per unit at every point —
+the crossover formula only produces a meaningful (positive, finite)
+answer when the custom option's marginal cost is actually lower.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <p>Add a third <code>target="fpga"</code> branch to <code>hardware_cost_model</code> with its own
 depthwise-efficiency weighting (FPGAs can implement custom dataflow for

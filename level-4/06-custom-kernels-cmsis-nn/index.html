@@ -2041,6 +2041,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2254,6 +2265,17 @@
     <span class="md-ellipsis">
       
         Edge-AI tradeoffs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
       
     </span>
   </a>
@@ -2488,6 +2510,57 @@ model exported the usual way.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><strong>Why requantization needs a 64-bit intermediate and what the
+multiplier-plus-shift encoding is actually doing.</strong> A quantized layer's
+true rescaling factor between accumulator and output (<code>input_scale ×
+weight_scale / output_scale</code>) is a real number, often not expressible
+exactly in fixed-point — CMSIS-NN's convention approximates it as a
+fixed-point <code>multiplier</code> (a normalized int32, conventionally in
+<code>[0.5, 1)</code> scaled to the int32 range) combined with a right-<code>shift</code>
+count, computed once offline from the three known scales via
+<code>frexp</code>-style decomposition, so that <code>(acc * multiplier) &gt;&gt; shift</code>
+reconstructs the intended real-valued rescaling to within one unit in the
+last place. The accumulator <code>acc</code> can be as large as roughly
+<code>num_terms × 127 × 127</code> for an int8×int8 dot product — multiplying that
+by an int32 multiplier can overflow 32 bits before the shift ever brings
+the value back down, which is exactly why the intermediate must be
+computed in 64-bit arithmetic: truncating to 32 bits mid-computation
+silently wraps the product to a wildly wrong value that only manifests
+for accumulators large enough to overflow, making it invisible in casual
+testing with small inputs.</p>
+<p><strong>Why saturating instead of wrapping on overflow is a correctness
+requirement, not a defensive nicety.</strong> Two's-complement wraparound turns
+"value slightly too large to represent" into "a value on the opposite
+end of the representable range" — <code>127 + 1</code> wrapping to <code>-128</code> doesn't
+just lose a small amount of precision, it flips the sign and magnitude of
+the result entirely, which for a neural network's activations is a
+qualitatively different, much larger error than simple clipping produces.
+Clamping to <code>[-128, 127]</code> instead means the requantized value is at worst
+off by the amount it exceeded the range — a bounded, predictable
+error that behaves like the standard "clipped activation" case models are
+generally robust to (similar in spirit to a naturally saturating
+activation like a bounded ReLU variant), rather than an unbounded,
+sign-flipping corruption that can propagate destructively through every
+subsequent layer that consumes the corrupted value.</p>
+<p><strong>Why NHWC channel-innermost looping is a cache/prefetch argument, not an
+arithmetic one.</strong> In NHWC layout, consecutive memory addresses correspond
+to consecutive channel values at the same spatial position — element
+<code>(y,x,ch)</code> and <code>(y,x,ch+1)</code> are adjacent in memory. A Cortex-M's memory
+system (even without a full cache hierarchy, many Cortex-M7/M55 cores
+have some form of instruction/data cache or at least benefit from
+burst-mode SRAM/flash access) fetches memory in contiguous bursts more
+efficiently than scattered accesses; looping channel-innermost means each
+step of the innermost loop touches the next contiguous address, matching
+what the memory controller is optimized to stream. Looping channel-
+outermost instead strides by <code>c</code> elements between consecutive accesses —
+each access lands in a different burst/cache-line region, defeating
+sequential prefetch even though the total number of loads, stores, and
+requantization operations performed is identical between the two
+versions. This is precisely why the module stresses that no unit test
+comparing only <em>output values</em> between the fast and slow versions would
+ever catch the difference — both are bit-identical in output; the defect
+is purely in cycle count.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <p>Take <code>scale_shift_nhwc_slow</code> above and rewrite it with the loop order
 fixed (channel-innermost), producing a third version. Then write out, in

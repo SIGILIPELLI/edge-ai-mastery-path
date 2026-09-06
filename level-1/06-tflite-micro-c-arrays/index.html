@@ -913,6 +913,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2261,6 +2272,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2482,6 +2504,40 @@ over identical bytes, so they should agree essentially exactly).</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><strong>Why <code>const</code> moves the array from RAM to flash — the linker's doing.</strong>
+On embedded toolchains, <code>const</code> data with a compile-time value is placed by
+the linker script into a read-only section (<code>.rodata</code>, often merged into
+<code>.text</code>) that lives in flash and is <em>executed in place</em> (XIP) — the CPU's
+load/store unit reads it directly from the flash memory bus, never copying
+it anywhere. Drop <code>const</code> and the compiler must assume the array could be
+written at runtime, so the C runtime startup code (<code>crt0</code>) copies the
+entire initialized array from flash into a writable RAM section (<code>.data</code>)
+before <code>main()</code>/<code>setup()</code> even runs — for a 2.5 KB array that's invisible;
+for a 300 KB vision model it silently consumes nearly all of a typical
+MCU's SRAM before a single inference has happened, which is exactly the
+failure Module 07 has you deliberately trigger.</p>
+<p><strong>Why the interpreter walks the flatbuffer instead of "loading" the
+model.</strong> <code>tflite::GetModel()</code> does not parse anything — it reinterprets the
+raw byte pointer as a <code>Model</code> FlatBuffer root and returns a lightweight
+accessor object; every subsequent call (<code>model-&gt;subgraphs()</code>,
+<code>operators()</code>, <code>tensors()</code>) walks vtables and byte offsets embedded in the
+buffer itself. This is why the version check (<code>model-&gt;version() !=
+TFLITE_SCHEMA_VERSION</code>) exists as literally the first line of code: the
+FlatBuffer schema is versioned, and reading a newer/older schema with the
+wrong field layout would silently misinterpret offsets rather than fail
+loudly, which is worse than a version mismatch that halts at boot.</p>
+<p><strong>Why the resolver is templated on op <em>count</em>, not just op <em>type</em>.</strong>
+<code>MicroMutableOpResolver&lt;N&gt;</code> allocates a fixed-size internal array of <code>N</code>
+function-pointer/name pairs at compile time — no heap, no <code>std::vector</code>,
+because TFLM guarantees zero dynamic allocation even for its own
+bookkeeping structures. Each <code>Add*()</code> call registers one (opcode name →
+kernel function pointer) pair into that array; at <code>AllocateTensors()</code> time,
+for every operator in the graph, the interpreter linearly searches the
+resolver's array for a matching name. Miss one and the lookup returns
+nothing — hence "op not found" fails at the exact call that needed it,
+before any tensor memory has even been touched, which is why Module 06 can
+say the interpreter fails "cleanly" rather than corrupting state.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Convert your <code>sine_model_int8.tflite</code> to a C array both ways (<code>xxd</code> and

@@ -1384,6 +1384,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2283,6 +2294,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2534,6 +2556,45 @@ percentages) tells you whether an optimization actually worked.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><strong>Why the layer-truncation trick's successive differences isolate one
+layer's cost cleanly.</strong> A <code>.tflite</code> model truncated after layer N still
+executes the interpreter's normal <code>AllocateTensors()</code> + <code>Invoke()</code> path,
+so the measured total time already includes every layer's fixed overhead
+(op dispatch, tensor-index lookups) up to and including N — that overhead
+is present identically in the truncation at N and at N+1. Subtracting
+<code>time(N+1) - time(N)</code> therefore cancels every shared cost and leaves only
+the marginal cost layer N+1 itself added, which is why <code>np.diff</code> recovers
+a clean per-layer attribution from cumulative measurements without needing
+a hardware profiler that instruments each op individually — the same
+logic behind "differencing a monotonic cumulative series recovers the
+per-step deltas" used throughout numerical analysis.</p>
+<p><strong>Why compute scales quadratically, not linearly, with input side
+length.</strong> A conv layer's MAC count is proportional to <code>H × W × Cin × Cout
+× k²</code> — the <code>H × W</code> term is the number of output pixel positions the
+kernel slides across. Doubling the side length of a square input
+quadruples <code>H × W</code> (both dimensions double), so MACs (and, by the same
+argument, most activation tensor sizes) scale with the <em>square</em> of the
+resolution change, not the resolution change itself. This is precisely
+why <code>project_arena_after_resolution_change</code> uses <code>(new_side/old_side)**2</code>
+as its scaling law, and why a modest-looking resolution cut (96→64, a
+33% reduction per side) produces a much larger drop in compute and memory
+(64/96)² ≈ 0.44, more than halving both — quadratic scaling is what makes
+input resolution the single highest-leverage lever in the entire
+optimization table.</p>
+<p><strong>Why "prune/distill then quantize last" is not just a convention but a
+compounding-error argument.</strong> Each lossy transformation (pruning removes
+information, quantization rounds it) introduces error relative to the
+<em>previous</em> stage's output, and fine-tuning after pruning gives the
+remaining weights a chance to partially compensate for what was removed —
+but quantization (in the PTQ path used here) has no such recovery step
+afterward. Applying quantization to the already-pruned, already-fine-tuned
+model means its rounding error is the <em>last</em> error introduced, measured
+and gated (as in Module 05's capstone) with nothing to hide behind;
+quantizing first and then pruning would instead have the pruning step
+operate on weights whose sensitivity to further disturbance is unknown,
+risking a compounded degradation that no single validation step cleanly
+attributes to either stage.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Implement <code>conv_macs</code> and build a MAC-count table for an architecture of

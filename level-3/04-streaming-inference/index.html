@@ -1598,6 +1598,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2239,6 +2250,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2486,6 +2508,48 @@ spike doesn't permanently bias normalization for the rest of the stream.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><strong>Why <code>deque(maxlen=window_size)</code> is the right data structure for a
+sliding window, mechanically.</strong> A <code>collections.deque</code> with a fixed
+<code>maxlen</code> is implemented as a doubly-linked block structure that supports
+O(1) appends at either end; when <code>maxlen</code> is reached, appending one new
+element automatically evicts the oldest element from the opposite end in
+the same O(1) operation, with no shifting of the remaining elements'
+positions in memory. This is what makes <code>SlidingWindowBuffer.push</code>
+correct and cheap per-sample: each incoming sample costs one constant-time
+append/evict pair regardless of <code>window_size</code>, rather than the O(window_size)
+cost a plain list would incur from shifting every element down by one
+position on each new arrival — a difference that matters enormously once
+<code>window_size</code> is 16,000 samples of audio arriving in real time.</p>
+<p><strong>Why bounded-queue drop-oldest is the correct backpressure policy for
+a fresh-data consumer, mathematically.</strong> With a producer rate <code>λ</code> exceeding
+consumer service rate <code>μ</code>, an unbounded queue's expected length grows
+without limit over time (there is no steady state — this is the basic
+result behind M/M/1 queueing theory when <code>λ &gt; μ</code>), so any fixed processing
+latency downstream compounds into unbounded staleness. Capping the queue
+at a small <code>capacity</code> and evicting the oldest entry on overflow instead
+guarantees the <em>maximum age</em> of the item the consumer next processes is
+bounded by <code>capacity / λ</code> regardless of how long the burst lasts — the
+system trades completeness (some frames are never processed at all) for a
+hard latency ceiling, which is precisely the right trade for something
+whose value decays with staleness (a live camera preview) and the wrong
+trade for something whose value doesn't (a security log), exactly as the
+module's tradeoff table states.</p>
+<p><strong>Why Welford's algorithm computes running variance without ever
+re-reading old data or losing precision.</strong> Naively computing variance from
+a running sum of <code>x</code> and running sum of <code>x²</code> is numerically unstable: for
+large <code>mean</code> values, <code>sum(x²) - n·mean²</code> subtracts two large, nearly-equal
+floating-point numbers, and the catastrophic cancellation can produce a
+negative "variance" or wildly wrong results. Welford's method instead
+updates the mean incrementally (<code>mean += delta/n</code>) and accumulates <code>m2</code>
+(the running sum of squared deviations from the <em>current</em> running mean,
+updated using both the pre-update and post-update deviation) so that no
+step ever computes a difference of two large similar numbers — each
+update only needs the new sample and the previous mean, which is also
+exactly why it composes correctly with streaming: <code>StreamingNormalizer</code>
+never needs to revisit the samples that produced its current state, only
+carry <code>n</code>, <code>mean</code>, and <code>m2</code> forward, which is the numerical justification
+for the module's warning against re-instantiating it per window.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <p>Extend <code>BoundedFrameQueue</code> with a <code>drop_newest</code> policy (reject the
 incoming frame instead of evicting the oldest one) and re-run <code>simulate</code>

@@ -896,6 +896,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2283,6 +2294,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2508,6 +2530,48 @@ is simply the default in TinyML.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><strong>Why the affine mapping <code>real ≈ scale × (q − zero_point)</code> is the entire
+mathematical content of int8 quantization.</strong> An int8 spans 256 discrete
+integers; a float32 weight tensor spans a continuous range of real
+values. The affine map is a linear rescaling that stretches the 256
+integer steps to cover exactly the tensor's observed value range: <code>scale</code>
+sets how many real units one integer step represents, and <code>zero_point</code>
+shifts the integer origin so that real zero (often meaningful — the
+resting value of a ReLU'd activation, or a centered weight) lands exactly
+on a representable integer rather than being approximated. Every other
+piece of the quantization workflow — calibration, per-channel scales,
+requantization after a matmul — is a variation on correctly computing or
+applying this one formula; there is no additional mathematical machinery
+hiding underneath.</p>
+<p><strong>Why full-integer quantization needs a representative dataset but
+weight quantization does not.</strong> A weight tensor's values are fully known
+the instant training finishes — <code>scale</code>/<code>zero_point</code> can be computed
+directly from <code>min(weights)</code>/<code>max(weights)</code> with no additional data. An
+activation tensor's range, by contrast, depends on what inputs flow
+through the network, which isn't knowable from the weights alone; the
+converter must actually run example inputs through the float model and
+record the min/max seen at every intermediate tensor. This is precisely
+why <code>representative_dataset</code> exists as a generator the converter calls
+repeatedly during conversion, not a one-time argument: it's performing a
+calibration pass, observing real activation statistics, before it can
+compute the scale/zero-point pairs full-integer quantization requires for
+every tensor in the graph, not just the weights.</p>
+<p><strong>Why the sabotage exercise's miscalibrated range causes accuracy to
+collapse only on real data, not on the representative set used to
+calibrate.</strong> If calibration observes inputs from <code>[0,1]</code> and computes a
+scale/zero_point sized to that narrow range, then a real inference input
+from, say, x=5 (well inside the true <code>[0,2π]</code> operating range but far
+outside what calibration saw) produces an activation value that the
+narrow scale cannot represent — it saturates at the int8 range's edge
+(clipped to 127 or -128) rather than mapping proportionally. The model
+was never wrong about <em>its own calibration data</em> — accuracy against
+inputs drawn from <code>[0,1]</code> would look fine — the failure is entirely a
+mismatch between the range calibration observed and the range production
+inputs actually occupy, which is exactly why this class of bug is
+"maddening to find later": every metric computed during development, if
+computed against the same narrow calibration-adjacent data, looks
+perfectly healthy.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Produce all three versions of the sine model (float, dynamic, full-int8)

@@ -1985,6 +1985,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2261,6 +2272,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2526,6 +2548,53 @@ introduced, not just drift from the environment.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><strong>Why freezing the backbone eliminates the exact memory cost that makes
+full backprop infeasible.</strong> Backpropagation through a network needs, for
+every layer, the forward-pass activations that layer produced — the chain
+rule for a weight in layer L requires the gradient flowing backward from
+later layers <em>and</em> the activation that layer received as input, so
+gradient computation for an early layer in a deep CNN requires the entire
+forward pass's intermediate activations to have been retained in memory
+simultaneously (unless using memory-costly-in-compute-instead techniques
+like gradient checkpointing, itself impractical on an MCU). Freezing the
+backbone means gradients are only ever computed with respect to the
+single last layer's weights, so the only activation that must be kept
+around is that layer's <em>input</em> — the backbone's final feature vector,
+here 16 floats — rather than every intermediate feature map the backbone
+produced on its way there. This is precisely why <code>LastLayerFineTuner</code>'s
+memory footprint is <code>feature_dim × n_classes</code> weights plus one
+<code>feature_dim</code>-length activation, orders of magnitude below what
+backpropagating through the backbone itself would require.</p>
+<p><strong>Why the softmax-plus-cross-entropy gradient collapses to
+<code>probs - one_hot</code>, a fact the update step exploits directly.</strong> For a
+softmax output <code>p_i = exp(z_i)/Σexp(z_j)</code> and cross-entropy loss
+<code>-log(p_true)</code>, differentiating the loss with respect to the pre-softmax
+logit <code>z_i</code> yields exactly <code>p_i - 1{i=true}</code> — one of the cleanest
+gradient derivations in all of deep learning, because the softmax's own
+normalization exactly cancels the cross-entropy's logarithm in the chain
+rule. <code>tuner.update</code>'s <code>grad_z = probs.copy(); grad_z[true_class] -= 1.0</code>
+is this closed-form result written out directly, with no need for
+automatic differentiation machinery at all — which is exactly why a
+last-layer fine-tuning loop can be implemented in a few lines of plain
+NumPy (or, on-device, a few lines of fixed-point C) rather than requiring
+a general-purpose autodiff engine: the gradient of this specific,
+extremely common loss/output pairing is a known, hand-derivable formula.</p>
+<p><strong>Why nearest-centroid classification with an incremental mean update
+never needs to store any raw samples at all.</strong> The incremental mean
+formula <code>new_mean = old_mean + (x - old_mean) / n</code> is algebraically
+identical to recomputing the mean of all <code>n</code> samples seen so far from
+scratch — it can be derived directly from the definition of an arithmetic
+mean by isolating the effect of adding one new sample to the running sum
+— but it requires only the current mean and count as state, never the
+individual samples that produced it. This is why <code>OnlineMeanAdapter</code>'s
+memory cost is fixed at <code>n_classes × feature_dim</code> regardless of how many
+labeled corrections the device has processed over its entire lifetime (a
+device running for a year accumulates the same state size as one running
+for an hour), in sharp contrast to any approach that would need to retain
+a growing buffer of raw examples to recompute statistics — the
+incremental-update identity is what makes truly unbounded-duration
+on-device adaptation possible within a fixed, small memory budget.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <p>Add an anchor-replay mechanism to <code>LastLayerFineTuner</code>: store a small
 fixed buffer of the first N training examples seen (say N=10 across all

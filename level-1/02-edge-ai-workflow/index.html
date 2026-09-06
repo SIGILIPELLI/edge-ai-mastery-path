@@ -801,6 +801,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2261,6 +2272,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2475,6 +2497,39 @@ because a model that doesn't fit has 0% accuracy.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><strong>The flatbuffer is why conversion is a format change, not a re-training.</strong>
+A <code>.tflite</code> file is a <a href="https://google.github.io/flatbuffers/">FlatBuffers</a>
+serialization: a flat byte layout describing a <code>Model</code> table that holds a
+list of <code>SubGraph</code>s, each a list of <code>Tensor</code> descriptors (shape, dtype,
+buffer index, quantization params) and <code>Operator</code> entries (an opcode index
+plus input/output tensor indices). Crucially, FlatBuffers supports
+<strong>zero-copy reads</strong> — the interpreter accesses fields directly from the
+mmap'd/flash-resident byte buffer via pointer arithmetic, with no
+deserialization pass and no heap allocation to unpack it. That's precisely
+why the converted model can be linked into firmware as a <code>const</code> C array in
+flash and executed in place: reading a weight is just <code>base_ptr + offset</code>,
+no parsing step stands between "bytes in flash" and "value the CPU uses."</p>
+<p><strong>Why the interpreter needs a static graph at all.</strong> Keras/PyTorch build
+their graphs dynamically at Python runtime with a full language behind them;
+TFLite instead needs a graph that's <em>closed</em> — a fixed, finite list of
+operators from a known opcode set, each with statically-known tensor shapes
+— because TFLite-Micro's execution loop is a simple <code>for op in subgraph.
+operators: op.eval(op.inputs) -&gt; op.outputs</code> with no control flow, no
+dynamic shapes, and no ability to call back into Python. The converter's job
+is exactly this graph-closure step: it traces the Keras model, maps each
+layer to a TFLite opcode (<code>FULLY_CONNECTED</code>, <code>CONV_2D</code>, <code>DEPTHWISE_CONV_2D</code>,
+…), and freezes all shapes to concrete numbers.</p>
+<p><strong>Why the tensor arena is a bump allocator, not a heap.</strong> TFLM computes, at
+<code>AllocateTensors()</code> time, a static memory plan: it walks the operator list
+once, tracks which tensors are "alive" (produced but not yet consumed) at
+each step, and assigns each tensor a fixed offset into one contiguous arena
+buffer, reusing the space of tensors that are already dead. This is why the
+arena size in the cheat sheet's "RAM budget" row is governed by the <em>largest
+concurrent set</em> of live tensors, not the sum of all tensors in the model —
+and why, unlike <code>malloc</code>, there is no fragmentation risk or allocation
+failure at runtime: the entire memory layout is solved once, offline,
+before a single inference runs.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Draw the four-stage pipeline from memory, labeling the file/artifact that

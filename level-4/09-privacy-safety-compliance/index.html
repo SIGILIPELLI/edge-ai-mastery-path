@@ -2125,6 +2125,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2254,6 +2265,17 @@
     <span class="md-ellipsis">
       
         Edge-AI tradeoffs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
       
     </span>
   </a>
@@ -2492,6 +2514,56 @@ followed) already exist for other reasons.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><strong>Why Laplace-distributed noise, specifically, is what makes the DP
+guarantee hold, not just "add some randomness."</strong> Differential privacy's
+formal definition requires that the <em>ratio</em> of probabilities of observing
+any particular output, with versus without one individual's data
+included, be bounded by <code>e^epsilon</code> — a multiplicative, not additive,
+bound on how much one person's presence can change the output
+distribution's shape. The Laplace distribution's probability density
+<code>∝ exp(-|x|/scale)</code> decays exponentially in a way that makes exactly this
+ratio bound provable in closed form when noise scale is set to
+<code>sensitivity/epsilon</code>: shifting the true value by at most <code>sensitivity</code>
+(the maximum any one individual could have changed it) changes the
+Laplace density at any point by a factor of at most <code>exp(sensitivity/
+scale) = exp(epsilon)</code>, which is precisely the required bound. This is
+why <code>private_mean_release</code>'s <code>sensitivity = (max-min)/n</code> term matters
+exactly as much as <code>epsilon</code> itself: the noise scale is a ratio of the two,
+so a wrongly-computed sensitivity silently invalidates the privacy proof
+even if the code runs and produces plausible-looking noisy output.</p>
+<p><strong>Why privacy loss composes additively across independent queries, a
+consequence of the same ratio bound applied repeatedly.</strong> If a single
+query's output distribution can shift by at most a factor <code>e^epsilon</code>
+due to one individual's data, then two independent queries against data
+including that individual can each shift by that same factor, and the
+<em>joint</em> distribution of both outputs together can shift by up to the
+product of the two per-query factors — <code>e^epsilon × e^epsilon =
+e^(2·epsilon)</code> — because the queries are independent draws, not because
+of any weakness in either individual mechanism. Taking the logarithm of
+that product bound gives exactly the linear composition rule
+<code>composed_epsilon = epsilon_per_query × n_queries</code>. This is a
+mathematical consequence of chaining ratio bounds, not a pessimistic
+convention — which is why the module is careful to note that <em>tighter</em>
+"advanced composition" bounds exist (they exploit statistical
+cancellation across many queries to grow sub-linearly) but the basic
+linear bound is always a mathematically valid, if sometimes loose, upper
+bound on true accumulated privacy loss.</p>
+<p><strong>Why an allowlist and a denylist are not symmetric defenses despite
+looking like mirror images.</strong> <code>redact_telemetry_payload</code>'s allowlist
+approach defines the <em>complete, closed</em> set of fields ever permitted to
+leave the device — any field not explicitly named, present or future, is
+dropped by construction, so a new field added to the payload dictionary
+by a future code change (a new sensor, a debug field someone forgot to
+remove) is excluded automatically without anyone updating the redaction
+logic. A denylist instead defines only the set of fields <em>known today</em> to
+be sensitive — its correctness depends entirely on every future
+contributor remembering to add every future sensitive field to that list
+before it ships, an open-ended, unenforceable obligation. This is the
+precise mechanical reason the module calls the allowlist "fail-closed"
+and the denylist "fail-open": the default behavior when someone forgets
+to update the list is opposite in the two designs, and only one of those
+defaults is safe.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <p>Implement a <code>PrivacyBudgetTracker</code> class that maintains a running total
 epsilon per device, raises an error on any query that would exceed a

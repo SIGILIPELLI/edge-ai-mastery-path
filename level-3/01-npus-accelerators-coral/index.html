@@ -1525,6 +1525,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2261,6 +2272,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2505,6 +2527,49 @@ standard optimization.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><strong>Why a systolic array reuses data instead of re-fetching it from
+memory.</strong> In a standard CPU, each multiply-accumulate reads its operands
+from cache/memory, computes, and writes back — for a convolution's inner
+loop, the same weight value is read repeatedly across many output
+positions, and the same input value is read repeatedly across many
+overlapping receptive fields, so memory bandwidth (not arithmetic) becomes
+the bottleneck at scale. A systolic array instead loads weights into the
+array's cells once and streams activations through the grid; each cell
+holds its operand, multiplies it against the value passing through, adds
+to a running partial sum, and passes both operand and sum to its neighbor
+on the next clock tick — so a value loaded once participates in dozens of
+MACs before ever needing to be re-fetched. This is precisely the
+architectural reason a systolic-array NPU achieves ~2 TOPS/W where a
+general-purpose core managing its own memory traffic tops out near
+0.01–0.05 TOPS/W for the same int8 convolution: the difference is memory
+movement eliminated, not faster arithmetic per se.</p>
+<p><strong>Why "int8 only" is a wiring decision, not a firmware limitation.</strong> A
+floating-point multiplier needs separate exponent and mantissa alignment
+logic, normalization, and rounding circuitry — several times the
+transistor count of a fixed-point 8-bit multiplier-accumulator cell. An
+NPU built for maximum MACs-per-watt-per-mm² simply never fabricates that
+floating-point circuitry into the array at all; every cell is a small,
+identical int8×int8→int32 MAC unit repeated thousands of times across the
+die. This is why "the chip has no floating-point unit" is stated as an
+absolute rather than a configuration flag — there is no code path that
+could enable float32 execution on this silicon, which is exactly why full
+integer quantization (Level 2) is a hard prerequisite, not an optimization
+choice, for this class of accelerator.</p>
+<p><strong>Why a single unsupported op fragments the whole graph's latency, not
+just that op's runtime.</strong> <code>simulate_edgetpu_mapping</code>'s <code>graph_segments</code>
+counter models a real constraint: the compiler can only emit one
+contiguous command stream per unbroken run of NPU-eligible ops. The moment
+an op like <code>RESIZE_BILINEAR</code> can't be mapped, the graph must be split into
+"segment ending before the unsupported op," "the unsupported op running on
+CPU," and "segment resuming after it" — and each boundary crossing
+requires the accelerator's output tensor to be copied back across the
+host bus (USB/PCIe), transformed by the CPU, then copied back across the
+bus again for the next NPU segment. Because that round-trip transfer
+often costs as much wall-clock time as the fast NPU segments it surrounds
+(as <code>benchmark_pipeline</code> is built to reveal), a single unsupported op deep
+in an otherwise-mappable graph can dominate total latency far out of
+proportion to its own compute cost.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <p>Take a TFLite int8 model you quantized in Level 2 (or reuse the keyword
 spotter). List every op type in its graph (<code>interpreter.get_tensor_details()</code>

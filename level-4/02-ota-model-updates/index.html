@@ -1918,6 +1918,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2239,6 +2250,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2455,6 +2477,53 @@ either way, rather than triggering a false rollback on too little data.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><strong>Why A/B slots make rollback an O(1) pointer flip instead of a
+recovery operation.</strong> The critical property of <code>DualSlotUpdater</code> is that
+the previous active slot is never overwritten or erased during an
+update — <code>verify_and_activate</code> writes the new model into the <em>inactive</em>
+slot and only changes which slot the <code>active_slot</code> variable points to
+after verification succeeds, leaving the old model's bytes fully intact
+in the other slot. This means "rollback" requires no data transfer,
+re-download, or reconstruction at all: it is the same single-variable
+flip performed in the forward direction, just pointed the other way,
+which is exactly why it can be issued instantly and safely even from a
+degraded or partially-failed boot state — there is no window where the
+device has neither model fully present, because both slots always
+contain a complete model file simultaneously except during the brief
+staging write itself.</p>
+<p><strong>Why hashing the device ID (not random sampling) is what makes a
+rollout cohort assignment stable and monotonically nested.</strong> A
+device's cohort membership must be reproducible across repeated checks
+— the same device asking "am I in the rollout?" tomorrow must get the
+same answer, or it would repeatedly flip in and out of an update. Because
+SHA-256 is a deterministic function of its input, <code>rollout_cohort</code> always
+maps a given <code>device_id</code> to the exact same bucket value in <code>[0,1)</code>, so
+comparing that fixed bucket against a growing threshold percentage is
+what produces the monotonic-inclusion property: a device with bucket
+value 0.03 is included once the threshold reaches 3% and remains included
+at every larger threshold checked afterward, because the comparison
+<code>bucket &lt; rollout_percentage</code> can only flip from false to true as
+<code>rollout_percentage</code> grows, never the reverse. This is the same
+hash-bucketing technique used by real feature-flag and staged-rollout
+systems specifically because it needs no server-side state per device —
+the device's own ID and the current threshold are sufficient to
+compute cohort membership independently on either side of the OTA
+channel.</p>
+<p><strong>Why the sample-size gate is not a minor safeguard but the difference
+between a valid statistical comparison and noise.</strong> <code>canary_error_rate</code>
+computed from only 40 observations is itself a random variable with
+substantial variance — for a true underlying error rate of 2%, a sample of
+40 trials can easily show an observed rate anywhere from 0% to 10%+ purely
+by chance (the standard error of a proportion scales as
+<code>sqrt(p(1-p)/n)</code>, which shrinks slowly, as the square root of sample
+size). Comparing such a noisy estimate against a stable, large-sample
+baseline and treating any observed gap as a real regression would trigger
+rollbacks driven mostly by sampling noise rather than genuine model
+degradation — precisely why <code>rollout_gate</code>'s <code>min_sample_size</code> check
+short-circuits to <code>"hold"</code> before the relative-regression comparison is
+even computed, deferring judgment until the canary sample is large enough
+for the observed error rate to be a trustworthy estimate of the true one.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <p>Extend <code>rollout_gate</code> to also check a <strong>secondary metric</strong> — average
 inference latency, not just error rate — and reject widening if either

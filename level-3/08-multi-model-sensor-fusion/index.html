@@ -1721,6 +1721,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2261,6 +2272,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2443,6 +2465,50 @@ unless the cross-sensor correlation itself is the signal you need.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><strong>Why a weighted average is a maximum-likelihood combination under a
+specific noise assumption, not an arbitrary heuristic.</strong> If each sensor's
+score is treated as a noisy, independent estimate of the true probability
+with variance inversely proportional to its assigned weight, the
+statistically optimal (minimum-variance) combination of several
+independent noisy estimates is exactly the inverse-variance-weighted
+average — a classical result from estimation theory. <code>weights</code> in
+<code>late_fusion_weighted_average</code> is standing in for each sensor's inverse
+noise variance: a sensor known to be reliable in current conditions gets a
+higher weight because its errors are smaller, and the weighted average
+mathematically discounts noisier sensors' contributions proportional to
+how unreliable they are — which is precisely why the microphone's strong,
+heavily-weighted 0.85 reading can pull an otherwise-borderline fused score
+past the decision threshold in the worked example, rather than being
+diluted evenly by three equally-trusted opinions.</p>
+<p><strong>Why sensors with genuinely independent failure modes reduce the
+system's overall failure probability multiplicatively, not additively.</strong>
+If a camera's failure probability in some condition is <code>p_cam</code> and a
+microphone's is <code>p_mic</code>, and their failure causes are truly independent
+(dark rooms don't make microphones fail; loud rooms don't make cameras
+fail), the probability that <em>both</em> fail simultaneously on the same
+event is <code>p_cam × p_mic</code> — multiplying two probabilities less than 1
+always yields something smaller than either alone. This is the precise
+mathematical content behind "a fused system only fails when multiple
+sensors' blind spots overlap": it's not a vague synergy claim, it's
+independence turning an OR of failure conditions (either sensor fails)
+into an AND of failure conditions for the <em>fused</em> system to fail
+outright, which only holds to the extent the chosen sensors' failure
+modes are actually uncorrelated — correlated failures (e.g. camera and
+IR-illuminated microphone both failing in the same power brownout)
+don't get this multiplicative benefit.</p>
+<p><strong>Why adaptive weighting must scale weight, not directly rewrite the raw
+score, to correctly represent "no information."</strong> <code>adaptive_weights</code>
+multiplies a sensor's base weight by its condition quality (<code>light_level</code>,
+<code>noise_level</code>) rather than, say, forcing a low-light camera's score toward
+0.5 directly. This distinction matters mechanically in the weighted
+average: shrinking a sensor's <em>weight</em> toward zero makes its score
+contribute almost nothing to the sum regardless of what that score
+happens to be, correctly modeling "this sensor's reading, whatever it
+is, should barely count right now" — whereas overwriting the raw score
+would conflate "the sensor is unreliable" with "the sensor is reporting
+uncertainty," two different pieces of information the fusion formula
+needs to keep separate to remain a valid weighted average at all.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <p>Extend <code>adaptive_weights</code> to also degrade the microphone's weight under a
 third condition — <code>wind_level</code> (0.0-1.0, where high wind noise saturates a

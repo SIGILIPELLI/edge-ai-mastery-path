@@ -2013,6 +2013,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2261,6 +2272,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2489,6 +2511,55 @@ provable privacy bound.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><strong>Why averaging independently-trained local models approximates
+centralized gradient descent, mathematically.</strong> For a loss function that
+decomposes additively across examples (true of cross-entropy and MSE),
+one step of gradient descent on the pooled dataset computes the gradient
+as a data-size-weighted average of per-example gradients — exactly what
+<code>fedavg_round</code>'s dataset-size weighting reconstructs, just computed in two
+separate stages (several local steps per device, then one weighted
+average across devices) instead of one centralized batch. This is why
+FedAvg converges toward the same solution centralized training would
+reach on well-behaved (convex-ish, similar-distribution) problems: with
+<code>local_steps=1</code> and a single global step, FedAvg is <em>exactly</em> equivalent
+to one step of mini-batch gradient descent on the pooled data, weighted
+correctly; running several local steps before averaging is an
+approximation that trades some fidelity to that equivalence for a large
+reduction in communication rounds, which is the whole communication-
+efficiency point of the algorithm.</p>
+<p><strong>Why weighting by local dataset size is the variance-minimizing choice,
+not merely a fairness convention.</strong> Each client's local gradient estimate
+is itself a noisy estimate of the "true" gradient on that client's
+underlying distribution, and the variance of a gradient estimated from
+<code>n</code> samples scales as <code>1/n</code> — a client with 15 examples produces an
+estimate with roughly <code>100/15 ≈ 6.7×</code> the variance of a client with 100
+examples. Averaging estimates with weights proportional to their inverse
+variance (here, proportional to sample count) is again the
+minimum-variance combination, the same statistical principle behind
+Level 3 Module 08's sensor-fusion weighting — which is precisely why the
+gap between weighted and unweighted FedAvg widens as client dataset sizes
+diverge by orders of magnitude: the unweighted average lets the
+noisiest, least-trustworthy local estimates pull the global model exactly
+as hard as the most reliable ones.</p>
+<p><strong>Why a model update is harder to invert than raw data without being
+formally private.</strong> A weight delta or gradient computed from a small
+local batch is a highly compressed summary — for a linear model, the
+gradient is literally a specific weighted combination of the input
+features and their errors, which loses information about any individual
+example whenever multiple examples' gradient contributions overlap or
+cancel in the sum. This makes exact reconstruction of a specific training
+example generally infeasible from the aggregate alone. But "generally
+infeasible from the aggregate" is an empirical/practical claim, not a
+mathematical guarantee: gradient-leakage research has shown that for
+small batches, high-dimensional models, or gradients computed from a
+single example, enough structure survives the aggregation that
+optimization-based reconstruction attacks can recover recognizable
+approximations of the original input — which is exactly why the module
+is careful to describe FedAvg's privacy property as "raises the bar," not
+"solves privacy," and why differential privacy (adding calibrated,
+provably-bounded noise before the update ever leaves the device) is
+needed to convert that empirical difficulty into a quantifiable guarantee.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <p>Modify <code>make_client_data</code> so one client (say client index 2) has a
 different underlying relationship — flip the sign of <code>true_W</code> for that

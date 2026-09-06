@@ -1317,6 +1317,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2261,6 +2272,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2489,6 +2511,50 @@ with a small <code>FRAMESIZE</code>, this is what makes person-detection-class m
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><strong>Why requesting <code>PIXFORMAT_GRAYSCALE</code> at the model's exact resolution
+moves work from software into the sensor's own analog/digital pipeline.</strong>
+The OV2640 sensor has an internal image signal processor (ISP) that
+performs demosaicing (its raw photodiode array is actually a Bayer color
+filter, RGB, even when you never see raw Bayer data), scaling, and
+color-space conversion in hardware, on dedicated silicon, before handing
+finished pixels over the parallel DVP bus (the <code>Y0</code>–<code>Y9</code>/<code>D0</code>–<code>D7</code> pins,
+<code>VSYNC</code>/<code>HREF</code>/<code>PCLK</code> timing signals in <code>init_camera()</code>). Asking for
+<code>FRAMESIZE_96X96</code> grayscale directly means the ISP performs the resize and
+the RGB→gray luma conversion using its own fixed-function circuitry at
+essentially zero additional CPU cost or code — versus capturing a larger
+JPEG or RGB frame and running a software resize/color-convert on the
+ESP32's general-purpose core, which costs cycles, RAM for an intermediate
+buffer, and a second place a rounding/algorithm mismatch with training-time
+preprocessing (Module 02) could creep in.</p>
+<p><strong>Why frame buffer count interacts with DMA, not just "using more RAM."</strong>
+The camera driver streams pixel data into a frame buffer via DMA (direct
+memory access) — the sensor's PCLK-clocked byte stream is written into
+SRAM without CPU intervention, freeing the core to do other work while a
+frame fills. With <code>fb_count = 1</code>, the single buffer being DMA-filled for
+frame N+1 is the same buffer your code just finished reading for frame N,
+which forces a strict "wait for full frame, read it, only then request
+the next" sequence — the DMA engine cannot start writing a new frame into
+a buffer your inference loop hasn't released yet. <code>fb_count = 2</code> lets DMA
+fill buffer B while your code still reads buffer A, pipelining capture and
+inference — real throughput gain, but it needs a second full-size buffer
+existing simultaneously, which is exactly why it requires PSRAM once
+frames grow past what fits twice in internal SRAM.</p>
+<p><strong>Why the int8 conversion in <code>run_one_inference</code> reintroduces exactly
+Module 05's affine mapping, byte for byte.</strong> Camera pixels arrive as
+<code>uint8</code> (0–255, unsigned); the model's quantized input tensor is <code>int8</code>
+(-128–127, signed) with its own <code>(scale, zero_point)</code> learned during
+calibration. Dividing by 255 first normalizes to a float in <code>[0,1]</code> — the
+same range the training pipeline's images were normalized to before
+quantization-aware calibration saw them — and then applying
+<code>pixel_float/scale + zero_point</code> performs the identical quantize step
+Level 1 Module 05's <code>int8_predict</code> applied to sine-wave inputs. Skipping
+the <code>/255.0f</code> normalization (feeding raw 0–255 uint8 values straight into
+the scale/zero_point formula) is a common on-device bug that produces
+outputs that are numerically valid int8 values yet completely
+uncorrelated with the model's trained expectations — because the affine
+mapping now operates on a value range 255× larger than what the scale was
+calibrated for.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Read through <code>init_camera()</code> and <code>capture_for_inference()</code> above and

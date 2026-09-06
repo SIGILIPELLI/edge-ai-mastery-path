@@ -1149,6 +1149,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2261,6 +2272,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2478,6 +2500,42 @@ keyword — never just against clean lab recordings.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><strong>Why the Mel filterbank's triangles are wider at high frequencies.</strong>
+<code>hz_to_mel(f) = 2595·log10(1 + f/700)</code> is a compressive (logarithmic-like)
+mapping that mirrors human pitch perception: equal steps in mel-space
+correspond to equal <em>perceptual</em> steps in pitch, but ever-wider steps in
+raw Hz as frequency rises. Building the filterbank by placing filter
+centers at equal <em>mel</em> spacing (<code>np.linspace</code> over mel, then converting
+back to Hz) and connecting each triangle's edges to its neighbors' centers
+is why <code>mel_filterbank</code>'s triangles are narrow near 20 Hz and wide near
+8000 Hz — it deliberately spends more of the 40 output bands resolving the
+low frequencies where speech carries most of its distinguishing energy
+(formants), and fewer bands on the high end where a coarser summary loses
+little.</p>
+<p><strong>Why log-mel-energy, not linear mel-energy, is what the CNN trains on.</strong>
+Human loudness perception and the dynamic range of real audio are both
+roughly logarithmic — a whisper and a shout differ by orders of magnitude
+in raw power but far less in perceived loudness. Taking <code>np.log(mel_energy
++ 1e-6)</code> compresses that huge dynamic range into a numerically tame range
+the network's weights can fit efficiently, and — just as importantly —
+turns the <em>multiplicative</em> effect of a microphone gain change or distance
+change (which scales power multiplicatively) into an <em>additive</em> shift in
+log-space, which a linear layer downstream can partially cancel out. This
+is a big part of why log-mel features generalize better across recording
+conditions than raw power spectra do.</p>
+<p><strong>Why sliding-window streaming inference costs far less than it looks
+like.</strong> Re-running the full CNN on a completely fresh buffer every
+200–500 ms sounds wasteful, but the alternative — a truly incremental
+streaming model that updates hidden state per audio frame — is
+substantially more complex to implement and quantize correctly. A small
+DS-CNN inference (15–25K parameters, a handful of conv layers over a
+98×40 input) costs only a few milliseconds on a Cortex-M4, so running it
+2–5 times per second is a rounding error against a coin-cell power budget
+<em>so long as</em> a cheap RMS/energy gate suppresses invocation during silence
+— which is precisely why the module treats the VAD gate as the real power
+lever, not the inference cost itself: 10 ms of RMS-threshold checking is
+roughly two orders of magnitude cheaper than a spectrogram-plus-CNN pass.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Implement <code>framed_fft_features</code> and <code>log_mel_spectrogram</code> above (they're

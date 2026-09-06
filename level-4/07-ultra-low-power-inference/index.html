@@ -2058,6 +2058,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2232,6 +2243,17 @@
     <span class="md-ellipsis">
       
         Edge-AI tradeoffs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
       
     </span>
   </a>
@@ -2459,6 +2481,56 @@ where it's no longer the bottleneck at all.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><strong>Why sleep current being 1,000-10,000x smaller than active current makes
+duty cycle the dominant lever, algebraically.</strong> In
+<code>E_total = E_sleep·t_sleep + E_active·t_active + E_wake·n_wakes</code>, even
+though <code>t_sleep</code> is typically the overwhelming majority of total time
+(the 1 Hz example spends only 1.5% of time active), the <code>E_sleep</code> term
+stays small in absolute terms only because <code>E_sleep</code> (current draw) is
+so many orders of magnitude below <code>E_active</code>. The moment either the
+active current or the wake frequency rises, <code>E_active·t_active</code> grows
+linearly with both — as demonstrated by the 10x duty-cycle increase
+producing almost exactly a 10x total-energy increase — while
+<code>E_sleep·t_sleep</code> barely changes, because <code>t_sleep</code> was already close to
+100% of the time budget and can only shrink a little further. This
+asymmetry is exactly why a coin-cell device's achievable lifetime is
+governed far more by "how often and how long does it wake" than by "how
+low is its sleep current," once sleep current is already in the
+microamp range — squeezing sleep current further has rapidly diminishing
+returns while cutting wake frequency has returns that scale linearly for
+as long as active energy dominates the total.</p>
+<p><strong>Why an always-on analog trigger changes the <em>shape</em> of the energy
+equation, not just its magnitude.</strong> A fixed-timer duty cycle pays the
+full active-inference energy cost <code>n_wakes</code> times regardless of whether
+anything worth detecting happened during any given wake — the number of
+wakes is set by a clock, entirely decoupled from the actual event rate in
+the environment. Replacing that with a cheap always-on comparator moves
+the "is anything happening" decision to hardware that draws orders of
+magnitude less current than the full inference pipeline (here 3 µA vs.
+8 mA active, roughly 2,700x lower), and crucially decouples <code>n_wakes</code>
+from a fixed clock rate and re-couples it to the environment's true,
+usually much sparser, event rate. The tradeoff is a new, small but
+<em>constant</em> additive term (<code>always_on_sensor_current_ua × total_seconds</code>)
+that never goes away — which is precisely why the wake-on-event result
+still isn't literally free: at genuinely negligible real event rates, the
+always-on sensor's own continuous draw becomes the new floor on total
+energy, the same way sleep current became negligible only once active
+energy was reduced far enough in the duty-cycle scenario.</p>
+<p><strong>Why the crossover between duty-cycling and wake-on-event being
+worthwhile depends entirely on how sparse the true event rate is.</strong>
+Wake-on-event wins precisely when the number of genuine events is far
+smaller than a fixed-rate timer would produce, because its total cost
+is <code>always_on_energy + n_true_events × per_wake_cost</code> versus fixed
+duty-cycling's <code>n_timer_wakes × per_wake_cost</code> where <code>n_timer_wakes</code> is
+set conservatively high enough to not miss events. If the true event
+rate actually approached the timer's wake rate (a genuinely busy sensor,
+events happening almost continuously), the two approaches would converge
+in cost, and the always-on sensor's constant overhead would make
+wake-on-event strictly worse — which is exactly why the module frames
+wake-on-event's best fit as "rare, bursty events" specifically: the
+technique's entire energy advantage comes from the gap between how often
+a clock would check and how often something is actually there to find.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <p>Extend <code>simulate_wake_on_event</code> to model a <strong>hybrid</strong> strategy: a low
 duty-cycle timer wake (say, once every 10 minutes, to catch anything the

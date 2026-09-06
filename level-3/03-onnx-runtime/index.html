@@ -1603,6 +1603,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2305,6 +2316,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2522,6 +2544,50 @@ whatever real model and target hardware you actually deploy.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><strong>Why ONNX's graph is nodes-plus-initializers rather than a Python
+object tree.</strong> <code>helper.make_graph</code> assembles a protobuf message: a flat
+list of <code>NodeProto</code> entries (each an op type plus named input/output
+string identifiers) and a list of <code>TensorProto</code> initializers (the actual
+weight arrays serialized as raw bytes with a shape and dtype). There is no
+Python class hierarchy underneath — a <code>Gemm</code> node is just a string
+<code>"Gemm"</code> plus the string names <code>["input", "w1", "b1"]</code>, and the runtime
+resolves those names to actual tensors purely by matching strings against
+the graph's initializer and intermediate-value tables at load time. This
+is precisely why <code>onnx.checker.check_model</code> matters as a distinct,
+non-optional step: because nothing in the construction API enforces that
+<code>w1</code>'s declared shape <code>(8, 16)</code> actually matches what the preceding
+<code>Gemm</code> node's <code>input</code> tensor requires, a name or shape mismatch is
+otherwise only caught when the runtime tries to execute the node and fails
+— the checker runs the same shape-inference logic ahead of time, without
+needing real input data.</p>
+<p><strong>Why <code>InferenceSession</code> construction is expensive and inference calls
+afterward are cheap.</strong> Creating a session performs graph-level
+optimization passes (constant folding, operator fusion — e.g. combining a
+<code>Gemm</code> immediately followed by an elementwise add into one fused op) and
+negotiates with every requested execution provider in order, asking each
+"which of these nodes can you claim," before finally partitioning the
+graph into provider-specific subgraphs it can dispatch to at <code>run()</code> time.
+All of that analysis happens exactly once, at construction, which is
+exactly why the module's benchmarking code carefully times <code>sess.run()</code> in
+a loop <em>after</em> the session already exists rather than including
+<code>InferenceSession(...)</code> inside the timed region — folding in that
+one-time cost would make a model look far slower per-inference than it
+actually is in steady state.</p>
+<p><strong>Why an Execution Provider claiming an op is a static, offline decision
+per session, not a per-call negotiation.</strong> When <code>providers=[...]</code> is
+passed to <code>InferenceSession</code>, ORT walks the graph once and asks each
+provider, in the given priority order, which ops in the graph it is
+capable of executing — this partitioning happens once at session creation
+and is fixed for the session's lifetime, the same "decide once, execute
+many times" structure the delegate pattern uses in TFLite (Module 02).
+<code>get_provider_options()</code> reports the <em>actual</em> outcome of that negotiation
+— which provider each op ended up assigned to — which is why the module
+insists on checking it rather than trusting the requested provider list:
+a provider can be present and requested yet still decline every op in a
+particular graph (unsupported op types, unsupported data layouts), leaving
+the entire model running on <code>CPUExecutionProvider</code> despite a GPU/NPU
+provider having been available.</p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <p>Modify the <code>build_and_run</code> code above to add a third <code>Gemm</code> layer, re-run
 <code>onnx.checker.check_model</code>, and confirm the output shape still matches what
