@@ -1,3 +1,7 @@
+---
+description: "Ultra-Low-Power Inference — Every optimization so far (quantization, pruning, NPU offload, compiler fusion) has targeted latency or accuracy. For battery…"
+---
+
 # Ultra-Low-Power Inference
 
 Every optimization so far (quantization, pruning, NPU offload, compiler

@@ -1,3 +1,7 @@
+---
+description: "Converting to TFLite/LiteRT — Stage 2 of the pipeline: turn the Keras model from Module 03 into a .tflite flatbuffer — the deployment format that…"
+---
+
 # 04 · Converting to TFLite/LiteRT
 
 Stage 2 of the pipeline: turn the Keras model from Module 03 into a

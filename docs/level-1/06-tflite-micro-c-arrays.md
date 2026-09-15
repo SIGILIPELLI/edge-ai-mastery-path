@@ -1,3 +1,7 @@
+---
+description: "TFLite-Micro & C Arrays — Stage 4 begins. A microcontroller has no filesystem to load sine_model_int8.tflite from — so the model must be compiled into the…"
+---
+
 # 06 · TFLite-Micro & C Arrays
 
 Stage 4 begins. A microcontroller has no filesystem to load

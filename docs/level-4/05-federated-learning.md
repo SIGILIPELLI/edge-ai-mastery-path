@@ -1,3 +1,7 @@
+---
+description: "Federated Learning — Module 04 covered a single device adapting its own model locally. Federated learning is the fleet-scale version of that idea: many…"
+---
+
 # Federated Learning
 
 Module 04 covered a single device adapting its own model locally.

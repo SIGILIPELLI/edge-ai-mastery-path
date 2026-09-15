@@ -1,3 +1,7 @@
+---
+description: "Streaming Inference Pipelines — Every model so far has been fed one complete, pre-cut input: a full 1-second audio window, a full image frame. Real…"
+---
+
 # Streaming Inference Pipelines
 
 Every model so far has been fed one complete, pre-cut input: a full 1-second

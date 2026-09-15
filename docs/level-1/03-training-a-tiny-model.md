@@ -1,3 +1,7 @@
+---
+description: "Training a Tiny Model — Time to run stage 1 of the pipeline. We'll train the 'hello world' of TinyML: a tiny neural network that learns sin(x) from noisy…"
+---
+
 # 03 · Training a Tiny Model
 
 Time to run stage 1 of the pipeline. We'll train the "hello world" of

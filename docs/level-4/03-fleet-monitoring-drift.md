@@ -1,3 +1,7 @@
+---
+description: "Fleet Monitoring & Drift Detection — Module 01 named the failure mode that makes fleet monitoring necessary: a model can get quietly worse with no crash…"
+---
+
 # Fleet Monitoring & Drift Detection
 
 Module 01 named the failure mode that makes fleet monitoring necessary:

@@ -1,3 +1,7 @@
+---
+description: "Custom Kernels with CMSIS-NN — Levels 1-3 treated CMSIS-NN as a library you link against — call arm_convolve_s8(), get a fast int8 convolution. This…"
+---
+
 # Custom Kernels with CMSIS-NN
 
 Levels 1-3 treated CMSIS-NN as a library you link against — call

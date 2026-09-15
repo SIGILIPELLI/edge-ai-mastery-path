@@ -1,3 +1,7 @@
+---
+description: "Optimizing Memory & Latency on MCUs — Every prior module in this course has touched memory or latency in passing — arena sizing, quantization…"
+---
+
 # Optimizing Memory & Latency on MCUs
 
 Every prior module in this course has touched memory or latency in passing —

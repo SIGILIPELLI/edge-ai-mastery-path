@@ -1,3 +1,7 @@
+---
+description: "Model Security on Edge Devices — Every previous module assumed the model file, once deployed, is trusted and safe. Edge deployment breaks that assumption…"
+---
+
 # Model Security on Edge Devices
 
 Every previous module assumed the model file, once deployed, is trusted

@@ -1,3 +1,7 @@
+---
+description: "Model Pruning & Knowledge Distillation — Quantization (Level 1 Module 05) shrinks a model by changing how each number is stored. Pruning and distillation…"
+---
+
 # Model Pruning & Knowledge Distillation
 
 Quantization (Level 1 Module 05) shrinks a model by changing *how* each

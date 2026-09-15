@@ -1,3 +1,7 @@
+---
+description: "Capstone: Production Edge AI System — This capstone assembles every module of Level 4 into one coherent product design: a fleet of battery-powered…"
+---
+
 # Capstone: Production Edge AI System
 
 This capstone assembles every module of Level 4 into one coherent product

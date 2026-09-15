@@ -1,3 +1,7 @@
+---
+description: "ONNX Runtime for Edge Inference — Every model this course has deployed so far has gone through TensorFlow Lite. That's a reasonable default, but it's not…"
+---
+
 # ONNX Runtime for Edge Inference
 
 Every model this course has deployed so far has gone through TensorFlow

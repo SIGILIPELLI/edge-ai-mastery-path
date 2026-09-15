@@ -1,3 +1,7 @@
+---
+description: "What Is Edge AI — Both run the same kind of model. The difference is where the multiply-adds happen, and that one choice changes latency, privacy, power…"
+---
+
 # 01 · What Is Edge AI
 
 Edge AI means running machine-learning **inference on the device that owns

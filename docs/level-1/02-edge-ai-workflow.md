@@ -1,3 +1,7 @@
+---
+description: "The Edge AI Workflow — Every edge AI project — wake word, gesture recognizer, vision sensor — follows the same four-stage pipeline: train → convert →…"
+---
+
 # 02 · The Edge AI Workflow
 
 Every edge AI project — wake word, gesture recognizer, vision sensor —

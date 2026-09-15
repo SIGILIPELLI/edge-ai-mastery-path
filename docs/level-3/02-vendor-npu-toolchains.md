@@ -1,3 +1,7 @@
+---
+description: "Vendor NPU Toolchains (i.MX, Ethos-U) — Module 01 used Coral's Edge TPU as a clean, single-vendor example: one compiler, one supported-ops list, one…"
+---
+
 # Vendor NPU Toolchains (i.MX, Ethos-U)
 
 Module 01 used Coral's Edge TPU as a clean, single-vendor example: one

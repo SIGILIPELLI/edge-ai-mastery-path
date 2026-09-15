@@ -1,3 +1,7 @@
+---
+description: "On-Device Learning — Every model up to this point is trained once, in the cloud or on a workstation, then frozen and shipped. On-device learning means the…"
+---
+
 # On-Device Learning
 
 Every model up to this point is trained once, in the cloud or on a

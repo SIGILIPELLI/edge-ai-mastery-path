@@ -1,3 +1,7 @@
+---
+description: "Project — Voice-Controlled Device — This capstone combines every technique from Level 2 into one device: an ESP32 that listens continuously for a small…"
+---
+
 # Project — Voice-Controlled Device
 
 This capstone combines every technique from Level 2 into one device: an

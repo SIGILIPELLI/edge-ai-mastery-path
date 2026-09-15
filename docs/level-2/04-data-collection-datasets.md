@@ -1,3 +1,7 @@
+---
+description: "Data Collection & Dataset Design — Edge AI models fail in the field far more often from bad data than from bad architectures. A model trained on…"
+---
+
 # Data Collection & Dataset Design
 
 Edge AI models fail in the field far more often from bad data than from bad

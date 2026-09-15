@@ -1,3 +1,7 @@
+---
+description: "ML Compiler Stacks (TVM, IREE) — Modules 01-02 covered vendor-specific compilers (edgetpu_compiler, NXP's eIQ Neutron compiler, Arm's Vela) — each one…"
+---
+
 # ML Compiler Stacks (TVM, IREE)
 
 Modules 01-02 covered vendor-specific compilers (`edgetpu_compiler`, NXP's

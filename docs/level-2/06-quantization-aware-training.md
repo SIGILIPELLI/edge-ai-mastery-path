@@ -1,3 +1,7 @@
+---
+description: "Quantization-Aware Training — Level 1 Module 05 covered post-training quantization (PTQ): train a float32 model, then convert it to int8 afterward. That…"
+---
+
 # Quantization-Aware Training
 
 Level 1 Module 05 covered **post-training quantization (PTQ)**: train a

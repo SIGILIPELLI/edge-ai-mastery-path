@@ -1,3 +1,7 @@
+---
+description: "Image Classification on Microcontrollers — Running an image classifier on a microcontroller is a different sport from running one on a phone or a GPU. A…"
+---
+
 # Image Classification on Microcontrollers
 
 Running an image classifier on a microcontroller is a different sport from

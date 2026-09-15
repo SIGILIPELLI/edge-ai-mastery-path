@@ -1,3 +1,7 @@
+---
+description: "Evaluating & Debugging Edge Models — An edge model can pass every notebook test and still fail in the field — because the deployed system is not just the…"
+---
+
 # 09 · Evaluating & Debugging Edge Models
 
 An edge model can pass every notebook test and still fail in the field —

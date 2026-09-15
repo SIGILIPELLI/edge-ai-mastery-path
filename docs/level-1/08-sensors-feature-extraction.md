@@ -1,3 +1,7 @@
+---
+description: "Sensors & Feature Extraction — So far our models ate single numbers. Real edge AI eats sensor streams — an accelerometer emitting 100 (x, y, z) readings…"
+---
+
 # 08 · Sensors & Feature Extraction
 
 So far our models ate single numbers. Real edge AI eats **sensor streams**

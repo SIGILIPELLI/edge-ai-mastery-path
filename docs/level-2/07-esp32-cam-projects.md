@@ -1,3 +1,7 @@
+---
+description: "ESP32-CAM Vision Projects — The ESP32-CAM pairs the ESP32 you already know from Level 1 with an OV2640 camera module — roughly $8-10, no separate camera…"
+---
+
 # ESP32-CAM Vision Projects
 
 The ESP32-CAM pairs the ESP32 you already know from Level 1 with an OV2640

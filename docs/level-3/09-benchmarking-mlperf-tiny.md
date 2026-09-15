@@ -1,3 +1,7 @@
+---
+description: "Benchmarking with MLPerf Tiny — Every module so far has measured latency ad hoc — a time.perf_counter() loop around one function call. That's fine for…"
+---
+
 # Benchmarking with MLPerf Tiny
 
 Every module so far has measured latency ad hoc — a `time.perf_counter()`

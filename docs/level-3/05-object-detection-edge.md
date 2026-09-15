@@ -1,3 +1,7 @@
+---
+description: "Object Detection on Edge Devices — Everything trained so far has been a classifier: one image or window in, one label out. Object detection is a different…"
+---
+
 # Object Detection on Edge Devices
 
 Everything trained so far has been a **classifier**: one image or window

@@ -1,3 +1,7 @@
+---
+description: "Project: Accelerated Vision Node — This project combines every module from Level 3 into one coherent design: a camera-based edge node that detects objects…"
+---
+
 # Project: Accelerated Vision Node
 
 This project combines every module from Level 3 into one coherent design:

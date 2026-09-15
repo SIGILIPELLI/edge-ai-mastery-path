@@ -1,3 +1,7 @@
+---
+description: "Capstone — Gesture Recognition — Everything in Level 1, one project: a gesture recognizer that classifies 2-second accelerometer windows as circle, shake…"
+---
+
 # 10 · Capstone — Gesture Recognition
 
 Everything in Level 1, one project: a **gesture recognizer** that

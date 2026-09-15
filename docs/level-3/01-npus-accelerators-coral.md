@@ -1,3 +1,7 @@
+---
+description: "Edge NPUs & Accelerators (Coral Edge TPU) — Levels 1-2 ran every model on a microcontroller's CPU: a Cortex-M core executing CMSIS-NN kernels one…"
+---
+
 # Edge NPUs & Accelerators (Coral Edge TPU)
 
 Levels 1-2 ran every model on a microcontroller's CPU: a Cortex-M core

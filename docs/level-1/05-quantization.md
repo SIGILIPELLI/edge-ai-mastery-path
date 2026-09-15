@@ -1,3 +1,7 @@
+---
+description: "Quantization — Stage 3, and the most distinctively 'edge' skill in the pipeline. Quantization converts a model's numbers from 32-bit floats to 8-bit…"
+---
+
 # 05 · Quantization
 
 Stage 3, and the most distinctively "edge" skill in the pipeline.

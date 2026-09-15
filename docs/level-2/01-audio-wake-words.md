@@ -1,3 +1,7 @@
+---
+description: "Audio Wake Words & Keyword Spotting — A wake word ('Hey Siri', 'Alexa', 'OK Google') is a tiny always-on classifier that listens to a microphone 24/7 on a…"
+---
+
 # Audio Wake Words & Keyword Spotting
 
 A wake word ("Hey Siri", "Alexa", "OK Google") is a tiny always-on classifier

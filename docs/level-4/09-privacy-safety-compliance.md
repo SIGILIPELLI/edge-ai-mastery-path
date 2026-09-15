@@ -1,3 +1,7 @@
+---
+description: "Privacy, Safety & Compliance — Modules 04-05 mentioned, without fully addressing, that on-device learning and federated learning don't provide a formal…"
+---
+
 # Privacy, Safety & Compliance
 
 Modules 04-05 mentioned, without fully addressing, that on-device

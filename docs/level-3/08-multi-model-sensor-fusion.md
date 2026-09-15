@@ -1,3 +1,7 @@
+---
+description: "Multi-Model Sensor Fusion — Every module so far has run one model against one sensor stream. Many real edge devices carry several sensors at once — a…"
+---
+
 # Multi-Model Sensor Fusion
 
 Every module so far has run one model against one sensor stream. Many

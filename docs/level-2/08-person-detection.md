@@ -1,3 +1,7 @@
+---
+description: "Person Detection (Visual Wake Words) — Person detection — 'is there a person in this frame, yes or no' — is the canonical visual wake word: the vision…"
+---
+
 # Person Detection (Visual Wake Words)
 
 Person detection — "is there a person in this frame, yes or no" — is the

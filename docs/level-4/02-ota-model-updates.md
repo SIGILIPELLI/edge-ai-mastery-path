@@ -1,3 +1,7 @@
+---
+description: "OTA Model Updates — Module 01 sketched a fleet architecture with a model registry pushing updates down to devices. This module gets concrete about the…"
+---
+
 # OTA Model Updates
 
 Module 01 sketched a fleet architecture with a model registry pushing

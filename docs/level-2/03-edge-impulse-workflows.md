@@ -1,3 +1,7 @@
+---
+description: "Edge Impulse End-to-End Workflows — Edge Impulse is a hosted platform that packages the entire embedded-ML pipeline — data collection, signal processing…"
+---
+
 # Edge Impulse End-to-End Workflows
 
 Edge Impulse is a hosted platform that packages the entire embedded-ML

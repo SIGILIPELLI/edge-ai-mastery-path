@@ -1,3 +1,7 @@
+---
+description: "Production Edge AI Architecture — Levels 1-3 built and optimized models for a single device. Level 4 shifts the question: how do you run edge AI as a…"
+---
+
 # Production Edge AI Architecture
 
 Levels 1-3 built and optimized models for a single device. Level 4 shifts

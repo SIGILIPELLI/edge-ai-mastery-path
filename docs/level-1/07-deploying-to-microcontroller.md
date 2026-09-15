@@ -1,3 +1,7 @@
+---
+description: "Deploying to a Microcontroller — The desktop program from Module 06 was the dress rehearsal; this module is opening night. We take the same model bytes…"
+---
+
 # 07 · Deploying to a Microcontroller
 
 The desktop program from Module 06 was the dress rehearsal; this module is

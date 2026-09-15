@@ -1,3 +1,7 @@
+---
+description: "Hardware/Software Co-Design — Every module so far assumed the hardware — the MCU, the NPU, the sensor — was a fixed given, and the job was to fit a model…"
+---
+
 # Hardware/Software Co-Design
 
 Every module so far assumed the hardware — the MCU, the NPU, the sensor —
