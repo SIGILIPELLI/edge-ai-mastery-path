@@ -28,7 +28,9 @@ theme:
     - navigation.sections
     - navigation.expand
     - navigation.top
+    - navigation.footer
     - navigation.indexes
+    - toc.follow
     - content.code.copy
     - content.code.annotate
     - search.suggest
