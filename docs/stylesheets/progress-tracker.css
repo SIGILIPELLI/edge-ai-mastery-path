@@ -1,0 +1,50 @@
+.mp-progress-check {
+  margin-right: 6px;
+  accent-color: var(--md-accent-fg-color, #2FA98D);
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.mp-mark-done {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  margin: 0 0 20px;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 8px;
+  font-size: 0.78rem;
+  cursor: pointer;
+  user-select: none;
+  color: var(--md-default-fg-color--light);
+}
+.mp-mark-done input {
+  accent-color: var(--md-accent-fg-color, #2FA98D);
+  cursor: pointer;
+}
+
+.mp-progress-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 20px;
+}
+.mp-progress-track {
+  flex: 1 1 auto;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--md-default-fg-color--lightest);
+  overflow: hidden;
+}
+.mp-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--md-accent-fg-color, #2FA98D);
+  transition: width .25s ease;
+}
+.mp-progress-label {
+  flex: none;
+  font-size: 0.72rem;
+  color: var(--md-default-fg-color--light);
+  white-space: nowrap;
+}
