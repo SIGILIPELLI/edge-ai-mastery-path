@@ -242,6 +242,12 @@ short-circuits to `"hold"` before the relative-regression comparison is
 even computed, deferring judgment until the canary sample is large enough
 for the observed error rate to be a trustworthy estimate of the true one.
 
+## 🔀 Related lessons on other tracks
+
+- [Embedded Linux — 03 · OTA Updates (RAUC, SWUpdate, OSTree)](https://sigilipelli.github.io/embedded-linux-mastery-path/level-4/03-ota-updates/)
+- [Embedded — OTA Firmware Updates](https://sigilipelli.github.io/embedded-mastery-path/level-2/05-ota-updates/)
+- [Embedded Python — OTA Updates for MicroPython Fleets](https://sigilipelli.github.io/embedded-python-mastery-path/level-4/02-ota-updates-fleets/)
+
 ## Exercise
 
 Extend `rollout_gate` to also check a **secondary metric** — average

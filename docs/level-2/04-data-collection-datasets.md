@@ -246,6 +246,10 @@ original 10 samples — which is precisely why coverage reports must track
 real and augmented counts separately rather than treating a bigger dataset
 number as automatically more capable of generalizing.
 
+## 🔀 Related lessons on other tracks
+
+- [Data Engineering — 10 · Capstone — Full Production Data Platform Design](https://sigilipelli.github.io/data-engineering-mastery-path/level-4/10-capstone-production-platform/)
+
 ## Exercise
 
 1. Implement `session_based_split` and, using 4 synthetic sessions of

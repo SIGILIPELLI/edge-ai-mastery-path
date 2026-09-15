@@ -236,6 +236,10 @@ pixel is systematically too dark or shifted by exactly the missing bits —
 an error small enough to look "roughly right" on inspection but large
 enough to shift every activation in the first conv layer.
 
+## 🔀 Related lessons on other tracks
+
+- [AI/ML — 05 · CNNs for Image Classification](https://sigilipelli.github.io/ai-ml-mastery-path/level-2/05-cnns-images/)
+
 ## Exercise
 
 1. Implement `depthwise_conv2d` and `pointwise_conv2d` above, run them on a

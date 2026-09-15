@@ -232,6 +232,12 @@ synthetic example) is vanishingly unlikely to arise from independent
 per-device noise alone, which is precisely the statistical basis for
 treating it as a real, fleet-wide signal worth paging someone about.
 
+## 🔀 Related lessons on other tracks
+
+- [AI/ML — 05 · Monitoring, Drift Detection & Retraining](https://sigilipelli.github.io/ai-ml-mastery-path/level-4/05-monitoring-drift/)
+- [Embedded Python — Fleet Management & Remote Monitoring](https://sigilipelli.github.io/embedded-python-mastery-path/level-4/07-fleet-management/)
+- [Terraform — 03 · Drift Detection & Remediation](https://sigilipelli.github.io/terraform-mastery-path/level-4/03-drift-detection-remediation/)
+
 ## Exercise
 
 Run `confidence_drift_score` against a third scenario: a baseline with a

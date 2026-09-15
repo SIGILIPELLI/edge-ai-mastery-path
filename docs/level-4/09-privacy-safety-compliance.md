@@ -241,6 +241,10 @@ and the denylist "fail-open": the default behavior when someone forgets
 to update the list is opposite in the two designs, and only one of those
 defaults is safe.
 
+## 🔀 Related lessons on other tracks
+
+- [LLM Dev — 09 · Compliance, Privacy & Governance](https://sigilipelli.github.io/llm-dev-mastery-path/level-4/09-compliance-privacy-governance/)
+
 ## Exercise
 
 Implement a `PrivacyBudgetTracker` class that maintains a running total
