@@ -1,0 +1,24 @@
+{% extends "main.html" %}
+{% block content %}
+<div class="mp-404">
+  <div class="mp-404-code">404</div>
+  <h1>Page not found</h1>
+  <p>That link is broken, or the page moved. Try one of these instead:</p>
+  <p class="mp-404-actions">
+    <a href="{{ config.site_url }}" class="md-button md-button--primary">← Back to {{ config.site_name }}</a>
+    <a href="https://sigilipelli.github.io/" class="md-button">Search all 64 courses</a>
+  </p>
+</div>
+<style>
+  .mp-404 { text-align: center; padding: 64px 20px 40px; }
+  .mp-404-code {
+    font-size: 4.5rem; font-weight: 800; line-height: 1;
+    color: var(--md-default-fg-color); opacity: .15;
+  }
+  .mp-404 h1 { margin: 4px 0 10px; }
+  .mp-404 p:not(.mp-404-actions) { color: var(--md-default-fg-color--light); }
+  .mp-404-actions {
+    margin-top: 26px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+  }
+</style>
+{% endblock %}
