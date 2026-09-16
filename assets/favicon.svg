@@ -1,24 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-  <defs>
-    <linearGradient id="ocean" x1="0" y1="0" x2="30" y2="48" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#3AC0A0"/>
-      <stop offset="100%" stop-color="#1F7A65"/>
-    </linearGradient>
-    <radialGradient id="sheen" cx="32%" cy="26%" r="60%">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.4"/>
-      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
-    </radialGradient>
-    <clipPath id="globe-clip"><circle cx="24" cy="24" r="22"/></clipPath>
-  </defs>
-  <circle cx="24" cy="24" r="22" fill="url(#ocean)"/>
-  <g clip-path="url(#globe-clip)">
-    <ellipse cx="14" cy="26" rx="6" ry="13" fill="#F7F3E9" transform="rotate(-6 14 26)"/>
-    <ellipse cx="27" cy="16" rx="4" ry="5" fill="#F7F3E9"/>
-    <ellipse cx="28" cy="27" rx="5.5" ry="12" fill="#F7F3E9"/>
-    <ellipse cx="37" cy="18" rx="8" ry="8.5" fill="#F7F3E9"/>
-    <ellipse cx="41" cy="34" rx="4" ry="3" fill="#F7F3E9"/>
-    <ellipse cx="18" cy="41" rx="16" ry="3" fill="#F7F3E9" opacity="0.5"/>
-  </g>
-  <circle cx="24" cy="24" r="22" fill="url(#sheen)"/>
-  <circle cx="24" cy="24" r="21.4" fill="none" stroke="#ffffff" stroke-opacity="0.2" stroke-width="1.2"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="Mastery Path favicon">
+  <rect x="4" y="30" width="8" height="14" rx="2.5" fill="#2FA98D"/>
+  <rect x="15" y="22" width="8" height="22" rx="2.5" fill="#7FC9B7"/>
+  <rect x="26" y="13" width="8" height="31" rx="2.5" fill="#E0B457"/>
+  <rect x="37" y="4" width="8" height="40" rx="2.5" fill="#C97B4A"/>
 </svg>
