@@ -7,56 +7,13 @@ description: "Free Edge AI course from beginner to advanced -- hands-on lessons 
 
 <div class="mp-hero-lockup">
   <div class="mp-hero-globe">
-    <svg viewBox="0 0 160 160" class="mp-globe-svg">
-      <defs>
-        <clipPath id="mp-globe-clip"><circle cx="80" cy="80" r="74"/></clipPath>
-        <radialGradient id="mp-sheen" cx="32%" cy="26%" r="60%">
-          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.5"/>
-          <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
-        </radialGradient>
-      </defs>
-      <circle cx="80" cy="80" r="74" fill="#FAF7EF"/>
-      <g clip-path="url(#mp-globe-clip)">
-        <g class="mp-globe-strip">
-          <!-- tile 1: 0-160 -->
-          <g stroke="#2FA98D" stroke-width="0.6" opacity="0.28" fill="none">
-            <ellipse cx="80" cy="80" rx="18" ry="74"/>
-            <ellipse cx="80" cy="80" rx="42" ry="74"/>
-            <ellipse cx="80" cy="80" rx="66" ry="74"/>
-            <line x1="6" y1="80" x2="154" y2="80"/>
-            <line x1="10" y1="50" x2="150" y2="50"/>
-            <line x1="10" y1="110" x2="150" y2="110"/>
-          </g>
-          <path d="M62,18 Q78,14 92,20 Q98,30 92,42 Q84,50 74,46 Q64,40 62,28 Z" fill="#2FA98D"/>
-          <path d="M58,42 Q80,36 96,46 Q100,58 90,68 Q76,74 64,66 Q56,56 58,42 Z" fill="#E0B457"/>
-          <path d="M70,68 Q80,66 84,74 Q82,84 74,86 Q66,82 68,74 Z" fill="#E0B457"/>
-          <circle cx="92" cy="72" r="4" fill="#2FA98D"/>
-          <path d="M76,86 Q92,82 102,94 Q108,110 100,126 Q92,138 80,136 Q72,124 74,108 Q72,96 76,86 Z" fill="#E0B457"/>
-          <path d="M92,100 Q104,98 108,110 Q106,122 96,124 Q88,118 90,108 Z" fill="#7FC9B7"/>
-          <circle cx="128" cy="34" r="7" fill="#C97B4A"/>
-
-          <!-- tile 2: 160-320 (identical, offset for seamless loop) -->
-          <g transform="translate(160,0)">
-            <g stroke="#2FA98D" stroke-width="0.6" opacity="0.28" fill="none">
-              <ellipse cx="80" cy="80" rx="18" ry="74"/>
-              <ellipse cx="80" cy="80" rx="42" ry="74"/>
-              <ellipse cx="80" cy="80" rx="66" ry="74"/>
-              <line x1="6" y1="80" x2="154" y2="80"/>
-              <line x1="10" y1="50" x2="150" y2="50"/>
-              <line x1="10" y1="110" x2="150" y2="110"/>
-            </g>
-            <path d="M62,18 Q78,14 92,20 Q98,30 92,42 Q84,50 74,46 Q64,40 62,28 Z" fill="#2FA98D"/>
-            <path d="M58,42 Q80,36 96,46 Q100,58 90,68 Q76,74 64,66 Q56,56 58,42 Z" fill="#E0B457"/>
-            <path d="M70,68 Q80,66 84,74 Q82,84 74,86 Q66,82 68,74 Z" fill="#E0B457"/>
-            <circle cx="92" cy="72" r="4" fill="#2FA98D"/>
-            <path d="M76,86 Q92,82 102,94 Q108,110 100,126 Q92,138 80,136 Q72,124 74,108 Q72,96 76,86 Z" fill="#E0B457"/>
-            <path d="M92,100 Q104,98 108,110 Q106,122 96,124 Q88,118 90,108 Z" fill="#7FC9B7"/>
-            <circle cx="128" cy="34" r="7" fill="#C97B4A"/>
-          </g>
-        </g>
-      </g>
-      <circle cx="80" cy="80" r="74" fill="none" stroke="#2FA98D" stroke-width="4"/>
-      <circle cx="80" cy="80" r="74" fill="url(#mp-sheen)"/>
+    <svg viewBox="0 0 160 160" class="mp-globe-svg mp-mark">
+      <circle cx="80" cy="80" r="74" fill="var(--md-default-bg-color, #FAF7EF)" stroke="#2FA98D" stroke-width="5"/>
+      <rect class="mp-bar mp-bar-1" x="36" y="90" width="17" height="24" rx="5" fill="#2FA98D"/>
+      <rect class="mp-bar mp-bar-2" x="59" y="74" width="17" height="40" rx="5" fill="#7FC9B7"/>
+      <rect class="mp-bar mp-bar-3" x="82" y="56" width="17" height="58" rx="5" fill="#E0B457"/>
+      <rect class="mp-bar mp-bar-4" x="105" y="38" width="17" height="76" rx="5" fill="#C97B4A"/>
+      <circle class="mp-dot" cx="44.5" cy="82" r="7" fill="#22261f"/>
     </svg>
   </div>
   <div class="mp-hero-divider"></div>

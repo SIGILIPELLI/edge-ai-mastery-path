@@ -48,43 +48,53 @@
   border-color: var(--md-accent-fg-color);
 }
 
-/* --- Mastery Path brand mark (rotating globe header logo) --- */
-:root {
-  --sm-ocean: #FAF7EF;
-  --sm-c1: #2FA98D;
-  --sm-c2: #7FC9B7;
-  --sm-c3: #E0B457;
-  --sm-c4: #4C8C7A;
-  --sm-c5: #9FBF6E;
-  --sm-c6: #C97B4A;
-  --sm-grid: #2FA98D;
+/* --- Mastery Path brand mark (ascending-levels logo, animated) --- */
+.mp-mark { display: block; }
+.mp-bar { transform-origin: center bottom; }
+.mp-dot { transform-box: fill-box; transform-origin: center; }
+
+@keyframes mp-dot-jump {
+  0%    { transform: translate(0px, 0px);      opacity: 1; }
+  18%   { transform: translate(0px, 0px);       opacity: 1; }
+  21.5% { transform: translate(11.5px, -30px);  opacity: 1; }
+  25%   { transform: translate(23px, -16px);    opacity: 1; }
+  43%   { transform: translate(23px, -16px);    opacity: 1; }
+  46.5% { transform: translate(34.5px, -50px);  opacity: 1; }
+  50%   { transform: translate(46px, -34px);    opacity: 1; }
+  68%   { transform: translate(46px, -34px);    opacity: 1; }
+  71.5% { transform: translate(57.5px, -68px);  opacity: 1; }
+  75%   { transform: translate(69px, -52px);    opacity: 1; }
+  93%   { transform: translate(69px, -52px);    opacity: 1; }
+  96%   { transform: translate(69px, -52px);    opacity: 0; }
+  97%   { transform: translate(0px, 0px);       opacity: 0; }
+  100%  { transform: translate(0px, 0px);       opacity: 1; }
 }
-.sm-globe-mask {
-  width: 28px; height: 28px; border-radius: 50%; overflow: hidden; position: relative;
-  display: inline-block; vertical-align: middle;
-  background: var(--sm-ocean);
-  box-shadow: inset 0 0 0 1.4px var(--sm-c1), inset 0 -2px 5px rgba(0,0,0,.12);
+.mp-dot { animation: mp-dot-jump 4s ease-in-out infinite; }
+
+@keyframes mp-glow-1 {
+  0%, 20%   { filter: brightness(1.4) drop-shadow(0 0 6px #2FA98D); }
+  25%, 97%  { filter: brightness(1) drop-shadow(0 0 0 transparent); }
+  100%      { filter: brightness(1.4) drop-shadow(0 0 6px #2FA98D); }
 }
-.sm-globe-strip {
-  position: absolute; top: 0; left: 0; width: 56px; height: 28px;
-  animation: sm-spin 7s linear infinite;
+@keyframes mp-glow-2 {
+  0%, 23%, 48%, 100% { filter: brightness(1) drop-shadow(0 0 0 transparent); }
+  25%, 43%           { filter: brightness(1.4) drop-shadow(0 0 6px #7FC9B7); }
 }
-.sm-continent { position: absolute; }
-.sm-grid-line {
-  position: absolute; top: 3px; bottom: 3px; border-left: 1px solid var(--sm-grid);
-  opacity: 0.22; border-radius: 50%;
+@keyframes mp-glow-3 {
+  0%, 48.5%, 69.5%, 100% { filter: brightness(1) drop-shadow(0 0 0 transparent); }
+  50%, 68%               { filter: brightness(1.4) drop-shadow(0 0 6px #E0B457); }
 }
-.sm-globe-sheen {
-  position: absolute; inset: 0; border-radius: 50%;
-  background: radial-gradient(circle at 32% 26%, rgba(255,255,255,.55), transparent 55%);
-  pointer-events: none;
+@keyframes mp-glow-4 {
+  0%, 73.5%, 94.5%, 100% { filter: brightness(1) drop-shadow(0 0 0 transparent); }
+  75%, 93%               { filter: brightness(1.4) drop-shadow(0 0 6px #C97B4A); }
 }
-@keyframes sm-spin {
-  from { transform: translateX(0); }
-  to { transform: translateX(-28px); }
-}
+.mp-bar-1 { animation: mp-glow-1 4s ease-in-out infinite; }
+.mp-bar-2 { animation: mp-glow-2 4s ease-in-out infinite; }
+.mp-bar-3 { animation: mp-glow-3 4s ease-in-out infinite; }
+.mp-bar-4 { animation: mp-glow-4 4s ease-in-out infinite; }
+
 @media (prefers-reduced-motion: reduce) {
-  .sm-globe-strip { animation: none; }
+  .mp-dot, .mp-bar-1, .mp-bar-2, .mp-bar-3, .mp-bar-4 { animation: none; }
 }
 /* --- end Mastery Path brand mark --- */
 
