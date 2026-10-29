@@ -71,10 +71,11 @@ Start here → [Level 1 · Entry](level-1/index.md)
 
 ## More from the Mastery Path series
 
-Free, structured, module-wise training across 97 other languages, platforms and disciplines:
+Free, structured, module-wise training across 97 other languages, platforms and disciplines — expand a category to browse:
 
-<div class="mastery-grid-wrap">
-<p class="mastery-grid-category">Languages</p>
+<div class="mastery-tracks">
+<details class="mastery-card">
+<summary>Languages <span class="mastery-count">20</span></summary>
 <div class="mastery-grid">
   <a href="https://sigilipelli.github.io/python-mastery-path/">🐍 Python</a>
   <a href="https://sigilipelli.github.io/java-mastery-path/">☕ Java</a>
@@ -97,7 +98,9 @@ Free, structured, module-wise training across 97 other languages, platforms and 
   <a href="https://sigilipelli.github.io/r-mastery-path/">📊 R</a>
   <a href="https://sigilipelli.github.io/matlab-mastery-path/">🟧 MATLAB</a>
 </div>
-<p class="mastery-grid-category">Web Frameworks</p>
+</details>
+<details class="mastery-card">
+<summary>Web Frameworks <span class="mastery-count">11</span></summary>
 <div class="mastery-grid">
   <a href="https://sigilipelli.github.io/react-mastery-path/">⚛️ React</a>
   <a href="https://sigilipelli.github.io/nextjs-mastery-path/">▲ Next.js</a>
@@ -111,12 +114,16 @@ Free, structured, module-wise training across 97 other languages, platforms and 
   <a href="https://sigilipelli.github.io/nodejs-mastery-path/">🟩 Node.js</a>
   <a href="https://sigilipelli.github.io/spring-boot-mastery-path/">🍃 Spring Boot</a>
 </div>
-<p class="mastery-grid-category">Mobile</p>
+</details>
+<details class="mastery-card">
+<summary>Mobile <span class="mastery-count">2</span></summary>
 <div class="mastery-grid">
   <a href="https://sigilipelli.github.io/flutter-mastery-path/">💙 Flutter</a>
   <a href="https://sigilipelli.github.io/react-native-mastery-path/">📲 React Native</a>
 </div>
-<p class="mastery-grid-category">Testing & QA</p>
+</details>
+<details class="mastery-card">
+<summary>Testing & QA <span class="mastery-count">6</span></summary>
 <div class="mastery-grid">
   <a href="https://sigilipelli.github.io/java-testing-mastery-path/">🧪 Java Testing</a>
   <a href="https://sigilipelli.github.io/cpp-testing-mastery-path/">🧪 C/C++ Testing</a>
@@ -125,12 +132,16 @@ Free, structured, module-wise training across 97 other languages, platforms and 
   <a href="https://sigilipelli.github.io/selenium-mastery-path/">🧭 Selenium</a>
   <a href="https://sigilipelli.github.io/cypress-mastery-path/">🌲 Cypress</a>
 </div>
-<p class="mastery-grid-category">Security</p>
+</details>
+<details class="mastery-card">
+<summary>Security <span class="mastery-count">2</span></summary>
 <div class="mastery-grid">
   <a href="https://sigilipelli.github.io/cybersecurity-mastery-path/">🛡️ Cybersecurity</a>
   <a href="https://sigilipelli.github.io/ethical-hacking-mastery-path/">🎯 Ethical Hacking</a>
 </div>
-<p class="mastery-grid-category">Cloud Platforms</p>
+</details>
+<details class="mastery-card">
+<summary>Cloud Platforms <span class="mastery-count">5</span></summary>
 <div class="mastery-grid">
   <a href="https://sigilipelli.github.io/aws-mastery-path/">☁️ AWS</a>
   <a href="https://sigilipelli.github.io/azure-mastery-path/">☁️ Azure</a>
@@ -138,7 +149,9 @@ Free, structured, module-wise training across 97 other languages, platforms and 
   <a href="https://sigilipelli.github.io/ibm-cloud-mastery-path/">☁️ IBM Cloud</a>
   <a href="https://sigilipelli.github.io/adobe-mastery-path/">🎨 Adobe</a>
 </div>
-<p class="mastery-grid-category">Data & Analytics</p>
+</details>
+<details class="mastery-card">
+<summary>Data & Analytics <span class="mastery-count">7</span></summary>
 <div class="mastery-grid">
   <a href="https://sigilipelli.github.io/data-engineering-mastery-path/">🛠️ Data Engineering</a>
   <a href="https://sigilipelli.github.io/data-science-mastery-path/">📈 Data Science</a>
@@ -148,7 +161,9 @@ Free, structured, module-wise training across 97 other languages, platforms and 
   <a href="https://sigilipelli.github.io/etl-datalake-mastery-path/">🏞️ ETL & Data Lake</a>
   <a href="https://sigilipelli.github.io/power-bi-mastery-path/">📉 Power BI</a>
 </div>
-<p class="mastery-grid-category">Databases</p>
+</details>
+<details class="mastery-card">
+<summary>Databases <span class="mastery-count">5</span></summary>
 <div class="mastery-grid">
   <a href="https://sigilipelli.github.io/postgresql-mastery-path/">🐘 PostgreSQL</a>
   <a href="https://sigilipelli.github.io/mongodb-mastery-path/">🍃 MongoDB</a>
@@ -156,7 +171,9 @@ Free, structured, module-wise training across 97 other languages, platforms and 
   <a href="https://sigilipelli.github.io/snowflake-mastery-path/">❄️ Snowflake</a>
   <a href="https://sigilipelli.github.io/databricks-mastery-path/">🧱 Databricks</a>
 </div>
-<p class="mastery-grid-category">AI / ML / LLM</p>
+</details>
+<details class="mastery-card">
+<summary>AI / ML / LLM <span class="mastery-count">10</span></summary>
 <div class="mastery-grid">
   <a href="https://sigilipelli.github.io/ai-ml-mastery-path/">🤖 AI/ML</a>
   <a href="https://sigilipelli.github.io/llm-dev-mastery-path/">🧠 LLM Dev</a>
@@ -169,7 +186,9 @@ Free, structured, module-wise training across 97 other languages, platforms and 
   <a href="https://sigilipelli.github.io/mlops-mastery-path/">🔁 MLOps</a>
   <a href="https://sigilipelli.github.io/computer-vision-mastery-path/">👁️ Computer Vision</a>
 </div>
-<p class="mastery-grid-category">Embedded Systems</p>
+</details>
+<details class="mastery-card">
+<summary>Embedded Systems <span class="mastery-count">5</span></summary>
 <div class="mastery-grid">
   <a href="https://sigilipelli.github.io/embedded-mastery-path/">🔌 Embedded</a>
   <a href="https://sigilipelli.github.io/embedded-linux-mastery-path/">🐧 Embedded Linux</a>
@@ -177,7 +196,9 @@ Free, structured, module-wise training across 97 other languages, platforms and 
   <a href="https://sigilipelli.github.io/freertos-mastery-path/">⏱️ FreeRTOS</a>
   <a href="https://sigilipelli.github.io/s32k-mastery-path/">🔧 S32K</a>
 </div>
-<p class="mastery-grid-category">Leadership & Management</p>
+</details>
+<details class="mastery-card">
+<summary>Leadership & Management <span class="mastery-count">5</span></summary>
 <div class="mastery-grid">
   <a href="https://sigilipelli.github.io/product-manager-mastery-path/">📋 Product Manager</a>
   <a href="https://sigilipelli.github.io/product-lead-mastery-path/">🧭 Product Lead</a>
@@ -185,23 +206,31 @@ Free, structured, module-wise training across 97 other languages, platforms and 
   <a href="https://sigilipelli.github.io/ai-manager-mastery-path/">🤖 AI Manager</a>
   <a href="https://sigilipelli.github.io/servant-leadership-mastery-path/">🤝 Servant Leadership</a>
 </div>
-<p class="mastery-grid-category">Professional Skills</p>
+</details>
+<details class="mastery-card">
+<summary>Professional Skills <span class="mastery-count">2</span></summary>
 <div class="mastery-grid">
   <a href="https://sigilipelli.github.io/english-fluency-mastery-path/">🗣️ English Fluency & IELTS</a>
   <a href="https://sigilipelli.github.io/workday-mastery-path/">🧑‍💼 Workday</a>
 </div>
-<p class="mastery-grid-category">Careers & Interviews</p>
+</details>
+<details class="mastery-card">
+<summary>Careers & Interviews <span class="mastery-count">2</span></summary>
 <div class="mastery-grid">
   <a href="https://sigilipelli.github.io/dsa-interview-mastery-path/">🧩 DSA & Coding Interviews</a>
   <a href="https://sigilipelli.github.io/system-design-mastery-path/">🏗️ System Design</a>
 </div>
-<p class="mastery-grid-category">Process & APIs</p>
+</details>
+<details class="mastery-card">
+<summary>Process & APIs <span class="mastery-count">3</span></summary>
 <div class="mastery-grid">
   <a href="https://sigilipelli.github.io/agile-mastery-path/">🔄 Agile/Scrum/Kanban</a>
   <a href="https://sigilipelli.github.io/rest-api-mastery-path/">🔗 REST API</a>
   <a href="https://sigilipelli.github.io/playwright-mastery-path/">🎭 Playwright</a>
 </div>
-<p class="mastery-grid-category">Infrastructure & Ops</p>
+</details>
+<details class="mastery-card">
+<summary>Infrastructure & Ops <span class="mastery-count">12</span></summary>
 <div class="mastery-grid">
   <a href="https://sigilipelli.github.io/server-ops-mastery-path/">🖥️ Server Ops</a>
   <a href="https://sigilipelli.github.io/linux-mastery-path/">🐧 Linux</a>
@@ -216,5 +245,6 @@ Free, structured, module-wise training across 97 other languages, platforms and 
   <a href="https://sigilipelli.github.io/microservices-mastery-path/">🧩 Microservices</a>
   <a href="https://sigilipelli.github.io/observability-mastery-path/">📈 Observability</a>
 </div>
+</details>
 </div>
 
