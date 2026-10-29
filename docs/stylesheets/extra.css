@@ -141,3 +141,17 @@
   .mp-globe-strip { animation: none; }
 }
 /* --- end Mastery Path Bootcamp hero lockup --- */
+/* --- Mastery Path cross-site tracks (native Material collapsible admonitions) --- */
+.mastery-tracks { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 0.6rem; margin: 0 0 1rem; align-items: start; }
+.mastery-tracks details.mastery-card { margin: 0; }
+.mastery-count {
+  margin-left: auto;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--md-default-fg-color--light);
+  background: var(--md-default-bg-color);
+  border-radius: 999px;
+  padding: 0.05rem 0.5rem;
+}
+.mastery-tracks .mastery-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+
