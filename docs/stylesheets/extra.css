@@ -155,3 +155,75 @@
 }
 .mastery-tracks .mastery-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
 
+/* --- Mastery Path brand palette (replaces Material's stock indigo) ---
+   Material re-declares --md-* custom properties on <body> itself, scoped
+   by [data-md-color-primary="..."] / [data-md-color-scheme="..."]. Those
+   attribute selectors sit on body, so they win over a plain :root rule
+   for everything inside body (the header included) regardless of cascade
+   order. Overriding on body directly, with !important, is the reliable
+   fix — not a specificity hack, just matching where Material itself
+   re-declares these. */
+body {
+  --md-primary-fg-color: #2FA98D !important;
+  --md-primary-fg-color--light: #7FC9B7 !important;
+  --md-primary-fg-color--dark: #1f7a63 !important;
+  --md-primary-bg-color: #ffffff !important;
+  --md-primary-bg-color--light: rgba(255, 255, 255, 0.72) !important;
+  --md-accent-fg-color: #1f7a63 !important;
+  --md-accent-fg-color--transparent: rgba(47, 169, 141, 0.1) !important;
+  --md-accent-bg-color: #ffffff !important;
+  --md-accent-bg-color--light: rgba(255, 255, 255, 0.72) !important;
+  --md-default-bg-color: #FAF7EF !important;
+  --md-mp-gold: #E0B457;
+  --md-mp-copper: #C97B4A;
+}
+body[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #1c2017 !important;
+  --md-primary-fg-color--light: #4fd6b3 !important;
+  --md-primary-fg-color--dark: #0f120c !important;
+  --md-accent-fg-color: #4fd6b3 !important;
+  --md-accent-fg-color--transparent: rgba(79, 214, 179, 0.14) !important;
+  --md-default-bg-color: #14170f !important;
+  --md-default-fg-color: #eef0e8 !important;
+  --md-default-fg-color--light: #b7bfaeeb !important;
+  --md-default-fg-color--lighter: #b7bfae73 !important;
+  --md-default-fg-color--lightest: #b7bfae2b !important;
+  --md-typeset-color: #eef0e8 !important;
+  --md-code-bg-color: #1c2017 !important;
+  --md-code-fg-color: #d7dccf !important;
+  --md-mp-gold: #f0c877;
+  --md-mp-copper: #e2996a;
+}
+/* --- end Mastery Path brand palette --- */
+
+/* Material's un-typed <details> falls back to a fixed Material-blue
+   admonition look (icon + tint) that ignores theme variables entirely —
+   override explicitly so these cards match the brand palette, with a
+   gentle 3-color rhythm across categories like the hub uses. */
+.mastery-tracks details.mastery-card {
+  border-color: var(--md-default-fg-color--lightest) !important;
+}
+.mastery-tracks details.mastery-card:hover,
+.mastery-tracks details.mastery-card[open] {
+  border-color: var(--md-primary-fg-color) !important;
+}
+.mastery-tracks details.mastery-card > summary {
+  background-color: var(--md-accent-fg-color--transparent) !important;
+}
+.mastery-tracks details.mastery-card > summary::before {
+  background-color: var(--md-primary-fg-color) !important;
+}
+.mastery-tracks details.mastery-card:nth-of-type(3n+2) > summary::before {
+  background-color: var(--md-mp-gold) !important;
+}
+.mastery-tracks details.mastery-card:nth-of-type(3n+2):hover,
+.mastery-tracks details.mastery-card:nth-of-type(3n+2)[open] {
+  border-color: var(--md-mp-gold) !important;
+}
+.mastery-tracks details.mastery-card:nth-of-type(3n) > summary::before {
+  background-color: var(--md-mp-copper) !important;
+}
+.mastery-tracks details.mastery-card:nth-of-type(3n):hover,
+.mastery-tracks details.mastery-card:nth-of-type(3n)[open] {
+  border-color: var(--md-mp-copper) !important;
+}

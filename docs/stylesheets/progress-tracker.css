@@ -1,8 +1,66 @@
+/* Sidebar nav rows that carry a progress checkbox: the checkbox and its
+   link are wrapped in their own <span class="mp-nav-row"> (not the whole
+   <li>) — Material's currently-active nav item also carries an unrelated
+   mobile TOC-toggle label as a sibling inside the same <li>, so flexing
+   the <li> itself would wrongly pull that into the row too. */
+.mp-nav-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  border-radius: 6px;
+  margin: 0 -6px;
+  padding: 2px 6px;
+  transition: background-color .15s ease;
+}
+.mp-nav-row:hover {
+  background-color: var(--md-accent-fg-color--transparent);
+}
+.mp-nav-row > .md-nav__link {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0 !important;
+}
+.mp-nav-row:has(> .mp-progress-check:checked) > .md-nav__link {
+  color: var(--md-default-fg-color--light);
+}
+
 .mp-progress-check {
-  margin-right: 6px;
-  accent-color: var(--md-accent-fg-color, #2FA98D);
-  vertical-align: middle;
+  appearance: none;
+  -webkit-appearance: none;
+  flex: none;
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  margin-top: 0.62rem;
+  border-radius: 50%;
+  border: 1.5px solid var(--md-default-fg-color--lighter);
+  background: var(--md-default-bg-color);
   cursor: pointer;
+  position: relative;
+  transition: border-color .15s ease, background-color .15s ease, transform .1s ease;
+}
+.mp-progress-check:hover {
+  border-color: var(--md-accent-fg-color);
+  transform: scale(1.12);
+}
+.mp-progress-check:checked {
+  background: var(--md-accent-fg-color);
+  border-color: var(--md-accent-fg-color);
+}
+.mp-progress-check:checked::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 1px;
+  width: 4px;
+  height: 7px;
+  border: solid #fff;
+  border-width: 0 1.5px 1.5px 0;
+  transform: rotate(40deg);
+}
+.mp-progress-check:focus-visible {
+  outline: 2px solid var(--md-accent-fg-color);
+  outline-offset: 2px;
 }
 
 .mp-mark-done {

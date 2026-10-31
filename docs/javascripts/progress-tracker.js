@@ -59,7 +59,16 @@
         setDone(slug, box.checked);
         refreshAll();
       });
-      link.parentNode.insertBefore(box, link);
+      // Wrap just the checkbox + link pair in their own row, rather than
+      // flexing the whole <li> — Material's currently-active nav item
+      // also carries an unrelated mobile TOC-toggle <label> as a sibling
+      // inside the same <li>, which a whole-<li> flex rule would wrongly
+      // pull into the same row.
+      var row = document.createElement("span");
+      row.className = "mp-nav-row";
+      link.parentNode.insertBefore(row, link);
+      row.appendChild(box);
+      row.appendChild(link);
     });
   }
 
