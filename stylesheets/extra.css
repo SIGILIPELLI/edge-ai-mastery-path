@@ -1,0 +1,229 @@
+.md-typeset h1 {
+  font-weight: 700;
+}
+
+.level-badge {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: var(--md-primary-fg-color);
+  color: var(--md-primary-bg-color);
+}
+/* mastery-grid cross-link styles */
+.mastery-grid-category {
+  font-weight: 600;
+  margin-top: 1.1rem;
+  margin-bottom: 0.4rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--md-default-fg-color--light);
+}
+
+.mastery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 0.5rem 0.75rem;
+  margin: 0 0 1rem;
+}
+
+.mastery-grid a {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 0.3rem;
+  text-decoration: none !important;
+  color: var(--md-default-fg-color) !important;
+  font-size: 0.82rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.mastery-grid a:hover {
+  background-color: var(--md-accent-fg-color--transparent);
+  border-color: var(--md-accent-fg-color);
+}
+
+/* --- Mastery Path brand mark (ascending-levels logo, animated) --- */
+.mp-mark { display: block; }
+.mp-bar { transform-origin: center bottom; }
+.mp-dot { transform-box: fill-box; transform-origin: center; }
+
+@keyframes mp-dot-jump {
+  0%    { transform: translate(0px, 0px);      opacity: 1; }
+  18%   { transform: translate(0px, 0px);       opacity: 1; }
+  21.5% { transform: translate(11.5px, -30px);  opacity: 1; }
+  25%   { transform: translate(23px, -16px);    opacity: 1; }
+  43%   { transform: translate(23px, -16px);    opacity: 1; }
+  46.5% { transform: translate(34.5px, -50px);  opacity: 1; }
+  50%   { transform: translate(46px, -34px);    opacity: 1; }
+  68%   { transform: translate(46px, -34px);    opacity: 1; }
+  71.5% { transform: translate(57.5px, -68px);  opacity: 1; }
+  75%   { transform: translate(69px, -52px);    opacity: 1; }
+  93%   { transform: translate(69px, -52px);    opacity: 1; }
+  96%   { transform: translate(69px, -52px);    opacity: 0; }
+  97%   { transform: translate(0px, 0px);       opacity: 0; }
+  100%  { transform: translate(0px, 0px);       opacity: 1; }
+}
+.mp-dot { animation: mp-dot-jump 4s ease-in-out infinite; }
+
+@keyframes mp-glow-1 {
+  0%, 20%   { filter: brightness(1.4) drop-shadow(0 0 6px #2FA98D); }
+  25%, 97%  { filter: brightness(1) drop-shadow(0 0 0 transparent); }
+  100%      { filter: brightness(1.4) drop-shadow(0 0 6px #2FA98D); }
+}
+@keyframes mp-glow-2 {
+  0%, 23%, 48%, 100% { filter: brightness(1) drop-shadow(0 0 0 transparent); }
+  25%, 43%           { filter: brightness(1.4) drop-shadow(0 0 6px #7FC9B7); }
+}
+@keyframes mp-glow-3 {
+  0%, 48.5%, 69.5%, 100% { filter: brightness(1) drop-shadow(0 0 0 transparent); }
+  50%, 68%               { filter: brightness(1.4) drop-shadow(0 0 6px #E0B457); }
+}
+@keyframes mp-glow-4 {
+  0%, 73.5%, 94.5%, 100% { filter: brightness(1) drop-shadow(0 0 0 transparent); }
+  75%, 93%               { filter: brightness(1.4) drop-shadow(0 0 6px #C97B4A); }
+}
+.mp-bar-1 { animation: mp-glow-1 4s ease-in-out infinite; }
+.mp-bar-2 { animation: mp-glow-2 4s ease-in-out infinite; }
+.mp-bar-3 { animation: mp-glow-3 4s ease-in-out infinite; }
+.mp-bar-4 { animation: mp-glow-4 4s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-dot, .mp-bar-1, .mp-bar-2, .mp-bar-3, .mp-bar-4 { animation: none; }
+}
+/* --- end Mastery Path brand mark --- */
+
+/* --- Mastery Path Bootcamp hero lockup --- */
+.mp-hero-lockup {
+  display: flex; align-items: center; gap: clamp(16px, 4vw, 32px);
+  padding: 28px 8px 32px;
+  margin: 4px 0 28px;
+  flex-wrap: wrap;
+}
+.mp-hero-globe { flex-shrink: 0; }
+.mp-globe-svg {
+  width: clamp(88px, 18vw, 140px);
+  height: clamp(88px, 18vw, 140px);
+  display: block;
+}
+.mp-globe-strip {
+  animation: mp-globe-spin 14s linear infinite;
+}
+@keyframes mp-globe-spin {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-160px); }
+}
+.mp-hero-divider {
+  width: 1px; align-self: stretch; background: var(--md-default-fg-color--lightest, #ddd);
+  min-height: 70px;
+}
+.mp-hero-text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.mp-hero-title {
+  font-family: 'Space Grotesk', 'Sora', system-ui, sans-serif;
+  font-size: clamp(1.5rem, 4vw, 2.4rem); font-weight: 700;
+  color: var(--md-default-fg-color, #1a1a1a);
+  letter-spacing: -0.01em; line-height: 1.05;
+}
+.mp-hero-sub {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 0.95rem; font-weight: 700; letter-spacing: 0.18em; color: #2FA98D;
+}
+.mp-hero-rule { height: 1px; background: var(--md-default-fg-color--lightest, #ddd); margin: 10px 0 8px; max-width: 220px; }
+.mp-hero-byline {
+  font-size: 0.7rem; font-weight: 500; letter-spacing: 0.16em; color: var(--md-default-fg-color--light, #888);
+}
+@media (prefers-reduced-motion: reduce) {
+  .mp-globe-strip { animation: none; }
+}
+/* --- end Mastery Path Bootcamp hero lockup --- */
+/* --- Mastery Path cross-site tracks (native Material collapsible admonitions) --- */
+.mastery-tracks { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 0.6rem; margin: 0 0 1rem; align-items: start; }
+.mastery-tracks details.mastery-card { margin: 0; }
+.mastery-count {
+  margin-left: auto;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--md-default-fg-color--light);
+  background: var(--md-default-bg-color);
+  border-radius: 999px;
+  padding: 0.05rem 0.5rem;
+}
+.mastery-tracks .mastery-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+
+/* --- Mastery Path brand palette (replaces Material's stock indigo) ---
+   Material re-declares --md-* custom properties on <body> itself, scoped
+   by [data-md-color-primary="..."] / [data-md-color-scheme="..."]. Those
+   attribute selectors sit on body, so they win over a plain :root rule
+   for everything inside body (the header included) regardless of cascade
+   order. Overriding on body directly, with !important, is the reliable
+   fix — not a specificity hack, just matching where Material itself
+   re-declares these. */
+body {
+  --md-primary-fg-color: #2FA98D !important;
+  --md-primary-fg-color--light: #7FC9B7 !important;
+  --md-primary-fg-color--dark: #1f7a63 !important;
+  --md-primary-bg-color: #ffffff !important;
+  --md-primary-bg-color--light: rgba(255, 255, 255, 0.72) !important;
+  --md-accent-fg-color: #1f7a63 !important;
+  --md-accent-fg-color--transparent: rgba(47, 169, 141, 0.1) !important;
+  --md-accent-bg-color: #ffffff !important;
+  --md-accent-bg-color--light: rgba(255, 255, 255, 0.72) !important;
+  --md-default-bg-color: #FAF7EF !important;
+  --md-mp-gold: #E0B457;
+  --md-mp-copper: #C97B4A;
+}
+body[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #1c2017 !important;
+  --md-primary-fg-color--light: #4fd6b3 !important;
+  --md-primary-fg-color--dark: #0f120c !important;
+  --md-accent-fg-color: #4fd6b3 !important;
+  --md-accent-fg-color--transparent: rgba(79, 214, 179, 0.14) !important;
+  --md-default-bg-color: #14170f !important;
+  --md-default-fg-color: #eef0e8 !important;
+  --md-default-fg-color--light: #b7bfaeeb !important;
+  --md-default-fg-color--lighter: #b7bfae73 !important;
+  --md-default-fg-color--lightest: #b7bfae2b !important;
+  --md-typeset-color: #eef0e8 !important;
+  --md-code-bg-color: #1c2017 !important;
+  --md-code-fg-color: #d7dccf !important;
+  --md-mp-gold: #f0c877;
+  --md-mp-copper: #e2996a;
+}
+/* --- end Mastery Path brand palette --- */
+
+/* Material's un-typed <details> falls back to a fixed Material-blue
+   admonition look (icon + tint) that ignores theme variables entirely —
+   override explicitly so these cards match the brand palette, with a
+   gentle 3-color rhythm across categories like the hub uses. */
+.mastery-tracks details.mastery-card {
+  border-color: var(--md-default-fg-color--lightest) !important;
+}
+.mastery-tracks details.mastery-card:hover,
+.mastery-tracks details.mastery-card[open] {
+  border-color: var(--md-primary-fg-color) !important;
+}
+.mastery-tracks details.mastery-card > summary {
+  background-color: var(--md-accent-fg-color--transparent) !important;
+}
+.mastery-tracks details.mastery-card > summary::before {
+  background-color: var(--md-primary-fg-color) !important;
+}
+.mastery-tracks details.mastery-card:nth-of-type(3n+2) > summary::before {
+  background-color: var(--md-mp-gold) !important;
+}
+.mastery-tracks details.mastery-card:nth-of-type(3n+2):hover,
+.mastery-tracks details.mastery-card:nth-of-type(3n+2)[open] {
+  border-color: var(--md-mp-gold) !important;
+}
+.mastery-tracks details.mastery-card:nth-of-type(3n) > summary::before {
+  background-color: var(--md-mp-copper) !important;
+}
+.mastery-tracks details.mastery-card:nth-of-type(3n):hover,
+.mastery-tracks details.mastery-card:nth-of-type(3n)[open] {
+  border-color: var(--md-mp-copper) !important;
+}

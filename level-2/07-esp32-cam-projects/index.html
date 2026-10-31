@@ -1,0 +1,2689 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="ESP32-CAM Vision Projects — The ESP32-CAM pairs the ESP32 you already know from Level 1 with an OV2640 camera module — roughly $8-10, no separate camera…">
+      
+      
+      
+        <link rel="canonical" href="https://sigilipelli.github.io/edge-ai-mastery-path/level-2/07-esp32-cam-projects/">
+      
+      
+        <link rel="prev" href="../06-quantization-aware-training/">
+      
+      
+        <link rel="next" href="../08-person-detection/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>ESP32-CAM Vision Projects - Edge AI Mastery Path</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/progress-tracker.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-05VBGCXN12"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-05VBGCXN12');
+  </script>
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Edge AI Mastery Path">
+  <meta property="og:title" content="ESP32-CAM Vision Projects">
+  <meta property="og:description" content="ESP32-CAM Vision Projects — The ESP32-CAM pairs the ESP32 you already know from Level 1 with an OV2640 camera module — roughly $8-10, no separate camera…">
+  <meta property="og:url" content="https://sigilipelli.github.io/edge-ai-mastery-path/level-2/07-esp32-cam-projects/">
+  <meta property="og:image" content="https://sigilipelli.github.io/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ESP32-CAM Vision Projects">
+  <meta name="twitter:description" content="ESP32-CAM Vision Projects — The ESP32-CAM pairs the ESP32 you already know from Level 1 with an OV2640 camera module — roughly $8-10, no separate camera…">
+  <meta name="twitter:image" content="https://sigilipelli.github.io/og-image.png">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9440969811959397"
+     crossorigin="anonymous"></script>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-9440969811959397",
+      enable_page_level_ads: true
+    });
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Edge AI Mastery Path",
+    "description": "A structured, module-wise Edge AI & TinyML training program from entry level to master level — free, starting with Python and TensorFlow Lite on your laptop, then deploying models to microcontrollers and edge devices.",
+    "provider": {
+      "@type": "Organization",
+      "name": "Mastery Path",
+      "sameAs": "https://sigilipelli.github.io/"
+    },
+    "isAccessibleForFree": true,
+    "url": "https://sigilipelli.github.io/edge-ai-mastery-path/level-2/07-esp32-cam-projects/"
+  }
+  </script>
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "name": "ESP32-CAM Vision Projects",
+    "description": "ESP32-CAM Vision Projects \u2014 The ESP32-CAM pairs the ESP32 you already know from Level 1 with an OV2640 camera module \u2014 roughly $8-10, no separate camera\u2026",
+    "url": "https://sigilipelli.github.io/edge-ai-mastery-path/level-2/07-esp32-cam-projects/",
+    "isPartOf": {
+      "@type": "Course",
+      "name": "Edge AI Mastery Path",
+      "url": "https://sigilipelli.github.io/edge-ai-mastery-path/"
+    },
+    "isAccessibleForFree": true,
+    "learningResourceType": "Lesson",
+    "inLanguage": "en"
+  }
+  </script>
+  
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="deep-purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#esp32-cam-vision-projects" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Edge AI Mastery Path" class="md-header__button md-logo" aria-label="Edge AI Mastery Path" data-md-component="logo">
+      <svg class="mp-mark" viewBox="0 0 160 160" role="img" aria-label="Mastery Path logo">
+  <rect class="mp-bar mp-bar-1" x="36" y="90" width="17" height="24" rx="5" fill="#2FA98D"/>
+  <rect class="mp-bar mp-bar-2" x="59" y="74" width="17" height="40" rx="5" fill="#7FC9B7"/>
+  <rect class="mp-bar mp-bar-3" x="82" y="56" width="17" height="58" rx="5" fill="#E0B457"/>
+  <rect class="mp-bar mp-bar-4" x="105" y="38" width="17" height="76" rx="5" fill="#C97B4A"/>
+  <circle class="mp-dot" cx="44.5" cy="82" r="7" fill="#22261f"/>
+</svg>
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Edge AI Mastery Path
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              ESP32-CAM Vision Projects
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="deep-purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="deep-purple"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/SIGILIPELLI/edge-ai-mastery-path" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    edge-ai-mastery-path
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../privacy/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Privacy Policy
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../license/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  License
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../level-1/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Level 1 · Entry
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Level 2 · Intermediate
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../level-3/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Level 3 · Advanced
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../level-4/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Level 4 · Master
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Edge AI Mastery Path" class="md-nav__button md-logo" aria-label="Edge AI Mastery Path" data-md-component="logo">
+      <svg class="mp-mark" viewBox="0 0 160 160" role="img" aria-label="Mastery Path logo">
+  <rect class="mp-bar mp-bar-1" x="36" y="90" width="17" height="24" rx="5" fill="#2FA98D"/>
+  <rect class="mp-bar mp-bar-2" x="59" y="74" width="17" height="40" rx="5" fill="#7FC9B7"/>
+  <rect class="mp-bar mp-bar-3" x="82" y="56" width="17" height="58" rx="5" fill="#E0B457"/>
+  <rect class="mp-bar mp-bar-4" x="105" y="38" width="17" height="76" rx="5" fill="#C97B4A"/>
+  <circle class="mp-dot" cx="44.5" cy="82" r="7" fill="#22261f"/>
+</svg>
+    </a>
+    Edge AI Mastery Path
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/SIGILIPELLI/edge-ai-mastery-path" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    edge-ai-mastery-path
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../privacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Privacy Policy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../license/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../level-1/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Level 1 · Entry
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Level 1 · Entry
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level-1/01-what-is-edge-ai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 · What Is Edge AI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level-1/02-edge-ai-workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02 · The Edge AI Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level-1/03-training-a-tiny-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03 · Training a Tiny Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level-1/04-converting-to-tflite/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04 · Converting to TFLite/LiteRT
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level-1/05-quantization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05 · Quantization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level-1/06-tflite-micro-c-arrays/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06 · TFLite-Micro & C Arrays
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level-1/07-deploying-to-microcontroller/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07 · Deploying to a Microcontroller
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level-1/08-sensors-feature-extraction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08 · Sensors & Feature Extraction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level-1/09-evaluating-debugging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09 · Evaluating & Debugging Edge Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level-1/10-capstone-gesture-recognition/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10 · Capstone — Gesture Recognition
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Level 2 · Intermediate
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Level 2 · Intermediate
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-audio-wake-words/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Audio Wake Words & Keyword Spotting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-image-classification-mcu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Image Classification on Microcontrollers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-edge-impulse-workflows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Edge Impulse End-to-End Workflows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-data-collection-datasets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Collection & Dataset Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-pruning-distillation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Model Pruning & Knowledge Distillation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-quantization-aware-training/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quantization-Aware Training
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ESP32-CAM Vision Projects
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ESP32-CAM Vision Projects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#board-quirks-before-you-write-any-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Board quirks before you write any code
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-camera-to-tensor-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The camera-to-tensor pipeline
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wiring-the-captured-frame-into-the-tflm-inference-call" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wiring the captured frame into the TFLM inference call
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#edge-ai-tradeoffs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Edge-AI tradeoffs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cheat-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cheat sheet
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-person-detection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Person Detection (Visual Wake Words)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09-memory-latency-optimization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Optimizing Memory & Latency on MCUs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10-project-voice-controlled-device/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project — Voice-Controlled Device
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../level-3/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Level 3 · Advanced
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Level 3 · Advanced
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level-3/01-npus-accelerators-coral/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Edge NPUs & Accelerators (Coral Edge TPU)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level-3/02-vendor-npu-toolchains/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vendor NPU Toolchains (i.MX, Ethos-U)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level-3/03-onnx-runtime/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ONNX Runtime for Edge Inference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level-3/04-streaming-inference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Streaming Inference Pipelines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level-3/05-object-detection-edge/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Object Detection on Edge Devices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level-3/06-ml-compiler-stacks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ML Compiler Stacks (TVM, IREE)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level-3/07-model-security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Model Security on Edge Devices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level-3/08-multi-model-sensor-fusion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-Model Sensor Fusion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level-3/09-benchmarking-mlperf-tiny/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Benchmarking with MLPerf Tiny
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level-3/10-project-accelerated-vision-node/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project: Accelerated Vision Node
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../level-4/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Level 4 · Master
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Level 4 · Master
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level-4/01-production-edge-ai-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Production Edge AI Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level-4/02-ota-model-updates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OTA Model Updates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level-4/03-fleet-monitoring-drift/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fleet Monitoring & Drift Detection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level-4/04-on-device-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    On-Device Learning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level-4/05-federated-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Federated Learning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level-4/06-custom-kernels-cmsis-nn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Kernels with CMSIS-NN
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level-4/07-ultra-low-power-inference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ultra-Low-Power Inference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level-4/08-hardware-codesign/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware/Software Co-Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level-4/09-privacy-safety-compliance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Privacy, Safety & Compliance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../level-4/10-capstone-production-edge-ai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Capstone: Production Edge AI System
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#board-quirks-before-you-write-any-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Board quirks before you write any code
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-camera-to-tensor-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The camera-to-tensor pipeline
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wiring-the-captured-frame-into-the-tflm-inference-call" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wiring the captured frame into the TFLM inference call
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#edge-ai-tradeoffs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Edge-AI tradeoffs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cheat-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cheat sheet
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="esp32-cam-vision-projects">ESP32-CAM Vision Projects<a class="headerlink" href="#esp32-cam-vision-projects" title="Permanent link">&para;</a></h1>
+<p>The ESP32-CAM pairs the ESP32 you already know from Level 1 with an OV2640
+camera module — roughly $8-10, no separate camera board required. It's the
+default cheap hardware for on-device vision in the TinyML community, and it
+comes with real constraints that don't show up on a training laptop: a
+camera driver that eats RAM before your model even loads, no built-in
+USB-serial chip (you need an external programmer), and a PSRAM chip that's
+required for anything beyond the smallest frame sizes. This module covers
+the board's quirks, the camera-to-tensor pipeline in C, and the code you
+review (not run) for capturing and classifying frames on-device.</p>
+<h2 id="board-quirks-before-you-write-any-code">Board quirks before you write any code<a class="headerlink" href="#board-quirks-before-you-write-any-code" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>No onboard USB.</strong> Programming requires an external FTDI/USB-to-serial
+  adapter wired to the ESP32-CAM's UART pins, plus a jumper between <code>IO0</code>
+  and <code>GND</code> during flashing (removed for normal boot). This trips up nearly
+  everyone the first time.</li>
+<li><strong>PSRAM is mandatory for larger frames.</strong> The OV2640 at anything above
+  <code>QVGA</code> (320x240) needs the board's external PSRAM chip for frame buffers;
+  the ESP32's internal SRAM alone (~320 KB usable) can't hold a <code>VGA</code> or
+  larger JPEG/RGB buffer alongside your application and model arena.
+  Confirm <code>psramFound()</code> returns true before requesting large frame sizes.</li>
+<li><strong>The flash LED is wired to a GPIO you'll likely want for something
+  else.</strong> GPIO4 drives the onboard white LED <em>and</em> is one of the SD-card
+  pins — a common source of "why is my LED flickering" or "why won't SD
+  init" confusion.</li>
+<li><strong>Camera init claims a meaningful RAM/flash budget before you've done
+  anything.</strong> The <code>esp32-camera</code> driver itself, plus its internal frame
+  buffers, is worth accounting for in the same memory budget exercise from
+  Module 02 and Level 1 Module 07 — it isn't free overhead you can ignore.</li>
+</ul>
+<h2 id="the-camera-to-tensor-pipeline">The camera-to-tensor pipeline<a class="headerlink" href="#the-camera-to-tensor-pipeline" title="Permanent link">&para;</a></h2>
+<p>A vision inference pipeline on ESP32-CAM has one extra stage that a
+sine-wave or audio model doesn't: decoding and resizing a camera frame
+into the exact tensor shape and format the model expects.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// Reviewed for correctness; not executed in this environment (needs</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1">// physical ESP32-CAM hardware + Arduino/ESP-IDF toolchain + esp32-camera lib).</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"esp_camera.h"</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1">// Typical AI-Thinker ESP32-CAM pin map (varies by board vendor -- verify</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="c1">// against your specific board's silkscreen/datasheet before flashing).</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="cp">#define PWDN_GPIO_NUM     32</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="cp">#define RESET_GPIO_NUM    -1</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="cp">#define XCLK_GPIO_NUM      0</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="cp">#define SIOD_GPIO_NUM     26</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="cp">#define SIOC_GPIO_NUM     27</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="cp">#define Y9_GPIO_NUM       35</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="cp">#define Y8_GPIO_NUM       34</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="cp">#define Y7_GPIO_NUM       39</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="cp">#define Y6_GPIO_NUM       36</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="cp">#define Y5_GPIO_NUM       21</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="cp">#define Y4_GPIO_NUM       19</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="cp">#define Y3_GPIO_NUM       18</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="cp">#define Y2_GPIO_NUM        5</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="cp">#define VSYNC_GPIO_NUM    25</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="cp">#define HREF_GPIO_NUM     23</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="cp">#define PCLK_GPIO_NUM     22</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">init_camera</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="w">  </span><span class="n">camera_config_t</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span>
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="w">  </span><span class="n">config</span><span class="p">.</span><span class="n">pin_pwdn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PWDN_GPIO_NUM</span><span class="p">;</span>
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="w">  </span><span class="n">config</span><span class="p">.</span><span class="n">pin_reset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RESET_GPIO_NUM</span><span class="p">;</span>
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="w">  </span><span class="n">config</span><span class="p">.</span><span class="n">pin_xclk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">XCLK_GPIO_NUM</span><span class="p">;</span>
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="w">  </span><span class="n">config</span><span class="p">.</span><span class="n">pin_sccb_sda</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SIOD_GPIO_NUM</span><span class="p">;</span>
+<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="w">  </span><span class="n">config</span><span class="p">.</span><span class="n">pin_sccb_scl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SIOC_GPIO_NUM</span><span class="p">;</span>
+<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="w">  </span><span class="n">config</span><span class="p">.</span><span class="n">pin_d7</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Y9_GPIO_NUM</span><span class="p">;</span><span class="w">  </span><span class="n">config</span><span class="p">.</span><span class="n">pin_d6</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Y8_GPIO_NUM</span><span class="p">;</span>
+<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a><span class="w">  </span><span class="n">config</span><span class="p">.</span><span class="n">pin_d5</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Y7_GPIO_NUM</span><span class="p">;</span><span class="w">  </span><span class="n">config</span><span class="p">.</span><span class="n">pin_d4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Y6_GPIO_NUM</span><span class="p">;</span>
+<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a><span class="w">  </span><span class="n">config</span><span class="p">.</span><span class="n">pin_d3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Y5_GPIO_NUM</span><span class="p">;</span><span class="w">  </span><span class="n">config</span><span class="p">.</span><span class="n">pin_d2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Y4_GPIO_NUM</span><span class="p">;</span>
+<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a><span class="w">  </span><span class="n">config</span><span class="p">.</span><span class="n">pin_d1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Y3_GPIO_NUM</span><span class="p">;</span><span class="w">  </span><span class="n">config</span><span class="p">.</span><span class="n">pin_d0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Y2_GPIO_NUM</span><span class="p">;</span>
+<a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a><span class="w">  </span><span class="n">config</span><span class="p">.</span><span class="n">pin_vsync</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">VSYNC_GPIO_NUM</span><span class="p">;</span>
+<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a><span class="w">  </span><span class="n">config</span><span class="p">.</span><span class="n">pin_href</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HREF_GPIO_NUM</span><span class="p">;</span>
+<a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a><span class="w">  </span><span class="n">config</span><span class="p">.</span><span class="n">pin_pclk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PCLK_GPIO_NUM</span><span class="p">;</span>
+<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a><span class="w">  </span><span class="n">config</span><span class="p">.</span><span class="n">xclk_freq_hz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20000000</span><span class="p">;</span>
+<a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a><span class="w">  </span><span class="n">config</span><span class="p">.</span><span class="n">pixel_format</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PIXFORMAT_GRAYSCALE</span><span class="p">;</span><span class="w">   </span><span class="c1">// matches Module 02's grayscale models</span>
+<a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a><span class="w">  </span><span class="n">config</span><span class="p">.</span><span class="n">frame_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FRAMESIZE_96X96</span><span class="p">;</span><span class="w">         </span><span class="c1">// small on purpose -- see Module 02/09</span>
+<a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a><span class="w">  </span><span class="n">config</span><span class="p">.</span><span class="n">fb_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">                          </span><span class="c1">// 2 needs PSRAM; 1 fits internal SRAM</span>
+<a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a>
+<a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">esp_camera_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">config</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">ESP_OK</span><span class="p">;</span>
+<a id="__codelineno-0-44" name="__codelineno-0-44" href="#__codelineno-0-44"></a><span class="p">}</span>
+<a id="__codelineno-0-45" name="__codelineno-0-45" href="#__codelineno-0-45"></a>
+<a id="__codelineno-0-46" name="__codelineno-0-46" href="#__codelineno-0-46"></a><span class="c1">// Capture one frame and hand back a pointer usable directly as a model input,</span>
+<a id="__codelineno-0-47" name="__codelineno-0-47" href="#__codelineno-0-47"></a><span class="c1">// since PIXFORMAT_GRAYSCALE + FRAMESIZE_96X96 already matches a 96x96x1 tensor.</span>
+<a id="__codelineno-0-48" name="__codelineno-0-48" href="#__codelineno-0-48"></a><span class="n">camera_fb_t</span><span class="o">*</span><span class="w"> </span><span class="nf">capture_for_inference</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-49" name="__codelineno-0-49" href="#__codelineno-0-49"></a><span class="w">  </span><span class="n">camera_fb_t</span><span class="o">*</span><span class="w"> </span><span class="n">fb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">esp_camera_fb_get</span><span class="p">();</span>
+<a id="__codelineno-0-50" name="__codelineno-0-50" href="#__codelineno-0-50"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">fb</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">nullptr</span><span class="p">;</span>
+<a id="__codelineno-0-51" name="__codelineno-0-51" href="#__codelineno-0-51"></a><span class="w">  </span><span class="c1">// fb-&gt;buf is 96*96 = 9216 bytes of raw grayscale, row-major -- no decode</span>
+<a id="__codelineno-0-52" name="__codelineno-0-52" href="#__codelineno-0-52"></a><span class="w">  </span><span class="c1">// step needed because we requested GRAYSCALE directly from the sensor.</span>
+<a id="__codelineno-0-53" name="__codelineno-0-53" href="#__codelineno-0-53"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">fb</span><span class="p">;</span><span class="w">   </span><span class="c1">// caller must esp_camera_fb_return(fb) when done with it</span>
+<a id="__codelineno-0-54" name="__codelineno-0-54" href="#__codelineno-0-54"></a><span class="p">}</span>
+</code></pre></div>
+<p>Requesting <code>PIXFORMAT_GRAYSCALE</code> and a frame size that exactly matches the
+model's input resolution (<code>FRAMESIZE_96X96</code>) sidesteps the resize/color-
+convert mismatch problem from Module 02 entirely — the sensor does the
+resizing in hardware, and there's no JPEG decode or color-space math to get
+subtly wrong between training and deployment. This is the recommended
+default for a first vision project; JPEG capture plus software decode and
+resize is more flexible (arbitrary target resolutions, doesn't waste sensor
+dynamic range at extreme downscales) but adds a real decode-time and
+RAM cost worth avoiding until you need it.</p>
+<h2 id="wiring-the-captured-frame-into-the-tflm-inference-call">Wiring the captured frame into the TFLM inference call<a class="headerlink" href="#wiring-the-captured-frame-into-the-tflm-inference-call" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// Reviewed, not run -- combines the camera capture above with the TFLM</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1">// pattern from Level 1 Module 07's sketch.</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"tensorflow/lite/micro/micro_interpreter.h"</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"tensorflow/lite/micro/micro_mutable_op_resolver.h"</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"person_detect_model_data.h"</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="k">namespace</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span><span class="k">constexpr</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">kArenaSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">96</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1024</span><span class="p">;</span><span class="w">   </span><span class="c1">// vision models need much more than the 4KB sine arena</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="k">alignas</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">tensor_arena</span><span class="p">[</span><span class="n">kArenaSize</span><span class="p">];</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">  </span><span class="n">tflite</span><span class="o">::</span><span class="n">MicroInterpreter</span><span class="o">*</span><span class="w"> </span><span class="n">interpreter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">nullptr</span><span class="p">;</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">  </span><span class="n">TfLiteTensor</span><span class="o">*</span><span class="w"> </span><span class="n">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">nullptr</span><span class="p">;</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">  </span><span class="n">TfLiteTensor</span><span class="o">*</span><span class="w"> </span><span class="n">output</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">nullptr</span><span class="p">;</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="p">}</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="kt">void</span><span class="w"> </span><span class="nf">run_one_inference</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">  </span><span class="n">camera_fb_t</span><span class="o">*</span><span class="w"> </span><span class="n">fb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">capture_for_inference</span><span class="p">();</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">fb</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"capture failed"</span><span class="p">);</span><span class="w"> </span><span class="k">return</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">  </span><span class="c1">// Copy+quantize the raw grayscale bytes into the model's int8 input tensor.</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">  </span><span class="c1">// Camera bytes are already uint8 0-255; the model expects int8, so the</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">  </span><span class="c1">// conversion is the same affine mapping from Level 1 Module 05.</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">96</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">96</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">pixel_float</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fb</span><span class="o">-&gt;</span><span class="n">buf</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">255.0f</span><span class="p">;</span>
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="w">    </span><span class="n">input</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">.</span><span class="n">int8</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">int8_t</span><span class="p">)</span><span class="w"> </span><span class="n">roundf</span><span class="p">(</span>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="w">        </span><span class="n">pixel_float</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">input</span><span class="o">-&gt;</span><span class="n">params</span><span class="p">.</span><span class="n">scale</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">input</span><span class="o">-&gt;</span><span class="n">params</span><span class="p">.</span><span class="n">zero_point</span><span class="p">);</span>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="w">  </span><span class="n">esp_camera_fb_return</span><span class="p">(</span><span class="n">fb</span><span class="p">);</span><span class="w">   </span><span class="c1">// release the frame buffer back to the driver</span>
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>
+<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="w">  </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">t0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">micros</span><span class="p">();</span>
+<a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a><span class="w">  </span><span class="n">interpreter</span><span class="o">-&gt;</span><span class="n">Invoke</span><span class="p">();</span>
+<a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a><span class="w">  </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">micros</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t0</span><span class="p">;</span>
+<a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>
+<a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a><span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">person_score</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">output</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">.</span><span class="n">int8</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">output</span><span class="o">-&gt;</span><span class="n">params</span><span class="p">.</span><span class="n">zero_point</span><span class="p">)</span>
+<a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a><span class="w">                        </span><span class="o">*</span><span class="w"> </span><span class="n">output</span><span class="o">-&gt;</span><span class="n">params</span><span class="p">.</span><span class="n">scale</span><span class="p">;</span>
+<a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s">"person_score=%.3f  (%u us)</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">person_score</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">unsigned</span><span class="p">)</span><span class="w"> </span><span class="n">dt</span><span class="p">);</span>
+<a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a><span class="p">}</span>
+</code></pre></div>
+<h2 id="edge-ai-tradeoffs">Edge-AI tradeoffs<a class="headerlink" href="#edge-ai-tradeoffs" title="Permanent link">&para;</a></h2>
+<p><strong>Frame size vs. RAM budget.</strong> Every step up in <code>FRAMESIZE_*</code> roughly
+quadruples the frame buffer (dimensions scale in both axes); <code>96x96</code>
+grayscale is 9 KB per frame and needs no PSRAM, while <code>VGA</code> grayscale is
+already 300 KB and single-buffered <code>VGA</code> RGB888 exceeds internal SRAM
+outright.</p>
+<p><strong>Single vs. double frame buffering (<code>fb_count</code>).</strong> Double-buffering
+(<code>fb_count = 2</code>) lets the camera DMA into one buffer while your code reads
+the other, improving throughput/reducing tearing — but doubles RAM cost and
+requires PSRAM for anything but the smallest frame sizes.</p>
+<p><strong>Sensor-side resize vs. software resize.</strong> Capturing at the model's native
+resolution directly (as above) is cheap and avoids training/inference
+mismatch, but limits you to the sensor's fixed frame-size steps; software
+resize from a larger capture is flexible but costs CPU time and RAM for the
+intermediate buffer.</p>
+<p><strong>Grayscale vs. color capture.</strong> As in Module 02, grayscale cuts memory
+3x and often costs little accuracy for presence/absence tasks — combined
+with a small <code>FRAMESIZE</code>, this is what makes person-detection-class models
+(Module 08) fit on an ESP32-CAM at all.</p>
+<h2 id="cheat-sheet">Cheat sheet<a class="headerlink" href="#cheat-sheet" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Concern</th>
+<th>Practical answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Programming</td>
+<td>external FTDI adapter + <code>IO0</code>-<code>GND</code> jumper while flashing</td>
+</tr>
+<tr>
+<td>Confirm PSRAM present</td>
+<td><code>psramFound()</code> before requesting large frames</td>
+</tr>
+<tr>
+<td>Cheapest usable capture</td>
+<td><code>PIXFORMAT_GRAYSCALE</code> + <code>FRAMESIZE_96X96</code>, <code>fb_count=1</code></td>
+</tr>
+<tr>
+<td>Frame buffer size (96x96 gray)</td>
+<td>9,216 bytes, no PSRAM needed</td>
+</tr>
+<tr>
+<td>Match training preprocessing</td>
+<td>capture at model's native resolution to skip resize entirely</td>
+</tr>
+<tr>
+<td>Release frame buffer</td>
+<td>always <code>esp_camera_fb_return(fb)</code> after use</td>
+</tr>
+<tr>
+<td>GPIO conflict to remember</td>
+<td>GPIO4 = flash LED and an SD-card pin</td>
+</tr>
+<tr>
+<td>Vision model arena size</td>
+<td>tens to ~100+ KB, not the 4 KB sine-model arena</td>
+</tr>
+</tbody>
+</table>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><strong>Why requesting <code>PIXFORMAT_GRAYSCALE</code> at the model's exact resolution
+moves work from software into the sensor's own analog/digital pipeline.</strong>
+The OV2640 sensor has an internal image signal processor (ISP) that
+performs demosaicing (its raw photodiode array is actually a Bayer color
+filter, RGB, even when you never see raw Bayer data), scaling, and
+color-space conversion in hardware, on dedicated silicon, before handing
+finished pixels over the parallel DVP bus (the <code>Y0</code>–<code>Y9</code>/<code>D0</code>–<code>D7</code> pins,
+<code>VSYNC</code>/<code>HREF</code>/<code>PCLK</code> timing signals in <code>init_camera()</code>). Asking for
+<code>FRAMESIZE_96X96</code> grayscale directly means the ISP performs the resize and
+the RGB→gray luma conversion using its own fixed-function circuitry at
+essentially zero additional CPU cost or code — versus capturing a larger
+JPEG or RGB frame and running a software resize/color-convert on the
+ESP32's general-purpose core, which costs cycles, RAM for an intermediate
+buffer, and a second place a rounding/algorithm mismatch with training-time
+preprocessing (Module 02) could creep in.</p>
+<p><strong>Why frame buffer count interacts with DMA, not just "using more RAM."</strong>
+The camera driver streams pixel data into a frame buffer via DMA (direct
+memory access) — the sensor's PCLK-clocked byte stream is written into
+SRAM without CPU intervention, freeing the core to do other work while a
+frame fills. With <code>fb_count = 1</code>, the single buffer being DMA-filled for
+frame N+1 is the same buffer your code just finished reading for frame N,
+which forces a strict "wait for full frame, read it, only then request
+the next" sequence — the DMA engine cannot start writing a new frame into
+a buffer your inference loop hasn't released yet. <code>fb_count = 2</code> lets DMA
+fill buffer B while your code still reads buffer A, pipelining capture and
+inference — real throughput gain, but it needs a second full-size buffer
+existing simultaneously, which is exactly why it requires PSRAM once
+frames grow past what fits twice in internal SRAM.</p>
+<p><strong>Why the int8 conversion in <code>run_one_inference</code> reintroduces exactly
+Module 05's affine mapping, byte for byte.</strong> Camera pixels arrive as
+<code>uint8</code> (0–255, unsigned); the model's quantized input tensor is <code>int8</code>
+(-128–127, signed) with its own <code>(scale, zero_point)</code> learned during
+calibration. Dividing by 255 first normalizes to a float in <code>[0,1]</code> — the
+same range the training pipeline's images were normalized to before
+quantization-aware calibration saw them — and then applying
+<code>pixel_float/scale + zero_point</code> performs the identical quantize step
+Level 1 Module 05's <code>int8_predict</code> applied to sine-wave inputs. Skipping
+the <code>/255.0f</code> normalization (feeding raw 0–255 uint8 values straight into
+the scale/zero_point formula) is a common on-device bug that produces
+outputs that are numerically valid int8 values yet completely
+uncorrelated with the model's trained expectations — because the affine
+mapping now operates on a value range 255× larger than what the scale was
+calibrated for.</p>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Read through <code>init_camera()</code> and <code>capture_for_inference()</code> above and
+   list every place a mismatch between training-time preprocessing (Module
+   02) and this capture configuration could silently hurt accuracy —
+   confirm whether this specific configuration avoids each one.</li>
+<li>Using the memory-accounting method from Module 02, estimate total RAM
+   needed for: one 96x96 grayscale frame buffer + a 96 KB tensor arena +
+   a rough 20 KB of driver/stack overhead. Does it fit inside the ESP32's
+   ~320 KB of usable internal SRAM without PSRAM?</li>
+<li>If you own an ESP32-CAM: wire it to an FTDI adapter, flash the official
+   <code>CameraWebServer</code> example sketch, and confirm you can view a live stream
+   in a browser before attempting any custom inference code. Record the
+   frame size and format you tested.</li>
+<li>Paper exercise if you don't have hardware: given <code>FRAMESIZE_QVGA</code>
+   (320x240) grayscale needs PSRAM, but <code>FRAMESIZE_96X96</code> doesn't, compute
+   the byte sizes of both and explain the crossover in your own words.</li>
+</ol>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../06-quantization-aware-training/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Quantization-Aware Training">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Quantization-Aware Training
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../08-person-detection/" class="md-footer__link md-footer__link--next" aria-label="Next: Person Detection (Visual Wake Words)">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Person Detection (Visual Wake Words)
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "navigation.indexes", "toc.follow", "content.code.copy", "content.code.annotate", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../../javascripts/progress-tracker.js"></script>
+      
+    
+  </body>
+</html>

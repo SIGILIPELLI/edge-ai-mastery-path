@@ -1,0 +1,301 @@
+/* Sidebar nav rows that carry a progress checkbox: the checkbox and its
+   link are wrapped in their own <span class="mp-nav-row"> (not the whole
+   <li>) — Material's currently-active nav item also carries an unrelated
+   mobile TOC-toggle label as a sibling inside the same <li>, so flexing
+   the <li> itself would wrongly pull that into the row too. */
+.mp-nav-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  border-radius: 6px;
+  margin: 0 -6px;
+  padding: 2px 6px;
+  transition: background-color .15s ease;
+}
+.mp-nav-row:hover {
+  background-color: var(--md-accent-fg-color--transparent);
+}
+.mp-nav-row > .md-nav__link {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0 !important;
+}
+.mp-nav-row:has(> .mp-progress-check:checked) > .md-nav__link {
+  color: var(--md-default-fg-color--light);
+}
+
+.mp-progress-check {
+  appearance: none;
+  -webkit-appearance: none;
+  flex: none;
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  margin-top: 0.62rem;
+  border-radius: 50%;
+  border: 1.5px solid var(--md-default-fg-color--lighter);
+  background: var(--md-default-bg-color);
+  cursor: pointer;
+  position: relative;
+  transition: border-color .15s ease, background-color .15s ease, transform .1s ease;
+}
+.mp-progress-check:hover {
+  border-color: var(--md-accent-fg-color);
+  transform: scale(1.12);
+}
+.mp-progress-check:checked {
+  background: var(--md-accent-fg-color);
+  border-color: var(--md-accent-fg-color);
+}
+.mp-progress-check:checked::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 1px;
+  width: 4px;
+  height: 7px;
+  border: solid #fff;
+  border-width: 0 1.5px 1.5px 0;
+  transform: rotate(40deg);
+}
+.mp-progress-check:focus-visible {
+  outline: 2px solid var(--md-accent-fg-color);
+  outline-offset: 2px;
+}
+
+.mp-mark-done {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  margin: 0 0 20px;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 8px;
+  font-size: 0.78rem;
+  cursor: pointer;
+  user-select: none;
+  color: var(--md-default-fg-color--light);
+}
+.mp-mark-done input {
+  accent-color: var(--md-accent-fg-color, #2FA98D);
+  cursor: pointer;
+}
+
+.mp-progress-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 20px;
+}
+.mp-progress-track {
+  flex: 1 1 auto;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--md-default-fg-color--lightest);
+  overflow: hidden;
+}
+.mp-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--md-accent-fg-color, #2FA98D);
+  transition: width .25s ease;
+}
+.mp-progress-label {
+  flex: none;
+  font-size: 0.72rem;
+  color: var(--md-default-fg-color--light);
+  white-space: nowrap;
+}
+
+/* ---------- Topic tiles (within-level "Modules" navigation) ---------- */
+.mp-topic-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 10px;
+  margin: 0 0 1.2rem;
+}
+.mp-topic-tile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--md-default-bg-color);
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 10px;
+  text-decoration: none !important;
+  color: var(--md-default-fg-color) !important;
+  transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease;
+}
+.mp-topic-tile:hover {
+  border-color: var(--md-accent-fg-color);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+}
+.mp-topic-tile.is-done {
+  border-color: var(--md-accent-fg-color);
+  background: color-mix(in srgb, var(--md-accent-fg-color) 7%, var(--md-default-bg-color));
+}
+.mp-topic-tile.is-project {
+  border-style: dashed;
+}
+.mp-topic-num {
+  flex: none;
+  width: 34px; height: 34px;
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.82rem; font-weight: 700;
+  background: var(--md-code-bg-color);
+  color: var(--md-default-fg-color--light);
+}
+.mp-topic-tile.is-project .mp-topic-num {
+  color: #fff;
+  background: var(--md-accent-fg-color, #E0B457);
+}
+.mp-topic-body { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.mp-topic-title { font-size: 0.88rem; font-weight: 600; line-height: 1.3; }
+.mp-topic-desc { font-size: 0.74rem; color: var(--md-default-fg-color--light); line-height: 1.3; }
+.mp-topic-tag {
+  font-size: 0.68rem; font-weight: 600; letter-spacing: 0.02em;
+  color: var(--md-accent-fg-color);
+}
+.mp-topic-check {
+  flex: none;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.78rem; font-weight: 700;
+  color: #fff;
+  background: var(--mp-check-bg, transparent);
+}
+.mp-topic-tile.is-done .mp-topic-check { background: var(--md-accent-fg-color, #2FA98D); }
+
+/* ---------- Level tiles (homepage "How the program is organized") ---------- */
+.mp-level-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 12px;
+  margin: 0 0 1.2rem;
+}
+.mp-level-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 18px;
+  background: var(--md-default-bg-color);
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 12px;
+  text-decoration: none !important;
+  color: var(--md-default-fg-color) !important;
+  transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease;
+}
+.mp-level-card:hover {
+  border-color: var(--md-accent-fg-color);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+.mp-level-name { font-weight: 700; font-size: 1rem; }
+.mp-level-focus { font-size: 0.82rem; color: var(--md-default-fg-color--light); }
+.mp-level-modules { font-size: 0.74rem; color: var(--md-default-fg-color--light); }
+.mp-level-track {
+  display: block;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--md-default-fg-color--lightest);
+  overflow: hidden;
+  margin-top: 4px;
+}
+.mp-level-fill {
+  display: block;
+  height: 100%;
+  background: var(--md-accent-fg-color, #2FA98D);
+}
+.mp-level-status { font-size: 0.74rem; font-weight: 600; color: var(--md-accent-fg-color); }
+
+/* ---------- Hero points/progress summary ---------- */
+.mp-hero-summary {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+  margin: 0 0 20px;
+  font-size: 0.85rem;
+  color: var(--md-default-fg-color--light);
+}
+.mp-hero-points { font-weight: 700; color: var(--md-default-fg-color); }
+.mp-hero-sep { opacity: 0.5; }
+
+/* ---------- Certificate CTA card ---------- */
+.mp-cert-cta {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  margin: 1rem 0;
+  padding: 16px 18px;
+  border: 1px solid var(--md-accent-fg-color);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--md-accent-fg-color) 8%, var(--md-default-bg-color));
+}
+.mp-cert-cta-icon { font-size: 1.6rem; flex: none; }
+.mp-cert-cta-text { display: flex; flex-direction: column; gap: 2px; flex: 1 1 auto; min-width: 180px; }
+.mp-cert-cta-text strong { font-size: 0.95rem; }
+.mp-cert-cta-text span:last-child { font-size: 0.82rem; color: var(--md-default-fg-color--light); }
+.mp-cert-cta-btn {
+  flex: none;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 999px;
+  background: var(--md-accent-fg-color, #2FA98D);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: opacity .15s ease;
+}
+.mp-cert-cta-btn:hover { opacity: 0.85; }
+
+/* ---------- Certificate name modal ---------- */
+.mp-modal-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(0,0,0,0.5);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.mp-modal {
+  position: relative;
+  width: 100%; max-width: 420px;
+  background: var(--md-default-bg-color);
+  border-radius: 14px;
+  padding: 28px 24px 24px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+.mp-modal h3 { margin: 0 0 10px; font-size: 1.1rem; }
+.mp-modal p { margin: 0 0 16px; font-size: 0.88rem; color: var(--md-default-fg-color--light); }
+.mp-modal-input {
+  width: 100%;
+  padding: 11px 14px;
+  font-size: 0.95rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 8px;
+  background: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+  margin-bottom: 18px;
+  box-sizing: border-box;
+}
+.mp-modal-input:focus { outline: none; border-color: var(--md-accent-fg-color); }
+.mp-modal-actions { display: flex; justify-content: flex-end; gap: 10px; }
+.mp-modal-cancel, .mp-modal-generate {
+  padding: 9px 16px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  background: transparent;
+  color: var(--md-default-fg-color);
+}
+.mp-modal-generate {
+  border-color: var(--md-accent-fg-color);
+  background: var(--md-accent-fg-color, #2FA98D);
+  color: #fff;
+}
+.mp-modal-close {
+  position: absolute; top: 12px; right: 14px;
+  background: none; border: none; cursor: pointer;
+  font-size: 1.4rem; line-height: 1; color: var(--md-default-fg-color--light);
+  padding: 4px;
+}

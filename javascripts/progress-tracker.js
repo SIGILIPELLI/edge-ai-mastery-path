@@ -1,0 +1,598 @@
+/* Mastery Path — lesson progress tracker (localStorage, no backend, no accounts). */
+(function () {
+  "use strict";
+
+  function repoKey() {
+    var m = location.pathname.match(/^\/([a-z0-9-]+)\//);
+    return m ? m[1] : location.hostname;
+  }
+  var REPO = repoKey();
+  var STORAGE_PREFIX = "mp-done:" + REPO + ":";
+  var POINTS_LESSON = 10;
+  var POINTS_PROJECT = 50;
+
+  function isDone(slug) {
+    return localStorage.getItem(STORAGE_PREFIX + slug) === "1";
+  }
+  function setDone(slug, done) {
+    try {
+      if (done) localStorage.setItem(STORAGE_PREFIX + slug, "1");
+      else localStorage.removeItem(STORAGE_PREFIX + slug);
+    } catch (e) { /* storage disabled/blocked — fail silently */ }
+  }
+  function slugFromHref(href) {
+    try {
+      var u = new URL(href, location.href);
+      var m = u.pathname.match(/\/(level-\d+)\/([^/]+)\/?$/);
+      return m ? m[1] + "/" + m[2] : null;
+    } catch (e) { return null; }
+  }
+  function isProjectSlug(slug) {
+    return /project|capstone/i.test(slug || "");
+  }
+  function pointsFor(slug) {
+    return isProjectSlug(slug) ? POINTS_PROJECT : POINTS_LESSON;
+  }
+
+  function addCheckboxes() {
+    // Scope strictly to the left nav tree — NOT the page's own "On this page" TOC,
+    // whose in-page #anchor links would otherwise resolve to the current page's
+    // own slug and get double-counted as if they were separate lessons.
+    var links = document.querySelectorAll('.md-nav--primary .md-nav__link[href]:not([href^="#"])');
+    var seen = {};
+    links.forEach(function (link) {
+      if (link.dataset.mpChecked) return;
+      var slug = slugFromHref(link.getAttribute("href") || "");
+      if (!slug || seen[slug]) return;
+      seen[slug] = true;
+      link.dataset.mpChecked = "1";
+      link.dataset.mpSlug = slug;
+      var box = document.createElement("input");
+      box.type = "checkbox";
+      box.className = "mp-progress-check";
+      box.checked = isDone(slug);
+      box.title = "Mark lesson complete";
+      box.addEventListener("click", function (e) {
+        e.stopPropagation();
+      });
+      box.addEventListener("change", function () {
+        setDone(slug, box.checked);
+        refreshAll();
+      });
+      // Wrap just the checkbox + link pair in their own row, rather than
+      // flexing the whole <li> — Material's currently-active nav item
+      // also carries an unrelated mobile TOC-toggle <label> as a sibling
+      // inside the same <li>, which a whole-<li> flex rule would wrongly
+      // pull into the same row.
+      var row = document.createElement("span");
+      row.className = "mp-nav-row";
+      link.parentNode.insertBefore(row, link);
+      row.appendChild(box);
+      row.appendChild(link);
+    });
+  }
+
+  // Returns { "level-1": {total, done, points, earned}, ... } from the full
+  // site nav (present in the DOM on every page, not just the current section).
+  function computeLevelStats() {
+    var groups = {};
+    document.querySelectorAll(".md-nav__link[data-mp-slug]").forEach(function (link) {
+      var slug = link.dataset.mpSlug;
+      var level = slug.split("/")[0];
+      groups[level] = groups[level] || { total: 0, done: 0, points: 0, earned: 0 };
+      var pts = pointsFor(slug);
+      groups[level].total++;
+      groups[level].points += pts;
+      if (isDone(slug)) {
+        groups[level].done++;
+        groups[level].earned += pts;
+      }
+    });
+    return groups;
+  }
+
+  function updateBars(stats) {
+    document.querySelectorAll(".mp-progress-bar").forEach(function (bar) {
+      var level = bar.dataset.level;
+      var g = stats[level];
+      if (!g || !g.total) { bar.style.display = "none"; return; }
+      bar.style.display = "";
+      var pct = Math.round((g.done / g.total) * 100);
+      var fill = bar.querySelector(".mp-progress-fill");
+      var label = bar.querySelector(".mp-progress-label");
+      if (fill) fill.style.width = pct + "%";
+      if (label) label.textContent = g.done + " / " + g.total + " complete · " + g.earned + " pts";
+    });
+  }
+
+  function addPageBanner() {
+    var m = location.pathname.match(/\/(level-\d+)\/([^/]+)\/?$/);
+    if (!m) return;
+    var slug = m[1] + "/" + m[2];
+    var content = document.querySelector(".md-content__inner");
+    if (!content || content.dataset.mpBanner) return;
+    content.dataset.mpBanner = "1";
+    var banner = document.createElement("label");
+    banner.className = "mp-mark-done";
+    var box = document.createElement("input");
+    box.type = "checkbox";
+    box.checked = isDone(slug);
+    box.addEventListener("change", function () {
+      setDone(slug, box.checked);
+      document.querySelectorAll('.md-nav__link[data-mp-slug="' + slug + '"]').forEach(function (l) {
+        var cb = l.previousElementSibling;
+        if (cb && cb.classList.contains("mp-progress-check")) cb.checked = box.checked;
+      });
+      refreshAll();
+    });
+    var span = document.createElement("span");
+    span.textContent = box.checked ? "Marked complete" : "Mark this lesson complete";
+    box.addEventListener("change", function () {
+      span.textContent = box.checked ? "Marked complete" : "Mark this lesson complete";
+    });
+    banner.appendChild(box);
+    banner.appendChild(span);
+    content.insertBefore(banner, content.firstChild);
+  }
+
+  function addLevelProgressBar() {
+    var m = location.pathname.match(/\/(level-\d+)\/(index\/?)?$/);
+    var content = document.querySelector(".md-content__inner");
+    if (!content || content.dataset.mpBar) return;
+    var level = m ? m[1] : (location.pathname.match(/\/(level-\d+)\//) || [])[1];
+    if (!level) return;
+    content.dataset.mpBar = "1";
+    var bar = document.createElement("div");
+    bar.className = "mp-progress-bar";
+    bar.dataset.level = level;
+    bar.innerHTML = '<div class="mp-progress-track"><div class="mp-progress-fill"></div></div><span class="mp-progress-label"></span>';
+    content.insertBefore(bar, content.firstChild);
+  }
+
+  // ---------- Topic tiles: turn the plain "## Modules" list into a tile grid ----------
+  function findModulesList() {
+    var headings = document.querySelectorAll(".md-content h2");
+    for (var i = 0; i < headings.length; i++) {
+      if (/^modules\b/i.test(headings[i].textContent.trim())) {
+        var el = headings[i].nextElementSibling;
+        if (el && el.tagName === "OL") return el;
+      }
+    }
+    return null;
+  }
+
+  function enhanceTopicTiles() {
+    var list = findModulesList();
+    if (!list || list.dataset.mpEnhanced) return;
+    list.dataset.mpEnhanced = "1";
+
+    var grid = document.createElement("div");
+    grid.className = "mp-topic-grid";
+
+    Array.prototype.forEach.call(list.children, function (li, i) {
+      var a = li.querySelector("a");
+      if (!a) return;
+      var slug = slugFromHref(a.getAttribute("href") || "");
+      var done = slug ? isDone(slug) : false;
+      var project = isProjectSlug(slug);
+      var title = a.textContent.replace(/^Project\s*—\s*/i, "");
+
+      // Some module lines carry extra context after the link, e.g.
+      // "[Project — X](...) — a complete end-to-end design, from ...".
+      // Preserve it as a tile subtitle instead of silently dropping it.
+      var liClone = li.cloneNode(true);
+      var aInClone = liClone.querySelector("a");
+      if (aInClone) aInClone.remove();
+      var extra = liClone.textContent.replace(/^[\s—–\-:]+/, "").trim();
+
+      var tile = document.createElement("a");
+      tile.href = a.getAttribute("href");
+      tile.className = "mp-topic-tile" + (done ? " is-done" : "") + (project ? " is-project" : "");
+
+      var num = document.createElement("span");
+      num.className = "mp-topic-num";
+      num.textContent = project ? "★" : String(i + 1).padStart(2, "0");
+      tile.appendChild(num);
+
+      var body = document.createElement("span");
+      body.className = "mp-topic-body";
+      var t = document.createElement("span");
+      t.className = "mp-topic-title";
+      t.textContent = title;
+      body.appendChild(t);
+      if (extra) {
+        var desc = document.createElement("span");
+        desc.className = "mp-topic-desc";
+        desc.textContent = extra;
+        body.appendChild(desc);
+      }
+      if (project) {
+        var tag = document.createElement("span");
+        tag.className = "mp-topic-tag";
+        tag.textContent = "Project · " + POINTS_PROJECT + " pts";
+        body.appendChild(tag);
+      }
+      tile.appendChild(body);
+
+      var check = document.createElement("span");
+      check.className = "mp-topic-check";
+      check.textContent = done ? "✓" : "";
+      tile.appendChild(check);
+
+      grid.appendChild(tile);
+    });
+
+    list.parentNode.replaceChild(grid, list);
+  }
+
+  // ---------- Level tiles: turn the homepage's "How the program is organized" table into cards ----------
+  function findLevelTable() {
+    var tables = document.querySelectorAll(".md-content table");
+    for (var i = 0; i < tables.length; i++) {
+      var firstTh = tables[i].querySelector("thead th");
+      if (firstTh && /^level$/i.test(firstTh.textContent.trim())) return tables[i];
+    }
+    return null;
+  }
+
+  function enhanceLevelTable(stats) {
+    var table = findLevelTable();
+    if (!table || table.dataset.mpEnhanced) return;
+    table.dataset.mpEnhanced = "1";
+
+    var rows = table.querySelectorAll("tbody tr");
+    var grid = document.createElement("div");
+    grid.className = "mp-level-grid";
+
+    rows.forEach(function (row) {
+      var cells = row.querySelectorAll("td");
+      if (cells.length < 3) return;
+      var link = cells[0].querySelector("a");
+      if (!link) return;
+      var href = link.getAttribute("href");
+      var levelMatch = href.match(/(level-\d+)/);
+      var level = levelMatch ? levelMatch[1] : null;
+      var g = level ? stats[level] : null;
+
+      var card = document.createElement("a");
+      card.href = href;
+      card.className = "mp-level-card";
+
+      var head = document.createElement("span");
+      head.className = "mp-level-name";
+      head.textContent = link.textContent;
+      card.appendChild(head);
+
+      var focus = document.createElement("span");
+      focus.className = "mp-level-focus";
+      focus.textContent = cells[1].textContent;
+      card.appendChild(focus);
+
+      var modules = document.createElement("span");
+      modules.className = "mp-level-modules";
+      modules.textContent = cells[2].textContent;
+      card.appendChild(modules);
+
+      if (g && g.total) {
+        var pct = Math.round((g.done / g.total) * 100);
+        var track = document.createElement("span");
+        track.className = "mp-level-track";
+        var fill = document.createElement("span");
+        fill.className = "mp-level-fill";
+        fill.style.width = pct + "%";
+        track.appendChild(fill);
+        card.appendChild(track);
+
+        var status = document.createElement("span");
+        status.className = "mp-level-status";
+        status.textContent = g.done >= g.total ? "✓ Complete · " + g.earned + " pts" : g.done + " / " + g.total + " complete";
+        card.appendChild(status);
+      }
+
+      grid.appendChild(card);
+    });
+
+    table.parentNode.replaceChild(grid, table);
+  }
+
+  // ---------- Points + certificate summary on the homepage hero ----------
+  function totalCourseStats(stats) {
+    var out = { total: 0, done: 0, points: 0, earned: 0, levels: 0, levelsDone: 0 };
+    Object.keys(stats).forEach(function (level) {
+      var g = stats[level];
+      out.total += g.total;
+      out.done += g.done;
+      out.points += g.points;
+      out.earned += g.earned;
+      out.levels++;
+      if (g.total && g.done >= g.total) out.levelsDone++;
+    });
+    return out;
+  }
+
+  function addHeroSummary(stats) {
+    var hero = document.querySelector(".mp-hero-lockup");
+    if (!hero || hero.dataset.mpSummary) return;
+    var course = totalCourseStats(stats);
+    if (!course.done) return; // nothing to show for a fresh visitor
+    hero.dataset.mpSummary = "1";
+
+    var box = document.createElement("div");
+    box.className = "mp-hero-summary";
+    box.innerHTML =
+      '<span class="mp-hero-points">🏆 ' + course.earned.toLocaleString() + ' points</span>' +
+      '<span class="mp-hero-sep">·</span>' +
+      '<span>' + course.done + ' / ' + course.total + ' lessons complete</span>';
+    hero.parentNode.insertBefore(box, hero.nextSibling);
+  }
+
+  // ---------- Certificates ----------
+  var COURSE_NAME = (function () {
+    var m = document.querySelector('meta[property="og:site_name"]');
+    return m ? m.content : document.title;
+  })();
+
+  function cleanHeadingText(h1) {
+    if (!h1) return "";
+    var clone = h1.cloneNode(true);
+    var badge = clone.querySelector(".level-badge");
+    if (badge) badge.remove();
+    var link = clone.querySelector(".headerlink");
+    if (link) link.remove();
+    return clone.textContent.trim();
+  }
+
+  function addCertificateButton(container, kind, levelName) {
+    if (container.dataset.mpCert) return;
+    container.dataset.mpCert = "1";
+    var card = document.createElement("div");
+    card.className = "mp-cert-cta";
+    card.innerHTML =
+      '<span class="mp-cert-cta-icon">🎓</span>' +
+      '<span class="mp-cert-cta-text">' +
+      '<strong>' + (kind === "course" ? "Course complete!" : "Level complete!") + '</strong>' +
+      '<span>Claim your ' + (kind === "course" ? "course completion" : "level") + ' certificate.</span>' +
+      '</span>' +
+      '<button type="button" class="mp-cert-cta-btn">Get certificate</button>';
+    card.querySelector("button").addEventListener("click", function () {
+      openCertModal(kind, levelName);
+    });
+    container.appendChild(card);
+  }
+
+  function checkCertificates(stats) {
+    var course = totalCourseStats(stats);
+
+    // Level-page certificate: only on that level's own overview page.
+    var m = location.pathname.match(/\/(level-\d+)\/(index\/?)?$/);
+    if (m) {
+      var level = m[1];
+      var g = stats[level];
+      if (g && g.total && g.done >= g.total) {
+        var content = document.querySelector(".md-content__inner");
+        var h1 = document.querySelector(".md-content h1");
+        var levelName = cleanHeadingText(h1) || level;
+        if (content) addCertificateButton(content, "level", levelName);
+      }
+    }
+
+    // Course-wide certificate: on the homepage, once every level is done.
+    if (location.pathname.match(/^\/[a-z0-9-]+\/?$/) && course.levels && course.levelsDone >= course.levels) {
+      var hero = document.querySelector(".mp-hero-lockup");
+      var host = hero ? hero.parentNode : document.querySelector(".md-content__inner");
+      if (host) addCertificateButton(host, "course", null);
+    }
+  }
+
+  var NAME_KEY = "mp-learner-name";
+
+  function openCertModal(kind, levelName) {
+    var existing = document.getElementById("mp-cert-modal");
+    if (existing) existing.remove();
+
+    var overlay = document.createElement("div");
+    overlay.id = "mp-cert-modal";
+    overlay.className = "mp-modal-overlay";
+    var savedName = "";
+    try { savedName = localStorage.getItem(NAME_KEY) || ""; } catch (e) {}
+
+    overlay.innerHTML =
+      '<div class="mp-modal" role="dialog" aria-modal="true" aria-label="Claim certificate">' +
+      '<button type="button" class="mp-modal-close" aria-label="Close">&times;</button>' +
+      '<h3>🎓 Claim your certificate</h3>' +
+      '<p>' + (kind === "course"
+        ? "You've completed every level of " + escapeHtml(COURSE_NAME) + ". What name should the certificate show?"
+        : "You've completed " + escapeHtml(levelName) + ". What name should the certificate show?") + '</p>' +
+      '<input type="text" class="mp-modal-input" placeholder="Your full name" maxlength="80" value="' + escapeHtml(savedName) + '">' +
+      '<div class="mp-modal-actions">' +
+      '<button type="button" class="mp-modal-cancel">Cancel</button>' +
+      '<button type="button" class="mp-modal-generate">Generate certificate</button>' +
+      '</div>' +
+      '</div>';
+
+    document.body.appendChild(overlay);
+    var input = overlay.querySelector(".mp-modal-input");
+    input.focus();
+    input.select();
+
+    function close() { overlay.remove(); }
+    overlay.addEventListener("click", function (e) { if (e.target === overlay) close(); });
+    overlay.querySelector(".mp-modal-close").addEventListener("click", close);
+    overlay.querySelector(".mp-modal-cancel").addEventListener("click", close);
+    function submit() {
+      var name = input.value.trim();
+      if (!name) { input.focus(); return; }
+      try { localStorage.setItem(NAME_KEY, name); } catch (e) {}
+      generateCertificate(name, kind, levelName);
+      close();
+    }
+    overlay.querySelector(".mp-modal-generate").addEventListener("click", submit);
+    input.addEventListener("keydown", function (e) { if (e.key === "Enter") submit(); });
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
+  function generateCertificate(name, kind, levelName) {
+    var W = 1600, H = 1131;
+    var canvas = document.createElement("canvas");
+    canvas.width = W; canvas.height = H;
+    var ctx = canvas.getContext("2d");
+
+    // background
+    ctx.fillStyle = "#FAF7EF";
+    ctx.fillRect(0, 0, W, H);
+
+    // outer border
+    ctx.strokeStyle = "#2FA98D";
+    ctx.lineWidth = 6;
+    ctx.strokeRect(36, 36, W - 72, H - 72);
+    ctx.strokeStyle = "#E0B457";
+    ctx.lineWidth = 2;
+    ctx.strokeRect(56, 56, W - 112, H - 112);
+
+    // brand mark (ascending bars)
+    var bx = W / 2 - 70, by = 120;
+    var bars = [
+      { x: 0, h: 34, c: "#2FA98D" },
+      { x: 24, h: 56, c: "#7FC9B7" },
+      { x: 48, h: 80, c: "#E0B457" },
+      { x: 72, h: 104, c: "#C97B4A" }
+    ];
+    bars.forEach(function (b) {
+      ctx.fillStyle = b.c;
+      roundRect(ctx, bx + b.x, by + (104 - b.h), 17, b.h, 5);
+      ctx.fill();
+    });
+    ctx.fillStyle = "#22261f";
+    ctx.beginPath();
+    ctx.arc(bx + 8, by + 24, 7, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.textAlign = "center";
+    ctx.fillStyle = "#565f52";
+    ctx.font = "700 20px Georgia, 'Times New Roman', serif";
+    ctx.fillText("M A S T E R Y   P A T H", W / 2, by + 150);
+
+    ctx.fillStyle = "#22261f";
+    ctx.font = "italic 400 26px Georgia, 'Times New Roman', serif";
+    ctx.fillText("Certificate of Completion", W / 2, 330);
+
+    ctx.font = "400 22px Georgia, 'Times New Roman', serif";
+    ctx.fillStyle = "#565f52";
+    ctx.fillText("This certifies that", W / 2, 400);
+
+    ctx.font = "700 64px Georgia, 'Times New Roman', serif";
+    ctx.fillStyle = "#22261f";
+    ctx.fillText(name, W / 2, 480);
+    ctx.strokeStyle = "#E0B457";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    var nameWidth = Math.min(ctx.measureText(name).width + 80, W - 300);
+    ctx.moveTo(W / 2 - nameWidth / 2, 505);
+    ctx.lineTo(W / 2 + nameWidth / 2, 505);
+    ctx.stroke();
+
+    ctx.font = "400 24px Georgia, 'Times New Roman', serif";
+    ctx.fillStyle = "#565f52";
+    var line2 = kind === "course"
+      ? "has successfully completed the complete " + COURSE_NAME
+      : "has successfully completed " + (levelName || "a level") + " of " + COURSE_NAME;
+    wrapText(ctx, line2, W / 2, 560, W - 420, 34);
+
+    var today = new Date();
+    var dateStr = today.toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
+
+    // date + signature lines
+    var lineY = 880, labelY = 915;
+    ctx.strokeStyle = "#565f52";
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(300, lineY); ctx.lineTo(620, lineY); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(W - 620, lineY); ctx.lineTo(W - 300, lineY); ctx.stroke();
+
+    ctx.font = "400 22px Georgia, 'Times New Roman', serif";
+    ctx.fillStyle = "#22261f";
+    ctx.fillText(dateStr, 460, lineY - 14);
+    ctx.fillText("Vinod Bhanuja", W - 460, lineY - 14);
+
+    ctx.font = "600 14px -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
+    ctx.fillStyle = "#565f52";
+    ctx.fillText("DATE", 460, labelY);
+    ctx.fillText("CREATOR, MASTERY PATH", W - 460, labelY);
+
+    var certId = "MP-" + REPO.replace("-mastery-path", "").toUpperCase().slice(0, 8) + "-" + Date.now().toString(36).toUpperCase();
+    ctx.font = "400 15px -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
+    ctx.fillStyle = "#9aa092";
+    ctx.fillText("Certificate ID: " + certId + "  ·  sigilipelli.github.io/" + REPO, W / 2, H - 70);
+
+    var url = canvas.toDataURL("image/png");
+    var a = document.createElement("a");
+    a.href = url;
+    var fileLevel = kind === "course" ? "course" : (levelName || "level").toLowerCase().replace(/[^a-z0-9]+/g, "-");
+    a.download = REPO + "-" + fileLevel + "-certificate.png";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+  }
+
+  function wrapText(ctx, text, cx, y, maxWidth, lineHeight) {
+    var words = text.split(" ");
+    var line = "";
+    var lines = [];
+    for (var i = 0; i < words.length; i++) {
+      var test = line + words[i] + " ";
+      if (ctx.measureText(test).width > maxWidth && line) {
+        lines.push(line.trim());
+        line = words[i] + " ";
+      } else {
+        line = test;
+      }
+    }
+    lines.push(line.trim());
+    var startY = y - ((lines.length - 1) * lineHeight) / 2;
+    lines.forEach(function (l, i) { ctx.fillText(l, cx, startY + i * lineHeight); });
+  }
+
+  // ---------- Orchestration ----------
+  function refreshAll() {
+    var stats = computeLevelStats();
+    updateBars(stats);
+    addHeroSummary(stats);
+    checkCertificates(stats);
+  }
+
+  function init() {
+    addCheckboxes();
+    addPageBanner();
+    addLevelProgressBar();
+    var stats = computeLevelStats();
+    enhanceTopicTiles();
+    enhanceLevelTable(stats);
+    updateBars(stats);
+    addHeroSummary(stats);
+    checkCertificates(stats);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+  // mkdocs-material uses instant loading (SPA-like nav) — re-run on navigation.
+  if (window.document$ && window.document$.subscribe) {
+    window.document$.subscribe(init);
+  }
+})();
