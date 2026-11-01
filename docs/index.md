@@ -71,7 +71,7 @@ Start here → [Level 1 · Entry](level-1/index.md)
 
 ## More from the Mastery Path series
 
-Free, structured, module-wise training across 98 other languages, platforms and disciplines — expand a category to browse:
+Free, structured, module-wise training across 99 other languages, platforms and disciplines — expand a category to browse:
 
 <div class="mastery-tracks">
 <details class="mastery-card">
@@ -174,7 +174,7 @@ Free, structured, module-wise training across 98 other languages, platforms and 
 </div>
 </details>
 <details class="mastery-card">
-<summary>AI / ML / LLM <span class="mastery-count">10</span></summary>
+<summary>AI / ML / LLM <span class="mastery-count">11</span></summary>
 <div class="mastery-grid">
   <a href="https://sigilipelli.github.io/ai-ml-mastery-path/">🤖 AI/ML</a>
   <a href="https://sigilipelli.github.io/llm-dev-mastery-path/">🧠 LLM Dev</a>
@@ -186,6 +186,7 @@ Free, structured, module-wise training across 98 other languages, platforms and 
   <a href="https://sigilipelli.github.io/ai-agents-mastery-path/">🕹️ AI Agents</a>
   <a href="https://sigilipelli.github.io/mlops-mastery-path/">🔁 MLOps</a>
   <a href="https://sigilipelli.github.io/computer-vision-mastery-path/">👁️ Computer Vision</a>
+  <a href="https://sigilipelli.github.io/python-mastery-path/mcp-mastery-path/">🔌 MCP</a>
 </div>
 </details>
 <details class="mastery-card">
