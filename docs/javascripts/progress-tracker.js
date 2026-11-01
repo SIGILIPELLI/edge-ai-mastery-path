@@ -112,27 +112,62 @@
     var content = document.querySelector(".md-content__inner");
     if (!content || content.dataset.mpBanner) return;
     content.dataset.mpBanner = "1";
+
     var banner = document.createElement("label");
     banner.className = "mp-mark-done";
     var box = document.createElement("input");
     box.type = "checkbox";
     box.checked = isDone(slug);
-    box.addEventListener("change", function () {
-      setDone(slug, box.checked);
+
+    var span = document.createElement("span");
+    function render() {
+      span.textContent = box.checked ? "Marked complete" : "Mark this lesson complete";
+    }
+    render();
+
+    function mark(done) {
+      if (box.checked === done) return;
+      box.checked = done;
+      render();
+      setDone(slug, done);
       document.querySelectorAll('.md-nav__link[data-mp-slug="' + slug + '"]').forEach(function (l) {
         var cb = l.previousElementSibling;
-        if (cb && cb.classList.contains("mp-progress-check")) cb.checked = box.checked;
+        if (cb && cb.classList.contains("mp-progress-check")) cb.checked = done;
       });
       refreshAll();
-    });
-    var span = document.createElement("span");
-    span.textContent = box.checked ? "Marked complete" : "Mark this lesson complete";
+    }
+
     box.addEventListener("change", function () {
-      span.textContent = box.checked ? "Marked complete" : "Mark this lesson complete";
+      mark(box.checked);
     });
     banner.appendChild(box);
     banner.appendChild(span);
-    content.insertBefore(banner, content.firstChild);
+
+    // Placed at the END of the lesson, right before the prev/next footer —
+    // by the time a reader sees this, they've already scrolled past
+    // everything. Reaching it, or moving on to the next lesson, is itself
+    // the signal that the lesson is done, so auto-check it instead of
+    // making the reader click anything.
+    content.appendChild(banner);
+
+    if (!box.checked && "IntersectionObserver" in window) {
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            mark(true);
+            observer.disconnect();
+          }
+        });
+      }, { threshold: 0.6 });
+      observer.observe(banner);
+    }
+
+    var nextLink = document.querySelector(".md-footer__link--next");
+    if (nextLink && !box.checked) {
+      nextLink.addEventListener("click", function () {
+        mark(true);
+      });
+    }
   }
 
   function addLevelProgressBar() {
@@ -222,6 +257,7 @@
       grid.appendChild(tile);
     });
 
+    if (!grid.children.length) return;
     list.parentNode.replaceChild(grid, list);
   }
 

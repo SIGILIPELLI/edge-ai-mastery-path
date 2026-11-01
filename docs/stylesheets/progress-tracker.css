@@ -67,14 +67,20 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 14px;
-  margin: 0 0 20px;
+  padding: 10px 16px;
+  margin: 40px 0 0;
   border: 1px solid var(--md-default-fg-color--lightest);
   border-radius: 8px;
   font-size: 0.78rem;
   cursor: pointer;
   user-select: none;
   color: var(--md-default-fg-color--light);
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+.mp-mark-done:has(input:checked) {
+  background: color-mix(in srgb, var(--md-accent-fg-color, #2FA98D) 10%, transparent);
+  border-color: color-mix(in srgb, var(--md-accent-fg-color, #2FA98D) 35%, transparent);
+  color: var(--md-default-fg-color);
 }
 .mp-mark-done input {
   accent-color: var(--md-accent-fg-color, #2FA98D);
