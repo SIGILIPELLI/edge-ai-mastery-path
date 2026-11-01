@@ -2,6 +2,21 @@
 (function () {
   "use strict";
 
+  // document.currentScript is only valid during this synchronous top-level
+  // run, so it's captured here and used later to resolve asset paths (e.g.
+  // the certificate signature image) correctly from any page depth.
+  var SCRIPT_BASE = (function () {
+    var cur = document.currentScript;
+    if (cur && cur.src) return cur.src.replace(/javascripts\/progress-tracker\.js(\?.*)?$/, "");
+    return "";
+  })();
+  var SIGNATURE_IMG = new Image();
+  var signatureReady = new Promise(function (resolve) {
+    SIGNATURE_IMG.onload = resolve;
+    SIGNATURE_IMG.onerror = resolve;
+  });
+  SIGNATURE_IMG.src = SCRIPT_BASE + "assets/signature-vinod.png";
+
   function repoKey() {
     var m = location.pathname.match(/^\/([a-z0-9-]+)\//);
     return m ? m[1] : location.hostname;
@@ -459,7 +474,9 @@
       var name = input.value.trim();
       if (!name) { input.focus(); return; }
       try { localStorage.setItem(NAME_KEY, name); } catch (e) {}
-      generateCertificate(name, kind, levelName);
+      signatureReady.then(function () {
+        generateCertificate(name, kind, levelName);
+      });
       close();
     }
     overlay.querySelector(".mp-modal-generate").addEventListener("click", submit);
@@ -473,7 +490,7 @@
   }
 
   function generateCertificate(name, kind, levelName) {
-    var W = 1600, H = 1131;
+    var W = 1600, H = 1040;
     var canvas = document.createElement("canvas");
     canvas.width = W; canvas.height = H;
     var ctx = canvas.getContext("2d");
@@ -490,74 +507,90 @@
     ctx.lineWidth = 2;
     ctx.strokeRect(56, 56, W - 112, H - 112);
 
-    // brand mark (ascending bars)
-    var bx = W / 2 - 70, by = 120;
+    // brand mark (ascending bars) — small letterhead-style mark up top
+    var bx = W / 2 - 50, by = 80;
     var bars = [
-      { x: 0, h: 34, c: "#2FA98D" },
-      { x: 24, h: 56, c: "#7FC9B7" },
-      { x: 48, h: 80, c: "#E0B457" },
-      { x: 72, h: 104, c: "#C97B4A" }
+      { x: 0, h: 24, c: "#2FA98D" },
+      { x: 17, h: 40, c: "#7FC9B7" },
+      { x: 34, h: 57, c: "#E0B457" },
+      { x: 51, h: 74, c: "#C97B4A" }
     ];
     bars.forEach(function (b) {
       ctx.fillStyle = b.c;
-      roundRect(ctx, bx + b.x, by + (104 - b.h), 17, b.h, 5);
+      roundRect(ctx, bx + b.x, by + (74 - b.h), 12, b.h, 4);
       ctx.fill();
     });
     ctx.fillStyle = "#22261f";
     ctx.beginPath();
-    ctx.arc(bx + 8, by + 24, 7, 0, Math.PI * 2);
+    ctx.arc(bx + 6, by + 17, 5, 0, Math.PI * 2);
     ctx.fill();
 
     ctx.textAlign = "center";
     ctx.fillStyle = "#565f52";
-    ctx.font = "700 20px Georgia, 'Times New Roman', serif";
-    ctx.fillText("M A S T E R Y   P A T H", W / 2, by + 150);
+    ctx.font = "700 18px Georgia, 'Times New Roman', serif";
+    ctx.fillText("M A S T E R Y   P A T H", W / 2, by + 108);
 
+    // big title, matching a classic "CERTIFICATE OF COMPLETION" letterhead
     ctx.fillStyle = "#22261f";
-    ctx.font = "italic 400 26px Georgia, 'Times New Roman', serif";
-    ctx.fillText("Certificate of Completion", W / 2, 330);
+    ctx.font = "700 66px Georgia, 'Times New Roman', serif";
+    ctx.fillText("C E R T I F I C A T E", W / 2, 325);
+
+    ctx.fillStyle = "#565f52";
+    ctx.font = "700 20px Georgia, 'Times New Roman', serif";
+    ctx.fillText("O F   C O M P L E T I O N", W / 2, 362);
 
     ctx.font = "400 22px Georgia, 'Times New Roman', serif";
     ctx.fillStyle = "#565f52";
-    ctx.fillText("This certifies that", W / 2, 400);
+    ctx.fillText("This certificate is given to:", W / 2, 420);
 
-    ctx.font = "700 64px Georgia, 'Times New Roman', serif";
+    ctx.font = "700 60px Georgia, 'Times New Roman', serif";
     ctx.fillStyle = "#22261f";
-    ctx.fillText(name, W / 2, 480);
+    ctx.fillText(name, W / 2, 495);
     ctx.strokeStyle = "#E0B457";
     ctx.lineWidth = 2;
     ctx.beginPath();
     var nameWidth = Math.min(ctx.measureText(name).width + 80, W - 300);
-    ctx.moveTo(W / 2 - nameWidth / 2, 505);
-    ctx.lineTo(W / 2 + nameWidth / 2, 505);
+    ctx.moveTo(W / 2 - nameWidth / 2, 518);
+    ctx.lineTo(W / 2 + nameWidth / 2, 518);
     ctx.stroke();
-
-    ctx.font = "400 24px Georgia, 'Times New Roman', serif";
-    ctx.fillStyle = "#565f52";
-    var line2 = kind === "course"
-      ? "has successfully completed the complete " + COURSE_NAME
-      : "has successfully completed " + (levelName || "a level") + " of " + COURSE_NAME;
-    wrapText(ctx, line2, W / 2, 560, W - 420, 34);
 
     var today = new Date();
     var dateStr = today.toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
 
-    // date + signature lines
-    var lineY = 880, labelY = 915;
+    ctx.font = "400 24px Georgia, 'Times New Roman', serif";
+    ctx.fillStyle = "#565f52";
+    var line2 = (kind === "course"
+      ? "has successfully completed the complete " + COURSE_NAME
+      : "has successfully completed " + (levelName || "a level") + " of " + COURSE_NAME)
+      + " on " + dateStr + ". Their dedication and commitment to the learning"
+      + " process are truly commendable.";
+    wrapText(ctx, line2, W / 2, 565, W - 340, 34);
+
+    // single centered signature: the real embedded signature image over a
+    // name line, rather than the old two-signature left/right layout.
+    var sigW = 260, sigH = SIGNATURE_IMG.naturalHeight
+      ? Math.round(sigW * (SIGNATURE_IMG.naturalHeight / SIGNATURE_IMG.naturalWidth))
+      : 109;
+    var sigY = 760;
+    if (SIGNATURE_IMG.complete && SIGNATURE_IMG.naturalWidth > 0) {
+      ctx.drawImage(SIGNATURE_IMG, W / 2 - sigW / 2, sigY - sigH, sigW, sigH);
+    }
+
+    var lineY = sigY + 22, labelY = lineY + 32;
     ctx.strokeStyle = "#565f52";
     ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(300, lineY); ctx.lineTo(620, lineY); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(W - 620, lineY); ctx.lineTo(W - 300, lineY); ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(W / 2 - 150, lineY);
+    ctx.lineTo(W / 2 + 150, lineY);
+    ctx.stroke();
 
-    ctx.font = "400 22px Georgia, 'Times New Roman', serif";
+    ctx.font = "700 22px Georgia, 'Times New Roman', serif";
     ctx.fillStyle = "#22261f";
-    ctx.fillText(dateStr, 460, lineY - 14);
-    ctx.fillText("Vinod Bhanuja", W - 460, lineY - 14);
+    ctx.fillText("VINOD KUMAR S", W / 2, labelY);
 
-    ctx.font = "600 14px -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
+    ctx.font = "600 13px -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
     ctx.fillStyle = "#565f52";
-    ctx.fillText("DATE", 460, labelY);
-    ctx.fillText("CREATOR, MASTERY PATH", W - 460, labelY);
+    ctx.fillText("F O U N D E R ,   M A S T E R Y   P A T H", W / 2, labelY + 24);
 
     var certId = "MP-" + REPO.replace("-mastery-path", "").toUpperCase().slice(0, 8) + "-" + Date.now().toString(36).toUpperCase();
     ctx.font = "400 15px -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
