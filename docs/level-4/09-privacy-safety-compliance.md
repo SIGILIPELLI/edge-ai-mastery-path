@@ -243,7 +243,7 @@ defaults is safe.
 
 ## 🔀 Related lessons on other tracks
 
-- [LLM Dev — 09 · Compliance, Privacy & Governance](https://sigilipelli.github.io/llm-dev-mastery-path/level-4/09-compliance-privacy-governance/)
+- [LLM Dev — 09 · Compliance, Privacy & Governance](https://learnmasterypath.com/llm-dev-mastery-path/level-4/09-compliance-privacy-governance/)
 
 ## Exercise
 

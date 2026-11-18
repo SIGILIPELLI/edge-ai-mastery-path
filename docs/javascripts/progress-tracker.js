@@ -595,7 +595,7 @@
     var certId = "MP-" + REPO.replace("-mastery-path", "").toUpperCase().slice(0, 8) + "-" + Date.now().toString(36).toUpperCase();
     ctx.font = "400 15px -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
     ctx.fillStyle = "#9aa092";
-    ctx.fillText("Certificate ID: " + certId + "  ·  sigilipelli.github.io/" + REPO, W / 2, H - 70);
+    ctx.fillText("Certificate ID: " + certId + "  ·  learnmasterypath.com/" + REPO, W / 2, H - 70);
 
     var url = canvas.toDataURL("image/png");
     var a = document.createElement("a");

@@ -238,7 +238,7 @@ enough to shift every activation in the first conv layer.
 
 ## 🔀 Related lessons on other tracks
 
-- [AI/ML — 05 · CNNs for Image Classification](https://sigilipelli.github.io/ai-ml-mastery-path/level-2/05-cnns-images/)
+- [AI/ML — 05 · CNNs for Image Classification](https://learnmasterypath.com/ai-ml-mastery-path/level-2/05-cnns-images/)
 
 ## Exercise
 

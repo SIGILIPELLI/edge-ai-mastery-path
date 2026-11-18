@@ -243,9 +243,9 @@ a clock would check and how often something is actually there to find.
 
 ## 🔀 Related lessons on other tracks
 
-- [Embedded — Ultra-Low-Power & Energy Harvesting](https://sigilipelli.github.io/embedded-mastery-path/level-4/07-ultra-low-power/)
-- [Freertos — Tickless Idle & Low Power](https://sigilipelli.github.io/freertos-mastery-path/level-2/03-tickless-idle-low-power/)
-- [S32K Automotive — Low-Power Modes & Wakeup Sources](https://sigilipelli.github.io/s32k-mastery-path/level-2/05-low-power-modes/)
+- [Embedded — Ultra-Low-Power & Energy Harvesting](https://learnmasterypath.com/embedded-mastery-path/level-4/07-ultra-low-power/)
+- [Freertos — Tickless Idle & Low Power](https://learnmasterypath.com/freertos-mastery-path/level-2/03-tickless-idle-low-power/)
+- [S32K Automotive — Low-Power Modes & Wakeup Sources](https://learnmasterypath.com/s32k-mastery-path/level-2/05-low-power-modes/)
 
 ## Exercise
 

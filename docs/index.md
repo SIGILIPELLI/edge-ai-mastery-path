@@ -60,9 +60,9 @@ in the browser.
 - Use the search bar (top of the page) to jump straight to a topic.
 
 New to machine learning itself? The
-[AI & ML Mastery Path](https://sigilipelli.github.io/ai-ml-mastery-path/)
+[AI & ML Mastery Path](https://learnmasterypath.com/ai-ml-mastery-path/)
 covers model training fundamentals. New to microcontrollers? The
-[Embedded Systems Mastery Path](https://sigilipelli.github.io/embedded-mastery-path/)
+[Embedded Systems Mastery Path](https://learnmasterypath.com/embedded-mastery-path/)
 covers Arduino/ESP32 basics. Neither is strictly required to start here.
 
 Start here → [Level 1 · Entry](level-1/index.md)
@@ -77,175 +77,175 @@ Free, structured, module-wise training across 99 other languages, platforms and 
 <details class="mastery-card">
 <summary>Languages <span class="mastery-count">20</span></summary>
 <div class="mastery-grid">
-  <a href="https://sigilipelli.github.io/python-mastery-path/">🐍 Python</a>
-  <a href="https://sigilipelli.github.io/java-mastery-path/">☕ Java</a>
-  <a href="https://sigilipelli.github.io/javascript-mastery-path/">🟨 JavaScript</a>
-  <a href="https://sigilipelli.github.io/typescript-mastery-path/">🔷 TypeScript</a>
-  <a href="https://sigilipelli.github.io/csharp-mastery-path/">🔵 C#</a>
-  <a href="https://sigilipelli.github.io/shell-mastery-path/">🐚 Shell/Bash</a>
-  <a href="https://sigilipelli.github.io/powershell-mastery-path/">💻 PowerShell</a>
-  <a href="https://sigilipelli.github.io/c-mastery-path/">🇨 C</a>
-  <a href="https://sigilipelli.github.io/cpp-mastery-path/">➕ C++</a>
-  <a href="https://sigilipelli.github.io/go-mastery-path/">🐹 Go</a>
-  <a href="https://sigilipelli.github.io/rust-mastery-path/">🦀 Rust</a>
-  <a href="https://sigilipelli.github.io/sql-mastery-path/">🗄️ SQL</a>
-  <a href="https://sigilipelli.github.io/ruby-mastery-path/">💎 Ruby</a>
-  <a href="https://sigilipelli.github.io/php-mastery-path/">🐘 PHP</a>
-  <a href="https://sigilipelli.github.io/kotlin-mastery-path/">🟣 Kotlin</a>
-  <a href="https://sigilipelli.github.io/swift-mastery-path/">🐦 Swift</a>
-  <a href="https://sigilipelli.github.io/dart-mastery-path/">🎯 Dart</a>
-  <a href="https://sigilipelli.github.io/scala-mastery-path/">🔴 Scala</a>
-  <a href="https://sigilipelli.github.io/r-mastery-path/">📊 R</a>
-  <a href="https://sigilipelli.github.io/matlab-mastery-path/">🟧 MATLAB</a>
+  <a href="https://learnmasterypath.com/python-mastery-path/">🐍 Python</a>
+  <a href="https://learnmasterypath.com/java-mastery-path/">☕ Java</a>
+  <a href="https://learnmasterypath.com/javascript-mastery-path/">🟨 JavaScript</a>
+  <a href="https://learnmasterypath.com/typescript-mastery-path/">🔷 TypeScript</a>
+  <a href="https://learnmasterypath.com/csharp-mastery-path/">🔵 C#</a>
+  <a href="https://learnmasterypath.com/shell-mastery-path/">🐚 Shell/Bash</a>
+  <a href="https://learnmasterypath.com/powershell-mastery-path/">💻 PowerShell</a>
+  <a href="https://learnmasterypath.com/c-mastery-path/">🇨 C</a>
+  <a href="https://learnmasterypath.com/cpp-mastery-path/">➕ C++</a>
+  <a href="https://learnmasterypath.com/go-mastery-path/">🐹 Go</a>
+  <a href="https://learnmasterypath.com/rust-mastery-path/">🦀 Rust</a>
+  <a href="https://learnmasterypath.com/sql-mastery-path/">🗄️ SQL</a>
+  <a href="https://learnmasterypath.com/ruby-mastery-path/">💎 Ruby</a>
+  <a href="https://learnmasterypath.com/php-mastery-path/">🐘 PHP</a>
+  <a href="https://learnmasterypath.com/kotlin-mastery-path/">🟣 Kotlin</a>
+  <a href="https://learnmasterypath.com/swift-mastery-path/">🐦 Swift</a>
+  <a href="https://learnmasterypath.com/dart-mastery-path/">🎯 Dart</a>
+  <a href="https://learnmasterypath.com/scala-mastery-path/">🔴 Scala</a>
+  <a href="https://learnmasterypath.com/r-mastery-path/">📊 R</a>
+  <a href="https://learnmasterypath.com/matlab-mastery-path/">🟧 MATLAB</a>
 </div>
 </details>
 <details class="mastery-card">
 <summary>Web Frameworks <span class="mastery-count">11</span></summary>
 <div class="mastery-grid">
-  <a href="https://sigilipelli.github.io/react-mastery-path/">⚛️ React</a>
-  <a href="https://sigilipelli.github.io/nextjs-mastery-path/">▲ Next.js</a>
-  <a href="https://sigilipelli.github.io/angular-mastery-path/">🅰️ Angular</a>
-  <a href="https://sigilipelli.github.io/vue-mastery-path/">💚 Vue.js</a>
-  <a href="https://sigilipelli.github.io/html-css-mastery-path/">🎨 HTML & CSS</a>
-  <a href="https://sigilipelli.github.io/tailwind-mastery-path/">🌬️ Tailwind CSS</a>
-  <a href="https://sigilipelli.github.io/django-mastery-path/">🎸 Django</a>
-  <a href="https://sigilipelli.github.io/fastapi-mastery-path/">🚀 FastAPI</a>
-  <a href="https://sigilipelli.github.io/graphql-mastery-path/">🕸️ GraphQL</a>
-  <a href="https://sigilipelli.github.io/nodejs-mastery-path/">🟩 Node.js</a>
-  <a href="https://sigilipelli.github.io/spring-boot-mastery-path/">🍃 Spring Boot</a>
+  <a href="https://learnmasterypath.com/react-mastery-path/">⚛️ React</a>
+  <a href="https://learnmasterypath.com/nextjs-mastery-path/">▲ Next.js</a>
+  <a href="https://learnmasterypath.com/angular-mastery-path/">🅰️ Angular</a>
+  <a href="https://learnmasterypath.com/vue-mastery-path/">💚 Vue.js</a>
+  <a href="https://learnmasterypath.com/html-css-mastery-path/">🎨 HTML & CSS</a>
+  <a href="https://learnmasterypath.com/tailwind-mastery-path/">🌬️ Tailwind CSS</a>
+  <a href="https://learnmasterypath.com/django-mastery-path/">🎸 Django</a>
+  <a href="https://learnmasterypath.com/fastapi-mastery-path/">🚀 FastAPI</a>
+  <a href="https://learnmasterypath.com/graphql-mastery-path/">🕸️ GraphQL</a>
+  <a href="https://learnmasterypath.com/nodejs-mastery-path/">🟩 Node.js</a>
+  <a href="https://learnmasterypath.com/spring-boot-mastery-path/">🍃 Spring Boot</a>
 </div>
 </details>
 <details class="mastery-card">
 <summary>Mobile <span class="mastery-count">2</span></summary>
 <div class="mastery-grid">
-  <a href="https://sigilipelli.github.io/flutter-mastery-path/">💙 Flutter</a>
-  <a href="https://sigilipelli.github.io/react-native-mastery-path/">📲 React Native</a>
+  <a href="https://learnmasterypath.com/flutter-mastery-path/">💙 Flutter</a>
+  <a href="https://learnmasterypath.com/react-native-mastery-path/">📲 React Native</a>
 </div>
 </details>
 <details class="mastery-card">
 <summary>Testing & QA <span class="mastery-count">6</span></summary>
 <div class="mastery-grid">
-  <a href="https://sigilipelli.github.io/java-testing-mastery-path/">🧪 Java Testing</a>
-  <a href="https://sigilipelli.github.io/cpp-testing-mastery-path/">🧪 C/C++ Testing</a>
-  <a href="https://sigilipelli.github.io/python-testing-mastery-path/">🧪 Python Testing</a>
-  <a href="https://sigilipelli.github.io/automotive-testing-mastery-path/">🚗 Automotive Testing</a>
-  <a href="https://sigilipelli.github.io/selenium-mastery-path/">🧭 Selenium</a>
-  <a href="https://sigilipelli.github.io/cypress-mastery-path/">🌲 Cypress</a>
+  <a href="https://learnmasterypath.com/java-testing-mastery-path/">🧪 Java Testing</a>
+  <a href="https://learnmasterypath.com/cpp-testing-mastery-path/">🧪 C/C++ Testing</a>
+  <a href="https://learnmasterypath.com/python-testing-mastery-path/">🧪 Python Testing</a>
+  <a href="https://learnmasterypath.com/automotive-testing-mastery-path/">🚗 Automotive Testing</a>
+  <a href="https://learnmasterypath.com/selenium-mastery-path/">🧭 Selenium</a>
+  <a href="https://learnmasterypath.com/cypress-mastery-path/">🌲 Cypress</a>
 </div>
 </details>
 <details class="mastery-card">
 <summary>Security <span class="mastery-count">2</span></summary>
 <div class="mastery-grid">
-  <a href="https://sigilipelli.github.io/cybersecurity-mastery-path/">🛡️ Cybersecurity</a>
-  <a href="https://sigilipelli.github.io/ethical-hacking-mastery-path/">🎯 Ethical Hacking</a>
+  <a href="https://learnmasterypath.com/cybersecurity-mastery-path/">🛡️ Cybersecurity</a>
+  <a href="https://learnmasterypath.com/ethical-hacking-mastery-path/">🎯 Ethical Hacking</a>
 </div>
 </details>
 <details class="mastery-card">
 <summary>Cloud Platforms <span class="mastery-count">5</span></summary>
 <div class="mastery-grid">
-  <a href="https://sigilipelli.github.io/aws-mastery-path/">☁️ AWS</a>
-  <a href="https://sigilipelli.github.io/azure-mastery-path/">☁️ Azure</a>
-  <a href="https://sigilipelli.github.io/gcp-mastery-path/">☁️ GCP</a>
-  <a href="https://sigilipelli.github.io/ibm-cloud-mastery-path/">☁️ IBM Cloud</a>
-  <a href="https://sigilipelli.github.io/adobe-mastery-path/">🎨 Adobe</a>
+  <a href="https://learnmasterypath.com/aws-mastery-path/">☁️ AWS</a>
+  <a href="https://learnmasterypath.com/azure-mastery-path/">☁️ Azure</a>
+  <a href="https://learnmasterypath.com/gcp-mastery-path/">☁️ GCP</a>
+  <a href="https://learnmasterypath.com/ibm-cloud-mastery-path/">☁️ IBM Cloud</a>
+  <a href="https://learnmasterypath.com/adobe-mastery-path/">🎨 Adobe</a>
 </div>
 </details>
 <details class="mastery-card">
 <summary>Data & Analytics <span class="mastery-count">7</span></summary>
 <div class="mastery-grid">
-  <a href="https://sigilipelli.github.io/data-engineering-mastery-path/">🛠️ Data Engineering</a>
-  <a href="https://sigilipelli.github.io/data-science-mastery-path/">📈 Data Science</a>
-  <a href="https://sigilipelli.github.io/tableau-mastery-path/">📊 Tableau</a>
-  <a href="https://sigilipelli.github.io/excel-mastery-path/">📗 Excel</a>
-  <a href="https://sigilipelli.github.io/pyspark-mastery-path/">⚡ PySpark</a>
-  <a href="https://sigilipelli.github.io/etl-datalake-mastery-path/">🏞️ ETL & Data Lake</a>
-  <a href="https://sigilipelli.github.io/power-bi-mastery-path/">📉 Power BI</a>
+  <a href="https://learnmasterypath.com/data-engineering-mastery-path/">🛠️ Data Engineering</a>
+  <a href="https://learnmasterypath.com/data-science-mastery-path/">📈 Data Science</a>
+  <a href="https://learnmasterypath.com/tableau-mastery-path/">📊 Tableau</a>
+  <a href="https://learnmasterypath.com/excel-mastery-path/">📗 Excel</a>
+  <a href="https://learnmasterypath.com/pyspark-mastery-path/">⚡ PySpark</a>
+  <a href="https://learnmasterypath.com/etl-datalake-mastery-path/">🏞️ ETL & Data Lake</a>
+  <a href="https://learnmasterypath.com/power-bi-mastery-path/">📉 Power BI</a>
 </div>
 </details>
 <details class="mastery-card">
 <summary>Databases <span class="mastery-count">6</span></summary>
 <div class="mastery-grid">
-  <a href="https://sigilipelli.github.io/postgresql-mastery-path/">🐘 PostgreSQL</a>
-  <a href="https://sigilipelli.github.io/mongodb-mastery-path/">🍃 MongoDB</a>
-  <a href="https://sigilipelli.github.io/redis-mastery-path/">🟥 Redis</a>
-  <a href="https://sigilipelli.github.io/snowflake-mastery-path/">❄️ Snowflake</a>
-  <a href="https://sigilipelli.github.io/databricks-mastery-path/">🧱 Databricks</a>
-  <a href="https://sigilipelli.github.io/python-mastery-path/vector-databases-mastery-path/">🧭 Vector Databases</a>
+  <a href="https://learnmasterypath.com/postgresql-mastery-path/">🐘 PostgreSQL</a>
+  <a href="https://learnmasterypath.com/mongodb-mastery-path/">🍃 MongoDB</a>
+  <a href="https://learnmasterypath.com/redis-mastery-path/">🟥 Redis</a>
+  <a href="https://learnmasterypath.com/snowflake-mastery-path/">❄️ Snowflake</a>
+  <a href="https://learnmasterypath.com/databricks-mastery-path/">🧱 Databricks</a>
+  <a href="https://learnmasterypath.com/python-mastery-path/vector-databases-mastery-path/">🧭 Vector Databases</a>
 </div>
 </details>
 <details class="mastery-card">
 <summary>AI / ML / LLM <span class="mastery-count">11</span></summary>
 <div class="mastery-grid">
-  <a href="https://sigilipelli.github.io/ai-ml-mastery-path/">🤖 AI/ML</a>
-  <a href="https://sigilipelli.github.io/llm-dev-mastery-path/">🧠 LLM Dev</a>
-  <a href="https://sigilipelli.github.io/rag-mastery-path/">📚 RAG</a>
-  <a href="https://sigilipelli.github.io/claude-training-mastery-path/">🔶 Claude Training</a>
-  <a href="https://sigilipelli.github.io/ai-tools-mastery-path/">🧰 AI Tools</a>
-  <a href="https://sigilipelli.github.io/ml-math-mastery-path/">➗ ML Math Foundations</a>
-  <a href="https://sigilipelli.github.io/prompt-engineering-mastery-path/">✍️ Prompt Engineering</a>
-  <a href="https://sigilipelli.github.io/ai-agents-mastery-path/">🕹️ AI Agents</a>
-  <a href="https://sigilipelli.github.io/mlops-mastery-path/">🔁 MLOps</a>
-  <a href="https://sigilipelli.github.io/computer-vision-mastery-path/">👁️ Computer Vision</a>
-  <a href="https://sigilipelli.github.io/python-mastery-path/mcp-mastery-path/">🔌 MCP</a>
+  <a href="https://learnmasterypath.com/ai-ml-mastery-path/">🤖 AI/ML</a>
+  <a href="https://learnmasterypath.com/llm-dev-mastery-path/">🧠 LLM Dev</a>
+  <a href="https://learnmasterypath.com/rag-mastery-path/">📚 RAG</a>
+  <a href="https://learnmasterypath.com/claude-training-mastery-path/">🔶 Claude Training</a>
+  <a href="https://learnmasterypath.com/ai-tools-mastery-path/">🧰 AI Tools</a>
+  <a href="https://learnmasterypath.com/ml-math-mastery-path/">➗ ML Math Foundations</a>
+  <a href="https://learnmasterypath.com/prompt-engineering-mastery-path/">✍️ Prompt Engineering</a>
+  <a href="https://learnmasterypath.com/ai-agents-mastery-path/">🕹️ AI Agents</a>
+  <a href="https://learnmasterypath.com/mlops-mastery-path/">🔁 MLOps</a>
+  <a href="https://learnmasterypath.com/computer-vision-mastery-path/">👁️ Computer Vision</a>
+  <a href="https://learnmasterypath.com/python-mastery-path/mcp-mastery-path/">🔌 MCP</a>
 </div>
 </details>
 <details class="mastery-card">
 <summary>Embedded Systems <span class="mastery-count">5</span></summary>
 <div class="mastery-grid">
-  <a href="https://sigilipelli.github.io/embedded-mastery-path/">🔌 Embedded</a>
-  <a href="https://sigilipelli.github.io/embedded-linux-mastery-path/">🐧 Embedded Linux</a>
-  <a href="https://sigilipelli.github.io/embedded-python-mastery-path/">🐍 Embedded Python</a>
-  <a href="https://sigilipelli.github.io/freertos-mastery-path/">⏱️ FreeRTOS</a>
-  <a href="https://sigilipelli.github.io/s32k-mastery-path/">🔧 S32K</a>
+  <a href="https://learnmasterypath.com/embedded-mastery-path/">🔌 Embedded</a>
+  <a href="https://learnmasterypath.com/embedded-linux-mastery-path/">🐧 Embedded Linux</a>
+  <a href="https://learnmasterypath.com/embedded-python-mastery-path/">🐍 Embedded Python</a>
+  <a href="https://learnmasterypath.com/freertos-mastery-path/">⏱️ FreeRTOS</a>
+  <a href="https://learnmasterypath.com/s32k-mastery-path/">🔧 S32K</a>
 </div>
 </details>
 <details class="mastery-card">
 <summary>Leadership & Management <span class="mastery-count">5</span></summary>
 <div class="mastery-grid">
-  <a href="https://sigilipelli.github.io/product-manager-mastery-path/">📋 Product Manager</a>
-  <a href="https://sigilipelli.github.io/product-lead-mastery-path/">🧭 Product Lead</a>
-  <a href="https://sigilipelli.github.io/project-manager-mastery-path/">📅 Project Manager</a>
-  <a href="https://sigilipelli.github.io/ai-manager-mastery-path/">🤖 AI Manager</a>
-  <a href="https://sigilipelli.github.io/servant-leadership-mastery-path/">🤝 Servant Leadership</a>
+  <a href="https://learnmasterypath.com/product-manager-mastery-path/">📋 Product Manager</a>
+  <a href="https://learnmasterypath.com/product-lead-mastery-path/">🧭 Product Lead</a>
+  <a href="https://learnmasterypath.com/project-manager-mastery-path/">📅 Project Manager</a>
+  <a href="https://learnmasterypath.com/ai-manager-mastery-path/">🤖 AI Manager</a>
+  <a href="https://learnmasterypath.com/servant-leadership-mastery-path/">🤝 Servant Leadership</a>
 </div>
 </details>
 <details class="mastery-card">
 <summary>Professional Skills <span class="mastery-count">2</span></summary>
 <div class="mastery-grid">
-  <a href="https://sigilipelli.github.io/english-fluency-mastery-path/">🗣️ English Fluency & IELTS</a>
-  <a href="https://sigilipelli.github.io/workday-mastery-path/">🧑‍💼 Workday</a>
+  <a href="https://learnmasterypath.com/english-fluency-mastery-path/">🗣️ English Fluency & IELTS</a>
+  <a href="https://learnmasterypath.com/workday-mastery-path/">🧑‍💼 Workday</a>
 </div>
 </details>
 <details class="mastery-card">
 <summary>Careers & Interviews <span class="mastery-count">2</span></summary>
 <div class="mastery-grid">
-  <a href="https://sigilipelli.github.io/dsa-interview-mastery-path/">🧩 DSA & Coding Interviews</a>
-  <a href="https://sigilipelli.github.io/system-design-mastery-path/">🏗️ System Design</a>
+  <a href="https://learnmasterypath.com/dsa-interview-mastery-path/">🧩 DSA & Coding Interviews</a>
+  <a href="https://learnmasterypath.com/system-design-mastery-path/">🏗️ System Design</a>
 </div>
 </details>
 <details class="mastery-card">
 <summary>Process & APIs <span class="mastery-count">3</span></summary>
 <div class="mastery-grid">
-  <a href="https://sigilipelli.github.io/agile-mastery-path/">🔄 Agile/Scrum/Kanban</a>
-  <a href="https://sigilipelli.github.io/rest-api-mastery-path/">🔗 REST API</a>
-  <a href="https://sigilipelli.github.io/playwright-mastery-path/">🎭 Playwright</a>
+  <a href="https://learnmasterypath.com/agile-mastery-path/">🔄 Agile/Scrum/Kanban</a>
+  <a href="https://learnmasterypath.com/rest-api-mastery-path/">🔗 REST API</a>
+  <a href="https://learnmasterypath.com/playwright-mastery-path/">🎭 Playwright</a>
 </div>
 </details>
 <details class="mastery-card">
 <summary>Infrastructure & Ops <span class="mastery-count">12</span></summary>
 <div class="mastery-grid">
-  <a href="https://sigilipelli.github.io/server-ops-mastery-path/">🖥️ Server Ops</a>
-  <a href="https://sigilipelli.github.io/linux-mastery-path/">🐧 Linux</a>
-  <a href="https://sigilipelli.github.io/nodemcu-mastery-path/">📶 NodeMCU/IoT</a>
-  <a href="https://sigilipelli.github.io/terraform-mastery-path/">🌍 Terraform</a>
-  <a href="https://sigilipelli.github.io/kubernetes-mastery-path/">☸️ Kubernetes</a>
-  <a href="https://sigilipelli.github.io/docker-mastery-path/">🐳 Docker</a>
-  <a href="https://sigilipelli.github.io/github-mastery-path/">🐙 GitHub & Git</a>
-  <a href="https://sigilipelli.github.io/cicd-mastery-path/">🔁 CI/CD</a>
-  <a href="https://sigilipelli.github.io/ansible-mastery-path/">🤖 Ansible</a>
-  <a href="https://sigilipelli.github.io/kafka-mastery-path/">📨 Kafka</a>
-  <a href="https://sigilipelli.github.io/microservices-mastery-path/">🧩 Microservices</a>
-  <a href="https://sigilipelli.github.io/observability-mastery-path/">📈 Observability</a>
+  <a href="https://learnmasterypath.com/server-ops-mastery-path/">🖥️ Server Ops</a>
+  <a href="https://learnmasterypath.com/linux-mastery-path/">🐧 Linux</a>
+  <a href="https://learnmasterypath.com/nodemcu-mastery-path/">📶 NodeMCU/IoT</a>
+  <a href="https://learnmasterypath.com/terraform-mastery-path/">🌍 Terraform</a>
+  <a href="https://learnmasterypath.com/kubernetes-mastery-path/">☸️ Kubernetes</a>
+  <a href="https://learnmasterypath.com/docker-mastery-path/">🐳 Docker</a>
+  <a href="https://learnmasterypath.com/github-mastery-path/">🐙 GitHub & Git</a>
+  <a href="https://learnmasterypath.com/cicd-mastery-path/">🔁 CI/CD</a>
+  <a href="https://learnmasterypath.com/ansible-mastery-path/">🤖 Ansible</a>
+  <a href="https://learnmasterypath.com/kafka-mastery-path/">📨 Kafka</a>
+  <a href="https://learnmasterypath.com/microservices-mastery-path/">🧩 Microservices</a>
+  <a href="https://learnmasterypath.com/observability-mastery-path/">📈 Observability</a>
 </div>
 </details>
 </div>

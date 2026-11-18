@@ -123,7 +123,7 @@ When a module reaches the "put it on a real board" step, we use the ESP32 as
 the reference target and note where the free
 [Wokwi simulator](https://wokwi.com/) can stand in for physical hardware.
 If you later want real boards, the
-[Embedded Systems Mastery Path](https://sigilipelli.github.io/embedded-mastery-path/)
+[Embedded Systems Mastery Path](https://learnmasterypath.com/embedded-mastery-path/)
 covers the Arduino/ESP32 fundamentals.
 
 ## Cheat sheet

@@ -248,7 +248,7 @@ number as automatically more capable of generalizing.
 
 ## 🔀 Related lessons on other tracks
 
-- [Data Engineering — 10 · Capstone — Full Production Data Platform Design](https://sigilipelli.github.io/data-engineering-mastery-path/level-4/10-capstone-production-platform/)
+- [Data Engineering — 10 · Capstone — Full Production Data Platform Design](https://learnmasterypath.com/data-engineering-mastery-path/level-4/10-capstone-production-platform/)
 
 ## Exercise
 
