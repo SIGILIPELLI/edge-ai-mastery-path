@@ -23,12 +23,6 @@
   <meta name="twitter:image" content="https://learnmasterypath.com/og-image.png">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9440969811959397"
      crossorigin="anonymous"></script>
-  <script>
-    (adsbygoogle = window.adsbygoogle || []).push({
-      google_ad_client: "ca-pub-9440969811959397",
-      enable_page_level_ads: true
-    });
-  </script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -63,4 +57,38 @@
   }
   </script>
   {% endif %}
+  <style>
+    .md-banner { background-color: #1f7a63; color: #fff; font-size: 0.72rem; }
+    .md-banner a:hover { text-decoration: underline !important; }
+    .mp-sitelinks a { color: var(--md-typeset-a-color); }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Mastery Path", "item": "https://learnmasterypath.com/"},
+      {"@type": "ListItem", "position": 2, "name": {{ config.site_name | tojson }}, "item": {{ config.site_url | tojson }}}{% if page and page.title and not page.is_homepage %},
+      {"@type": "ListItem", "position": 3, "name": {{ page.title | tojson }}, "item": {{ page.canonical_url | tojson }}}{% endif %}
+    ]
+  }
+  </script>
+{% endblock %}
+
+{% block announce %}
+  <a href="https://learnmasterypath.com/" style="color: inherit; text-decoration: none;">
+    &larr; Mastery Path &middot; all 100 free courses
+  </a>
+{% endblock %}
+
+{% block footer %}
+  <nav class="mp-sitelinks" aria-label="Mastery Path"
+       style="text-align: center; padding: 0.9rem 1rem; font-size: 0.72rem; line-height: 1.9; background: var(--md-default-bg-color); border-top: 1px solid var(--md-default-fg-color--lightest);">
+    <a href="https://learnmasterypath.com/">Mastery Path home</a> &middot;
+    <a href="https://learnmasterypath.com/about.html">About</a> &middot;
+    <a href="https://learnmasterypath.com/contact.html">Contact</a> &middot;
+    <a href="https://learnmasterypath.com/privacy.html">Privacy Policy</a> &middot;
+    <a href="https://learnmasterypath.com/license.html">License</a>
+  </nav>
+  {{ super() }}
 {% endblock %}
