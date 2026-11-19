@@ -71,7 +71,7 @@ Start here → [Level 1 · Entry](level-1/index.md)
 
 ## More from the Mastery Path series
 
-Free, structured, module-wise training across 99 other languages, platforms and disciplines — expand a category to browse:
+Free, structured, module-wise training across 101 other languages, platforms and disciplines — expand a category to browse:
 
 <div class="mastery-tracks">
 <details class="mastery-card">
@@ -210,10 +210,12 @@ Free, structured, module-wise training across 99 other languages, platforms and 
 </div>
 </details>
 <details class="mastery-card">
-<summary>Professional Skills <span class="mastery-count">2</span></summary>
+<summary>Professional Skills <span class="mastery-count">4</span></summary>
 <div class="mastery-grid">
   <a href="https://learnmasterypath.com/english-fluency-mastery-path/">🗣️ English Fluency & IELTS</a>
   <a href="https://learnmasterypath.com/workday-mastery-path/">🧑‍💼 Workday</a>
+  <a href="https://learnmasterypath.com/digital-marketing-mastery-path/">📣 Digital Marketing & SEO</a>
+  <a href="https://learnmasterypath.com/tally-gst-mastery-path/">🧾 Tally Prime & GST</a>
 </div>
 </details>
 <details class="mastery-card">
