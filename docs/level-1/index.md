@@ -1,3 +1,7 @@
+---
+description: "Level 1 (Entry) of the free Edge AI Mastery Path. Understand what edge AI is and master the complete TinyML workflow — train a small model with Keras…"
+---
+
 # Level 1 · Entry <span class="level-badge">Foundations</span>
 
 Goal: understand what edge AI is and master the complete TinyML workflow —

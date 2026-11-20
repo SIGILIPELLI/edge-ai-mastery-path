@@ -1,6 +1,6 @@
 ---
 title: "Learn Edge AI Free: Beginner to Master Course"
-description: "Free Edge AI course from beginner to advanced -- hands-on lessons on running AI on-device, with real projects. Part of a 37-course free learning library."
+description: "Free Edge AI course from beginner to advanced -- hands-on lessons on running AI on-device, with real projects. Part of a 100+ course free learning library."
 ---
 
 # Edge AI Mastery Path

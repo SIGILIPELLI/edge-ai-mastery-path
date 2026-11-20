@@ -1,3 +1,7 @@
+---
+description: "Level 3 (Advanced) of the free Edge AI Mastery Path. Scale up from microcontrollers to accelerated edge hardware — NPUs and Edge TPUs, cross-framework…"
+---
+
 # Level 3 · Advanced <span class="level-badge">Advanced</span>
 
 Goal: scale up from microcontrollers to accelerated edge hardware — NPUs and

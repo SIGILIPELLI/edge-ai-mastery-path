@@ -1,0 +1,19 @@
+{#- SEO <title> for Mastery Path course sites: unique, readable, kept under ~65 characters when possible. -#}
+{%- set sn = config.site_name -%}
+{%- set topic = sn | replace(' Mastery Path', '') -%}
+{%- set has_meta_title = page and page.meta and page.meta.title -%}
+{%- if not page -%}
+  {%- set base = 'Page not found' -%}{%- set suffixes = [' – ' ~ sn] -%}
+{%- elif page.is_homepage -%}
+  {%- set base = page.meta.title if has_meta_title else sn -%}
+  {%- set suffixes = [' | Mastery Path', ''] if has_meta_title else [' – Free Course, Beginner to Master', ' – Free Course', ''] -%}
+{%- elif page.title == 'Overview' and page.parent -%}
+  {%- set base = page.parent.title -%}{%- set suffixes = [' – ' ~ sn, ' – ' ~ topic ~ ' Course', ''] -%}
+{%- else -%}
+  {%- set raw = page.meta.title if has_meta_title else page.title -%}
+  {%- set base = raw.split(' · ', 1)[1] if (raw[:2].isdigit() and ' · ' in raw) else raw -%}
+  {%- set suffixes = [' – ' ~ sn, ' – ' ~ topic ~ ' Course', ' | Mastery Path', ''] -%}
+{%- endif -%}
+{%- set ns = namespace(t='') -%}
+{%- for s in suffixes -%}{%- if not ns.t and (base ~ s) | length <= 65 -%}{%- set ns.t = base ~ s -%}{%- endif -%}{%- endfor -%}
+{{- ns.t or base -}}

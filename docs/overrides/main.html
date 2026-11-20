@@ -1,7 +1,21 @@
 {% extends "base.html" %}
+{#- Shared Mastery Path course template (identical in every course repo). All SEO values come from
+    mkdocs.yml (site_name, site_description, site_url, extra.related) and each page's front matter. -#}
+
+{% block htmltitle %}
+  {% set mp_title %}{% include "mp_title.html" %}{% endset %}
+  <title>{{ mp_title | trim | e }}</title>
+{% endblock %}
 
 {% block extrahead %}
   {{ super() }}
+  {%- set mp_title %}{% include "mp_title.html" %}{% endset -%}
+  {%- set mp_title = mp_title | trim -%}
+  {%- set mp_desc = page.meta.description if page and page.meta and page.meta.description else config.site_description -%}
+  {%- set mp_url = page.canonical_url if page and page.canonical_url else config.site_url -%}
+  {%- set mp_src = page.file.src_uri if page and page.file else '' -%}
+  {%- set mp_is_legal = mp_src in ['privacy.md', 'license.md'] -%}
+  {%- set mp_is_lesson = page and not page.is_homepage and not mp_is_legal and page.parent -%}
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-05VBGCXN12"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -9,81 +23,123 @@
     gtag('js', new Date());
     gtag('config', 'G-05VBGCXN12');
   </script>
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Edge AI Mastery Path">
-  <meta property="og:title" content="{{ page.title | default('Edge AI Mastery Path') }}">
-  <meta property="og:description" content="{{ page.meta.description if page.meta and page.meta.description else 'A structured, module-wise Edge AI & TinyML training program from entry level to master level — free, starting with Python and TensorFlow Lite on your laptop, then deploying models to microcontrollers and edge devices.' }}">
-  <meta property="og:url" content="{{ page.canonical_url }}">
+  <meta property="og:type" content="{{ 'article' if mp_is_lesson else 'website' }}">
+  <meta property="og:site_name" content="Mastery Path">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="{{ mp_title | e }}">
+  <meta property="og:description" content="{{ mp_desc | e }}">
+  <meta property="og:url" content="{{ mp_url }}">
   <meta property="og:image" content="https://learnmasterypath.com/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Mastery Path: free structured courses, beginner to master">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{{ page.title | default('Edge AI Mastery Path') }}">
-  <meta name="twitter:description" content="{{ page.meta.description if page.meta and page.meta.description else 'A structured, module-wise Edge AI & TinyML training program from entry level to master level — free, starting with Python and TensorFlow Lite on your laptop, then deploying models to microcontrollers and edge devices.' }}">
+  <meta name="twitter:title" content="{{ mp_title | e }}">
+  <meta name="twitter:description" content="{{ mp_desc | e }}">
   <meta name="twitter:image" content="https://learnmasterypath.com/og-image.png">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9440969811959397"
      crossorigin="anonymous"></script>
+
+  {#- Course markup only on the course home page, where the page actually describes the whole course. -#}
+  {% if page and page.is_homepage %}
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Course",
-    "name": "Edge AI Mastery Path",
-    "description": "A structured, module-wise Edge AI & TinyML training program from entry level to master level — free, starting with Python and TensorFlow Lite on your laptop, then deploying models to microcontrollers and edge devices.",
-    "provider": {
-      "@type": "Organization",
-      "name": "Mastery Path",
-      "sameAs": "https://learnmasterypath.com/"
-    },
+    "name": {{ config.site_name | tojson }},
+    "description": {{ config.site_description | tojson }},
+    "url": {{ config.site_url | tojson }},
+    "inLanguage": "en",
     "isAccessibleForFree": true,
-    "url": "{{ page.canonical_url | default('https://learnmasterypath.com/edge-ai-mastery-path/') }}"
-  }
-  </script>
-  {% if page.meta and page.meta.description %}
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "LearningResource",
-    "name": {{ (page.title | default('Edge AI Mastery Path lesson')) | tojson }},
-    "description": {{ page.meta.description | tojson }},
-    "url": {{ page.canonical_url | tojson }},
-    "isPartOf": {
-      "@type": "Course",
-      "name": "Edge AI Mastery Path",
-      "url": "https://learnmasterypath.com/edge-ai-mastery-path/"
-    },
-    "isAccessibleForFree": true,
-    "learningResourceType": "Lesson",
-    "inLanguage": "en"
+    "educationalLevel": "Beginner to advanced",
+    "provider": {"@type": "Organization", "name": "Mastery Path", "url": "https://learnmasterypath.com/"},
+    "offers": {"@type": "Offer", "category": "Free", "price": 0, "priceCurrency": "INR"},
+    "hasCourseInstance": {"@type": "CourseInstance", "courseMode": "Online", "inLanguage": "en"},
+    "syllabusSections": [
+      {%- set ns = namespace(first=true) -%}
+      {%- for item in nav -%}{%- if item.is_section and item.title.startswith('Level') -%}
+      {{ '' if ns.first else ',' }}{"@type": "Syllabus", "name": {{ item.title | tojson }}}{%- set ns.first = false -%}
+      {%- endif -%}{%- endfor -%}
+    ]
   }
   </script>
   {% endif %}
-  <style>
-    .md-banner { background-color: #1f7a63; color: #fff; font-size: 0.72rem; }
-    .md-banner a:hover { text-decoration: underline !important; }
-    .mp-sitelinks a { color: var(--md-typeset-a-color); }
-  </style>
+
+  {#- Lessons and level overviews: educational articles that belong to the course. -#}
+  {% if mp_is_lesson %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": ["Article", "LearningResource"],
+    "headline": {{ (mp_title[:110]) | tojson }},
+    "description": {{ mp_desc | tojson }},
+    "url": {{ mp_url | tojson }},
+    "mainEntityOfPage": {{ mp_url | tojson }},
+    "image": "https://learnmasterypath.com/og-image.png",
+    "inLanguage": "en",
+    "isAccessibleForFree": true,
+    "learningResourceType": {{ ('Course module overview' if page.title == 'Overview' else 'Lesson') | tojson }},
+    "author": {"@type": "Person", "name": "Vinod Bhanuja", "url": "https://learnmasterypath.com/about.html"},
+    "publisher": {"@type": "Organization", "name": "Mastery Path", "url": "https://learnmasterypath.com/", "logo": {"@type": "ImageObject", "url": "https://learnmasterypath.com/og-image.png"}},
+    "isPartOf": {"@type": "Course", "name": {{ config.site_name | tojson }}, "url": {{ config.site_url | tojson }}}
+  }
+  </script>
+  {% endif %}
+
+  {#- Breadcrumbs: Mastery Path > Course > Level > Lesson -#}
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
       {"@type": "ListItem", "position": 1, "name": "Mastery Path", "item": "https://learnmasterypath.com/"},
-      {"@type": "ListItem", "position": 2, "name": {{ config.site_name | tojson }}, "item": {{ config.site_url | tojson }}}{% if page and page.title and not page.is_homepage %},
-      {"@type": "ListItem", "position": 3, "name": {{ page.title | tojson }}, "item": {{ page.canonical_url | tojson }}}{% endif %}
+      {"@type": "ListItem", "position": 2, "name": {{ config.site_name | tojson }}, "item": {{ config.site_url | tojson }}}
+      {%- if page and not page.is_homepage -%}
+        {%- set lvl = page.parent.children | first if page.parent and page.parent.children else none -%}
+        {%- if page.parent and lvl and lvl.canonical_url and lvl.canonical_url != page.canonical_url -%},
+      {"@type": "ListItem", "position": 3, "name": {{ page.parent.title | tojson }}, "item": {{ lvl.canonical_url | tojson }}},
+      {"@type": "ListItem", "position": 4, "name": {{ page.title | tojson }}, "item": {{ mp_url | tojson }}}
+        {%- else -%},
+      {"@type": "ListItem", "position": 3, "name": {{ (page.parent.title if page.parent and page.title == 'Overview' else page.title) | tojson }}, "item": {{ mp_url | tojson }}}
+        {%- endif -%}
+      {%- endif %}
     ]
   }
   </script>
+  <style>
+    .md-banner { background-color: #1f7a63; color: #fff; font-size: 0.72rem; }
+    .md-banner a:hover { text-decoration: underline !important; }
+    .mp-sitelinks a { color: var(--md-typeset-a-color); }
+    .mp-related { margin-top: 2.4rem; padding-top: 1rem; border-top: 1px solid var(--md-default-fg-color--lightest); font-size: .78rem; }
+    .mp-related h2 { font-size: .9rem; margin: 0 0 .5rem; }
+    .mp-related ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .4rem .9rem; }
+    .mp-related li { margin: 0 !important; }
+  </style>
   <script src="https://learnmasterypath.com/assets/signup.js" defer></script>
 {% endblock %}
 
 {% block announce %}
   <a href="https://learnmasterypath.com/" style="color: inherit; text-decoration: none;">
-    &larr; Mastery Path &middot; all 100 free courses
+    &larr; Mastery Path &middot; all 100+ free courses
   </a>
   <span style="opacity: .6; margin: 0 .6em;">|</span>
   <a href="https://learnmasterypath.com/resume/" style="color: inherit; font-weight: 700; text-decoration: none;">
     Got the skills? Free resume ATS check &rarr;
   </a>
+{% endblock %}
+
+{#- Related courses on every lesson: topical internal links across the Mastery Path library. -#}
+{% block content %}
+  {{ super() }}
+  {% if page and not page.is_homepage and config.extra.related %}
+  <nav class="mp-related" aria-label="Related free courses">
+    <h2>Related free courses</h2>
+    <ul>
+      {% for c in config.extra.related %}<li><a href="{{ c.url }}">{{ c.name }}</a></li>{% endfor %}
+      <li><a href="https://learnmasterypath.com/">All 100+ courses &rarr;</a></li>
+    </ul>
+  </nav>
+  {% endif %}
 {% endblock %}
 
 {% block footer %}

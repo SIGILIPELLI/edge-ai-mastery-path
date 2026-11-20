@@ -1,3 +1,7 @@
+---
+description: "Level 2 (Intermediate) of the free Edge AI Mastery Path. Move beyond the hello-world pipeline — build real audio and vision applications on…"
+---
+
 # Level 2 · Intermediate <span class="level-badge">Intermediate</span>
 
 Goal: move beyond the hello-world pipeline — build real audio and vision

@@ -1,3 +1,7 @@
+---
+description: "Level 4 (Master) of the free Edge AI Mastery Path. Run edge AI in production — fleets of devices receiving OTA model updates, monitored for drift, learning…"
+---
+
 # Level 4 · Master <span class="level-badge">Master</span>
 
 Goal: run edge AI in production — fleets of devices receiving OTA model
