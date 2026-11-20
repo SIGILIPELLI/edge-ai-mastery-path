@@ -115,6 +115,9 @@
     .mp-related ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .4rem .9rem; }
     .mp-related li { margin: 0 !important; }
   </style>
+  <script type="application/json" id="mp-course-meta">{{ {"id": config.site_url.rstrip('/').split('/')[-1], "name": config.site_name, "url": config.site_url, "repo": config.repo_url or "", "src": (page.file.src_uri if page and page.file else ""), "home": (page.is_homepage if page else false)} | tojson }}</script>
+  <link rel="stylesheet" href="https://learnmasterypath.com/assets/learn.css">
+  <script src="https://learnmasterypath.com/assets/learn.js" defer></script>
   <script src="https://learnmasterypath.com/assets/signup.js" defer></script>
 {% endblock %}
 

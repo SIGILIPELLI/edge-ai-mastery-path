@@ -412,6 +412,10 @@
   }
 
   function checkCertificates(stats) {
+    // Certificates are paused: lesson ticks and an open quiz cannot verify who did the work.
+    // They return only with a verifiable assessment, clearly marked as a platform certificate,
+    // not an accredited qualification.
+    return;
     var course = totalCourseStats(stats);
 
     // Level-page certificate: only on that level's own overview page.
