@@ -6,6 +6,7 @@
   {%- set base = 'Page not found' -%}{%- set suffixes = [' – ' ~ sn] -%}
 {%- elif page.is_homepage -%}
   {%- set base = page.meta.title if has_meta_title else sn -%}
+  {%- if has_meta_title and base | length > 65 -%}{%- set base = 'Free ' ~ topic ~ ' Course: Beginner to Master' -%}{%- endif -%}
   {%- set suffixes = [' | Mastery Path', ''] if has_meta_title else [' – Free Course, Beginner to Master', ' – Free Course', ''] -%}
 {%- elif page.title == 'Overview' and page.parent -%}
   {%- set base = page.parent.title -%}{%- set suffixes = [' – ' ~ sn, ' – ' ~ topic ~ ' Course', ''] -%}
