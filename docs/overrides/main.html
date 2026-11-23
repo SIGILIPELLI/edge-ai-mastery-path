@@ -148,13 +148,20 @@
 {% endblock %}
 
 {% block footer %}
-  <nav class="mp-sitelinks" aria-label="Mastery Path"
-       style="text-align: center; padding: 0.9rem 1rem; font-size: 0.72rem; line-height: 1.9; background: var(--md-default-bg-color); border-top: 1px solid var(--md-default-fg-color--lightest);">
+  {#- Legal links live here, on every page (not in the top tabs): privacy policy, terms, license + CC notice. -#}
+  <nav class="mp-sitelinks" aria-label="Site and legal links"
+       style="text-align: center; padding: 0.9rem 1rem 0.5rem; font-size: 0.72rem; line-height: 1.9; background: var(--md-default-bg-color); border-top: 1px solid var(--md-default-fg-color--lightest);">
     <a href="https://learnmasterypath.com/">Mastery Path home</a> &middot;
     <a href="https://learnmasterypath.com/about.html">About</a> &middot;
     <a href="https://learnmasterypath.com/contact.html">Contact</a> &middot;
-    <a href="https://learnmasterypath.com/privacy.html">Privacy Policy</a> &middot;
-    <a href="https://learnmasterypath.com/license.html">License</a>
+    <a href="{{ config.site_url }}privacy/">Privacy Policy</a> &middot;
+    <a href="https://learnmasterypath.com/terms.html">Terms</a> &middot;
+    <a href="{{ config.site_url }}license/">License</a>
   </nav>
+  <p class="mp-license-note" style="text-align: center; margin: 0; padding: 0 1rem 0.9rem; font-size: 0.66rem; color: var(--md-default-fg-color--light); background: var(--md-default-bg-color);">
+    © 2026 Vinod Bhanuja · Except where otherwise noted, lesson content is licensed under
+    <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> and code examples under the
+    <a href="https://opensource.org/license/mit">MIT License</a>.
+  </p>
   {{ super() }}
 {% endblock %}
