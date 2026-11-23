@@ -79,6 +79,8 @@ extra:
 
 nav:
   - Home: index.md
+  - "💼 Interview Questions": interview-questions.md
+  - "📋 Cheat Sheet": cheat-sheet.md
   - Privacy Policy: privacy.md
   - License: license.md
   - "Level 1 · Entry":
