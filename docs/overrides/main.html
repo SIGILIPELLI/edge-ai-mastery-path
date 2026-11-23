@@ -108,7 +108,6 @@
   </script>
   <style>
     .md-banner a:hover { text-decoration: underline !important; }
-    .mp-sitelinks a { color: var(--md-typeset-a-color); }
     .mp-related { margin-top: 2.4rem; padding-top: 1rem; border-top: 1px solid var(--md-default-fg-color--lightest); font-size: .78rem; }
     .mp-related h2 { font-size: .9rem; margin: 0 0 .5rem; }
     .mp-related ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .4rem .9rem; }
@@ -128,7 +127,7 @@
     &larr; Mastery Path &middot; all 100+ free courses
   </a>
   <span style="opacity: .6; margin: 0 .6em;">|</span>
-  <a href="https://learnmasterypath.com/search/" style="color: inherit; text-decoration: none;">&#128269; Search all courses</a>
+  <a href="https://learnmasterypath.com/search/" style="color: inherit; text-decoration: none;">Search all courses</a>
   <span style="opacity: .6; margin: 0 .6em;">|</span>
   <a href="https://learnmasterypath.com/resume/" style="color: inherit; font-weight: 700; text-decoration: none;">
     Got the skills? Free resume ATS check &rarr;
@@ -150,20 +149,25 @@
 {% endblock %}
 
 {% block footer %}
-  {#- Legal links live here, on every page (not in the top tabs): privacy policy, terms, license + CC notice. -#}
-  <nav class="mp-sitelinks" aria-label="Site and legal links"
-       style="text-align: center; padding: 0.9rem 1rem 0.5rem; font-size: 0.72rem; line-height: 1.9; background: var(--md-default-bg-color); border-top: 1px solid var(--md-default-fg-color--lightest);">
-    <a href="https://learnmasterypath.com/">Mastery Path home</a> &middot;
-    <a href="https://learnmasterypath.com/about.html">About</a> &middot;
-    <a href="https://learnmasterypath.com/contact.html">Contact</a> &middot;
-    <a href="{{ config.site_url }}privacy/">Privacy Policy</a> &middot;
-    <a href="https://learnmasterypath.com/terms.html">Terms</a> &middot;
-    <a href="{{ config.site_url }}license/">License</a>
-  </nav>
-  <p class="mp-license-note" style="text-align: center; margin: 0; padding: 0 1rem 0.9rem; font-size: 0.66rem; color: var(--md-default-fg-color--light); background: var(--md-default-bg-color);">
-    © 2026 Vinod Bhanuja · Except where otherwise noted, lesson content is licensed under
-    <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> and code examples under the
-    <a href="https://opensource.org/license/mit">MIT License</a>.
-  </p>
+  {#- Material's footer (previous / next lesson), then one dark site footer with the legal links on every page (not in the top tabs). -#}
   {{ super() }}
+  <div class="mp-foot">
+    <div class="mp-foot-inner">
+      <a class="mp-foot-brand" href="https://learnmasterypath.com/">{% include "partials/logo.html" %}<span>Mastery Path</span></a>
+      <nav class="mp-sitelinks" aria-label="Site and legal links">
+        <a href="https://learnmasterypath.com/">All courses</a>
+        <a href="https://learnmasterypath.com/about.html">About</a>
+        <a href="https://learnmasterypath.com/contact.html">Contact</a>
+        <a href="{{ config.site_url }}privacy/">Privacy Policy</a>
+        <a href="https://learnmasterypath.com/terms.html">Terms</a>
+        <a href="{{ config.site_url }}license/">License</a>
+        <a href="https://learnmasterypath.com/verify/">Verify a certificate</a>
+      </nav>
+    </div>
+    <p class="mp-license-note">
+      © 2026 Vinod Bhanuja · Except where otherwise noted, lesson content is licensed under
+      <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> and code examples under the
+      <a href="https://opensource.org/license/mit">MIT License</a>.
+    </p>
+  </div>
 {% endblock %}

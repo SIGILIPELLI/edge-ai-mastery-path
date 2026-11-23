@@ -83,8 +83,8 @@ not_in_nav: |
 
 nav:
   - Home: index.md
-  - "💼 Interview Questions": interview-questions.md
-  - "📋 Cheat Sheet": cheat-sheet.md
+  - Interview Questions: interview-questions.md
+  - Cheat Sheet: cheat-sheet.md
   - "Level 1 · Entry":
       - Overview: level-1/index.md
       - "01 · What Is Edge AI": level-1/01-what-is-edge-ai.md
@@ -133,5 +133,5 @@ nav:
       - "Hardware/Software Co-Design": level-4/08-hardware-codesign.md
       - "Privacy, Safety & Compliance": level-4/09-privacy-safety-compliance.md
       - "Capstone: Production Edge AI System": level-4/10-capstone-production-edge-ai.md
-  - "🎯 Final Quiz": quiz.md
+  - Final Quiz: quiz.md
 
