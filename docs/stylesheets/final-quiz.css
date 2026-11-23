@@ -21,10 +21,10 @@
   transition: background-color .15s ease;
 }
 .mp-quiz-option:hover { background: color-mix(in srgb, var(--md-accent-fg-color) 6%, transparent); }
-.mp-quiz-option input { margin-top: 3px; accent-color: var(--md-accent-fg-color, #2FA98D); flex: none; }
+.mp-quiz-option input { margin-top: 3px; accent-color: var(--md-accent-fg-color, var(--md-primary-fg-color)); flex: none; }
 .mp-quiz-option span { font-size: 0.92rem; }
 .mp-quiz-option.is-correct {
-  background: color-mix(in srgb, #2FA98D 14%, transparent);
+  background: color-mix(in srgb, var(--md-primary-fg-color) 14%, transparent);
   font-weight: 600;
 }
 .mp-quiz-option.is-wrong {
@@ -50,7 +50,7 @@
   padding: 12px;
   border: none;
   border-radius: 10px;
-  background: var(--md-accent-fg-color, #2FA98D);
+  background: var(--md-accent-fg-color, var(--md-primary-fg-color));
   color: #fff;
   font-weight: 700;
   font-size: 0.95rem;
@@ -69,8 +69,8 @@
   margin-bottom: 1.2rem;
 }
 .mp-quiz-summary.is-pass {
-  border-color: #2FA98D;
-  background: color-mix(in srgb, #2FA98D 10%, var(--md-default-bg-color));
+  border-color: var(--md-primary-fg-color);
+  background: color-mix(in srgb, var(--md-primary-fg-color) 10%, var(--md-default-bg-color));
 }
 .mp-quiz-summary.is-fail {
   border-color: #c0392b;

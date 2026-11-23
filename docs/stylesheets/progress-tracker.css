@@ -78,12 +78,12 @@
   transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 .mp-mark-done:has(input:checked) {
-  background: color-mix(in srgb, var(--md-accent-fg-color, #2FA98D) 10%, transparent);
-  border-color: color-mix(in srgb, var(--md-accent-fg-color, #2FA98D) 35%, transparent);
+  background: color-mix(in srgb, var(--md-accent-fg-color, var(--md-primary-fg-color)) 10%, transparent);
+  border-color: color-mix(in srgb, var(--md-accent-fg-color, var(--md-primary-fg-color)) 35%, transparent);
   color: var(--md-default-fg-color);
 }
 .mp-mark-done input {
-  accent-color: var(--md-accent-fg-color, #2FA98D);
+  accent-color: var(--md-accent-fg-color, var(--md-primary-fg-color));
   cursor: pointer;
 }
 
@@ -103,7 +103,7 @@
 .mp-progress-fill {
   height: 100%;
   width: 0%;
-  background: var(--md-accent-fg-color, #2FA98D);
+  background: var(--md-accent-fg-color, var(--md-primary-fg-color));
   transition: width .25s ease;
 }
 .mp-progress-label {
@@ -173,7 +173,7 @@
   color: #fff;
   background: var(--mp-check-bg, transparent);
 }
-.mp-topic-tile.is-done .mp-topic-check { background: var(--md-accent-fg-color, #2FA98D); }
+.mp-topic-tile.is-done .mp-topic-check { background: var(--md-accent-fg-color, var(--md-primary-fg-color)); }
 
 /* ---------- Level tiles (homepage "How the program is organized") ---------- */
 .mp-level-grid {
@@ -213,7 +213,7 @@
 .mp-level-fill {
   display: block;
   height: 100%;
-  background: var(--md-accent-fg-color, #2FA98D);
+  background: var(--md-accent-fg-color, var(--md-primary-fg-color));
 }
 .mp-level-status { font-size: 0.74rem; font-weight: 600; color: var(--md-accent-fg-color); }
 
@@ -245,7 +245,7 @@
   padding: 10px 18px;
   border: none;
   border-radius: 999px;
-  background: var(--md-accent-fg-color, #2FA98D);
+  background: var(--md-accent-fg-color, var(--md-primary-fg-color));
   color: #fff;
   font-weight: 700;
   font-size: 0.85rem;
@@ -296,7 +296,7 @@
 }
 .mp-modal-generate {
   border-color: var(--md-accent-fg-color);
-  background: var(--md-accent-fg-color, #2FA98D);
+  background: var(--md-accent-fg-color, var(--md-primary-fg-color));
   color: #fff;
 }
 .mp-modal-close {
