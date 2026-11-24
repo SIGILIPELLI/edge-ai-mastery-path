@@ -20,9 +20,3 @@ pipelines, compiler stacks, and securing the models you ship.
 8. [Multi-Model & Sensor-Fusion Systems](08-multi-model-sensor-fusion.md)
 9. [Benchmarking Edge Models (MLPerf Tiny)](09-benchmarking-mlperf-tiny.md)
 10. [Project — Accelerated Vision Node](10-project-accelerated-vision-node.md)
-
-!!! info "Content status"
-    Level 3 module content is being written — every page below has its
-    scope defined and will be filled in next.
-    [Level 1](../level-1/index.md) is complete;
-    [Level 2](../level-2/index.md) is the prerequisite for this level.

@@ -21,9 +21,3 @@ privacy/compliance story handled.
 8. [Hardware Co-Design & NPU Selection](08-hardware-codesign.md)
 9. [Privacy, Safety & Compliance for Edge AI](09-privacy-safety-compliance.md)
 10. [Capstone — Production Edge AI Product](10-capstone-production-edge-ai.md)
-
-!!! info "Content status"
-    Level 4 module content is being written — every page below has its
-    scope defined and will be filled in next. Levels
-    [1](../level-1/index.md)–[3](../level-3/index.md) are the prerequisites
-    for this level.

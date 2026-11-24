@@ -43,7 +43,7 @@
     } catch (e) { return null; }
   }
   function isProjectSlug(slug) {
-    return /project|capstone/i.test(slug || "");
+    return /(^|\/)\d+-(project|capstone)\b/i.test(slug || "");
   }
   function pointsFor(slug) {
     return isProjectSlug(slug) ? POINTS_PROJECT : POINTS_LESSON;
