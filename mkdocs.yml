@@ -96,7 +96,7 @@ nav:
       - "07 · Deploying to a Microcontroller": level-1/07-deploying-to-microcontroller.md
       - "08 · Sensors & Feature Extraction": level-1/08-sensors-feature-extraction.md
       - "09 · Evaluating & Debugging Edge Models": level-1/09-evaluating-debugging.md
-      - "10 · Capstone — Gesture Recognition": level-1/10-capstone-gesture-recognition.md
+      - "10 · Project — Gesture Recognition": level-1/10-capstone-gesture-recognition.md
   - "Level 2 · Intermediate":
       - Overview: level-2/index.md
       - "Audio Wake Words & Keyword Spotting": level-2/01-audio-wake-words.md
