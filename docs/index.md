@@ -34,8 +34,7 @@ in the browser.
 - Every Level 1 topic page has real, runnable code — Python you can run in
   any environment with TensorFlow installed, and C/C++ you can compile on
   your own machine before ever touching a board.
-- Each level ends with a project that combines everything learned in that
-  level.
+- Levels 1–3 each end with a project that combines everything learned in that level, and Level 4 ends with the course capstone.
 - Use the search bar (top of the page) to jump straight to a topic.
 
 New to machine learning itself? The
