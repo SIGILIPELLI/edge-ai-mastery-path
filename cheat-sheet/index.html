@@ -1,0 +1,3776 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A free Edge AI cheat sheet: 19 quick-reference tables from every level of the Edge AI Mastery Path, each linked to its full lesson.">
+      
+      
+      
+        <link rel="canonical" href="https://learnmasterypath.com/edge-ai-mastery-path/cheat-sheet/">
+      
+      
+        <link rel="prev" href="../interview-questions/">
+      
+      
+        <link rel="next" href="../level-1/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
+    
+    
+  
+  <title>Edge AI Cheat Sheet: Quick Reference, Beginner to Advanced</title>
+
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="../stylesheets/progress-tracker.css">
+    
+      <link rel="stylesheet" href="../stylesheets/final-quiz.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-05VBGCXN12"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-05VBGCXN12');
+  </script>
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Mastery Path">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="Edge AI Cheat Sheet: Quick Reference, Beginner to Advanced">
+  <meta property="og:description" content="A free Edge AI cheat sheet: 19 quick-reference tables from every level of the Edge AI Mastery Path, each linked to its full lesson.">
+  <meta property="og:url" content="https://learnmasterypath.com/edge-ai-mastery-path/cheat-sheet/">
+  <meta property="og:image" content="https://learnmasterypath.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Mastery Path: free structured courses, beginner to master">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Edge AI Cheat Sheet: Quick Reference, Beginner to Advanced">
+  <meta name="twitter:description" content="A free Edge AI cheat sheet: 19 quick-reference tables from every level of the Edge AI Mastery Path, each linked to its full lesson.">
+  <meta name="twitter:image" content="https://learnmasterypath.com/og-image.png">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9440969811959397"
+     crossorigin="anonymous"></script><script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Mastery Path", "item": "https://learnmasterypath.com/"},
+      {"@type": "ListItem", "position": 2, "name": "Edge AI Mastery Path", "item": "https://learnmasterypath.com/edge-ai-mastery-path/"},
+      {"@type": "ListItem", "position": 3, "name": "Cheat Sheet", "item": "https://learnmasterypath.com/edge-ai-mastery-path/cheat-sheet/"}
+    ]
+  }
+  </script>
+  <style>
+    .md-banner a:hover { text-decoration: underline !important; }
+    .mp-related { margin-top: 2.4rem; padding-top: 1rem; border-top: 1px solid var(--md-default-fg-color--lightest); font-size: .78rem; }
+    .mp-related h2 { font-size: .9rem; margin: 0 0 .5rem; }
+    .mp-related ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .4rem .9rem; }
+    .mp-related li { margin: 0 !important; }
+  </style>
+  <script type="application/json" id="mp-course-meta">{"home": false, "id": "edge-ai-mastery-path", "name": "Edge AI Mastery Path", "repo": "https://github.com/SIGILIPELLI/edge-ai-mastery-path", "src": "cheat-sheet.md", "url": "https://learnmasterypath.com/edge-ai-mastery-path/"}</script>
+  <link rel="stylesheet" href="https://learnmasterypath.com/assets/learn.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://learnmasterypath.com/assets/course.css?v=1">
+  <script src="https://learnmasterypath.com/assets/learn.js" defer></script>
+  <script src="https://learnmasterypath.com/assets/signup.js" defer></script>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="deep-purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#edge-ai-cheat-sheet" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+        <aside class="md-banner">
+          <div class="md-banner__inner md-grid md-typeset">
+            
+            
+  <a href="https://learnmasterypath.com/" style="color: inherit; text-decoration: none;">
+    &larr; Mastery Path &middot; all 100+ free courses
+  </a>
+  <span style="opacity: .6; margin: 0 .6em;">|</span>
+  <a href="https://learnmasterypath.com/search/" style="color: inherit; text-decoration: none;">Search all courses</a>
+  <span style="opacity: .6; margin: 0 .6em;">|</span>
+  <a href="https://learnmasterypath.com/resume/" style="color: inherit; font-weight: 700; text-decoration: none;">
+    Got the skills? Free resume ATS check &rarr;
+  </a>
+
+          </div>
+          
+        </aside>
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Edge AI Mastery Path" class="md-header__button md-logo" aria-label="Edge AI Mastery Path" data-md-component="logo">
+      <svg class="mp-mark" viewBox="0 0 160 160" role="img" aria-label="Mastery Path logo">
+  <circle cx="80" cy="80" r="74" fill="#FAF7EF" stroke="#2FA98D" stroke-width="5"/>
+  <rect class="mp-bar mp-bar-1" x="36" y="90" width="17" height="24" rx="5" fill="#2FA98D"/>
+  <rect class="mp-bar mp-bar-2" x="59" y="74" width="17" height="40" rx="5" fill="#7FC9B7"/>
+  <rect class="mp-bar mp-bar-3" x="82" y="56" width="17" height="58" rx="5" fill="#E0B457"/>
+  <rect class="mp-bar mp-bar-4" x="105" y="38" width="17" height="76" rx="5" fill="#C97B4A"/>
+  <circle class="mp-dot" cx="44.5" cy="82" r="7" fill="#22261f"/>
+</svg>
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Edge AI Mastery Path
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Edge AI Cheat Sheet: Quick Reference, Beginner to Advanced
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="deep-purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="deep-purple"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/SIGILIPELLI/edge-ai-mastery-path" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    edge-ai-mastery-path
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../interview-questions/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Interview Questions
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Cheat Sheet
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../level-1/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Level 1 · Entry
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../level-2/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Level 2 · Intermediate
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../level-3/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Level 3 · Advanced
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../level-4/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Level 4 · Master
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../quiz/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Final Quiz
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Edge AI Mastery Path" class="md-nav__button md-logo" aria-label="Edge AI Mastery Path" data-md-component="logo">
+      <svg class="mp-mark" viewBox="0 0 160 160" role="img" aria-label="Mastery Path logo">
+  <circle cx="80" cy="80" r="74" fill="#FAF7EF" stroke="#2FA98D" stroke-width="5"/>
+  <rect class="mp-bar mp-bar-1" x="36" y="90" width="17" height="24" rx="5" fill="#2FA98D"/>
+  <rect class="mp-bar mp-bar-2" x="59" y="74" width="17" height="40" rx="5" fill="#7FC9B7"/>
+  <rect class="mp-bar mp-bar-3" x="82" y="56" width="17" height="58" rx="5" fill="#E0B457"/>
+  <rect class="mp-bar mp-bar-4" x="105" y="38" width="17" height="76" rx="5" fill="#C97B4A"/>
+  <circle class="mp-dot" cx="44.5" cy="82" r="7" fill="#22261f"/>
+</svg>
+    </a>
+    Edge AI Mastery Path
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/SIGILIPELLI/edge-ai-mastery-path" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    edge-ai-mastery-path
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interview-questions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interview Questions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cheat Sheet
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cheat Sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#level-1-entry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Level 1 · Entry
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Level 1 · Entry">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#01-what-is-edge-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        01 · What Is Edge AI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#02-the-edge-ai-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        02 · The Edge AI Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#03-training-a-tiny-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        03 · Training a Tiny Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#04-converting-to-tflitelitert" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        04 · Converting to TFLite/LiteRT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#05-quantization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        05 · Quantization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#06-tflite-micro-c-arrays" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        06 · TFLite-Micro &amp; C Arrays
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#07-deploying-to-a-microcontroller" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        07 · Deploying to a Microcontroller
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#08-sensors-feature-extraction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        08 · Sensors &amp; Feature Extraction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#09-evaluating-debugging-edge-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        09 · Evaluating &amp; Debugging Edge Models
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10-capstone-gesture-recognition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10 · Capstone — Gesture Recognition
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#level-2-intermediate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Level 2 · Intermediate
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Level 2 · Intermediate">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#audio-wake-words-keyword-spotting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Audio Wake Words &amp; Keyword Spotting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#image-classification-on-microcontrollers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Image Classification on Microcontrollers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edge-impulse-end-to-end-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Edge Impulse End-to-End Workflows
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-collection-dataset-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Collection &amp; Dataset Design
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#model-pruning-knowledge-distillation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model Pruning &amp; Knowledge Distillation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quantization-aware-training" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quantization-Aware Training
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#esp32-cam-vision-projects" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ESP32-CAM Vision Projects
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#person-detection-visual-wake-words" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Person Detection (Visual Wake Words)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optimizing-memory-latency-on-mcus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optimizing Memory &amp; Latency on MCUs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../level-1/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Level 1 · Entry
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Level 1 · Entry
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-1/01-what-is-edge-ai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 · What Is Edge AI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-1/02-edge-ai-workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02 · The Edge AI Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-1/03-training-a-tiny-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03 · Training a Tiny Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-1/04-converting-to-tflite/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04 · Converting to TFLite/LiteRT
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-1/05-quantization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05 · Quantization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-1/06-tflite-micro-c-arrays/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06 · TFLite-Micro & C Arrays
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-1/07-deploying-to-microcontroller/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07 · Deploying to a Microcontroller
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-1/08-sensors-feature-extraction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08 · Sensors & Feature Extraction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-1/09-evaluating-debugging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09 · Evaluating & Debugging Edge Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-1/10-capstone-gesture-recognition/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10 · Project — Gesture Recognition
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../level-2/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Level 2 · Intermediate
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Level 2 · Intermediate
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-2/01-audio-wake-words/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Audio Wake Words & Keyword Spotting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-2/02-image-classification-mcu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Image Classification on Microcontrollers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-2/03-edge-impulse-workflows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Edge Impulse End-to-End Workflows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-2/04-data-collection-datasets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Collection & Dataset Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-2/05-pruning-distillation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Model Pruning & Knowledge Distillation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-2/06-quantization-aware-training/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quantization-Aware Training
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-2/07-esp32-cam-projects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ESP32-CAM Vision Projects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-2/08-person-detection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Person Detection (Visual Wake Words)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-2/09-memory-latency-optimization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Optimizing Memory & Latency on MCUs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-2/10-project-voice-controlled-device/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project — Voice-Controlled Device
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../level-3/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Level 3 · Advanced
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Level 3 · Advanced
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-3/01-npus-accelerators-coral/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Edge NPUs & Accelerators (Coral Edge TPU)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-3/02-vendor-npu-toolchains/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vendor NPU Toolchains (i.MX, Ethos-U)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-3/03-onnx-runtime/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ONNX Runtime for Edge Inference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-3/04-streaming-inference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Streaming Inference Pipelines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-3/05-object-detection-edge/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Object Detection on Edge Devices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-3/06-ml-compiler-stacks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ML Compiler Stacks (TVM, IREE)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-3/07-model-security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Model Security on Edge Devices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-3/08-multi-model-sensor-fusion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-Model Sensor Fusion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-3/09-benchmarking-mlperf-tiny/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Benchmarking with MLPerf Tiny
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-3/10-project-accelerated-vision-node/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project: Accelerated Vision Node
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../level-4/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Level 4 · Master
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Level 4 · Master
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-4/01-production-edge-ai-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Production Edge AI Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-4/02-ota-model-updates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OTA Model Updates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-4/03-fleet-monitoring-drift/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fleet Monitoring & Drift Detection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-4/04-on-device-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    On-Device Learning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-4/05-federated-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Federated Learning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-4/06-custom-kernels-cmsis-nn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Kernels with CMSIS-NN
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-4/07-ultra-low-power-inference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ultra-Low-Power Inference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-4/08-hardware-codesign/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware/Software Co-Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-4/09-privacy-safety-compliance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Privacy, Safety & Compliance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../level-4/10-capstone-production-edge-ai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Capstone: Production Edge AI System
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quiz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Final Quiz
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#level-1-entry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Level 1 · Entry
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Level 1 · Entry">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#01-what-is-edge-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        01 · What Is Edge AI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#02-the-edge-ai-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        02 · The Edge AI Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#03-training-a-tiny-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        03 · Training a Tiny Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#04-converting-to-tflitelitert" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        04 · Converting to TFLite/LiteRT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#05-quantization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        05 · Quantization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#06-tflite-micro-c-arrays" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        06 · TFLite-Micro &amp; C Arrays
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#07-deploying-to-a-microcontroller" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        07 · Deploying to a Microcontroller
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#08-sensors-feature-extraction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        08 · Sensors &amp; Feature Extraction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#09-evaluating-debugging-edge-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        09 · Evaluating &amp; Debugging Edge Models
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10-capstone-gesture-recognition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10 · Capstone — Gesture Recognition
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#level-2-intermediate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Level 2 · Intermediate
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Level 2 · Intermediate">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#audio-wake-words-keyword-spotting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Audio Wake Words &amp; Keyword Spotting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#image-classification-on-microcontrollers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Image Classification on Microcontrollers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edge-impulse-end-to-end-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Edge Impulse End-to-End Workflows
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-collection-dataset-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Collection &amp; Dataset Design
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#model-pruning-knowledge-distillation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model Pruning &amp; Knowledge Distillation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quantization-aware-training" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quantization-Aware Training
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#esp32-cam-vision-projects" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ESP32-CAM Vision Projects
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#person-detection-visual-wake-words" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Person Detection (Visual Wake Words)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optimizing-memory-latency-on-mcus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optimizing Memory &amp; Latency on MCUs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+  
+                  
+
+
+  
+  
+
+
+<h1 id="edge-ai-cheat-sheet">Edge AI Cheat Sheet<a class="headerlink" href="#edge-ai-cheat-sheet" title="Permanent link">&para;</a></h1>
+<p>Quick-reference tables from <strong>19 lessons</strong> of the free Edge AI Mastery Path, in course order from beginner to advanced. Each section links to the full lesson with explanations and runnable examples.</p>
+<h2 id="level-1-entry">Level 1 · Entry<a class="headerlink" href="#level-1-entry" title="Permanent link">&para;</a></h2>
+<h3 id="01-what-is-edge-ai"><a href="../level-1/01-what-is-edge-ai/">01 · What Is Edge AI</a><a class="headerlink" href="#01-what-is-edge-ai" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Edge AI</td>
+<td>Running ML inference on/near the device that produces the data</td>
+</tr>
+<tr>
+<td>TinyML</td>
+<td>Edge AI on microcontroller-class hardware (KBs of RAM, mW of power)</td>
+</tr>
+<tr>
+<td>Inference</td>
+<td>Using a trained model to make predictions (what runs at the edge)</td>
+</tr>
+<tr>
+<td>Training</td>
+<td>Fitting a model to data (almost always done off-device)</td>
+</tr>
+<tr>
+<td>MCU</td>
+<td>Microcontroller unit — CPU + RAM + flash on one chip, no OS</td>
+</tr>
+<tr>
+<td>NPU / accelerator</td>
+<td>Dedicated silicon for fast neural-network math</td>
+</tr>
+<tr>
+<td>Latency argument</td>
+<td>No network round trip → guaranteed millisecond responses</td>
+</tr>
+<tr>
+<td>Privacy argument</td>
+<td>Raw data never leaves the device</td>
+</tr>
+<tr>
+<td>Power argument</td>
+<td>Computing a result locally beats transmitting raw data</td>
+</tr>
+<tr>
+<td>Cost argument</td>
+<td>Local inference is free at the margin; API calls are not</td>
+</tr>
+</tbody>
+</table>
+<h3 id="02-the-edge-ai-workflow"><a href="../level-1/02-edge-ai-workflow/">02 · The Edge AI Workflow</a><a class="headerlink" href="#02-the-edge-ai-workflow" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Input → Output</th>
+<th>Tool</th>
+<th>Typical command/API</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Train</td>
+<td>data → <code>.keras</code> model</td>
+<td>Keras</td>
+<td><code>model.fit(...)</code>, <code>model.save(...)</code></td>
+</tr>
+<tr>
+<td>Convert</td>
+<td><code>.keras</code> → <code>.tflite</code></td>
+<td>TFLite converter</td>
+<td><code>tf.lite.TFLiteConverter.from_keras_model(m)</code></td>
+</tr>
+<tr>
+<td>Quantize</td>
+<td>float32 → int8</td>
+<td>converter flags</td>
+<td><code>converter.optimizations</code>, representative dataset</td>
+</tr>
+<tr>
+<td>Embed</td>
+<td><code>.tflite</code> → C array</td>
+<td><code>xxd -i</code></td>
+<td><code>xxd -i model.tflite &gt; model_data.cc</code></td>
+</tr>
+<tr>
+<td>Run on-device</td>
+<td>C array → predictions</td>
+<td>TFLite-Micro</td>
+<td><code>interpreter.Invoke()</code> in C++</td>
+</tr>
+<tr>
+<td>Verify</td>
+<td>any stage → numbers</td>
+<td>Python/NumPy</td>
+<td>compare outputs stage vs. stage</td>
+</tr>
+</tbody>
+</table>
+<h3 id="03-training-a-tiny-model"><a href="../level-1/03-training-a-tiny-model/">03 · Training a Tiny Model</a><a class="headerlink" href="#03-training-a-tiny-model" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Define tiny MLP</td>
+<td><code>keras.Sequential([...Dense(16, activation="relu")...])</code></td>
+</tr>
+<tr>
+<td>Count parameters</td>
+<td><code>model.summary()</code> / <code>model.count_params()</code></td>
+</tr>
+<tr>
+<td>Compile for regression</td>
+<td><code>model.compile(optimizer="adam", loss="mse", metrics=["mae"])</code></td>
+</tr>
+<tr>
+<td>Train with validation</td>
+<td><code>model.fit(x, y, validation_data=(xv, yv), epochs=N)</code></td>
+</tr>
+<tr>
+<td>Final unbiased score</td>
+<td><code>model.evaluate(x_test, y_test)</code></td>
+</tr>
+<tr>
+<td>Predict</td>
+<td><code>model.predict(x.reshape(-1, 1))</code></td>
+</tr>
+<tr>
+<td>Save model</td>
+<td><code>model.save("sine_model.keras")</code></td>
+</tr>
+<tr>
+<td>Save arrays</td>
+<td><code>np.savez("f.npz", a=a, b=b)</code> / <code>np.load("f.npz")</code></td>
+</tr>
+<tr>
+<td>Reproducibility</td>
+<td><code>np.random.default_rng(seed)</code>, fixed splits</td>
+</tr>
+</tbody>
+</table>
+<h3 id="04-converting-to-tflitelitert"><a href="../level-1/04-converting-to-tflite/">04 · Converting to TFLite/LiteRT</a><a class="headerlink" href="#04-converting-to-tflitelitert" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Create converter</td>
+<td><code>tf.lite.TFLiteConverter.from_keras_model(model)</code></td>
+</tr>
+<tr>
+<td>From SavedModel dir</td>
+<td><code>tf.lite.TFLiteConverter.from_saved_model(path)</code></td>
+</tr>
+<tr>
+<td>Convert</td>
+<td><code>tflite_bytes = converter.convert()</code></td>
+</tr>
+<tr>
+<td>Save</td>
+<td><code>open("m.tflite", "wb").write(tflite_bytes)</code></td>
+</tr>
+<tr>
+<td>Load interpreter</td>
+<td><code>tf.lite.Interpreter(model_path="m.tflite")</code></td>
+</tr>
+<tr>
+<td>Mandatory before use</td>
+<td><code>interpreter.allocate_tensors()</code></td>
+</tr>
+<tr>
+<td>Inspect I/O</td>
+<td><code>get_input_details()</code> / <code>get_output_details()</code></td>
+</tr>
+<tr>
+<td>Write input</td>
+<td><code>set_tensor(index, np_array)</code> (dtype+shape must match)</td>
+</tr>
+<tr>
+<td>Run</td>
+<td><code>interpreter.invoke()</code></td>
+</tr>
+<tr>
+<td>Read output</td>
+<td><code>get_tensor(out_index)</code></td>
+</tr>
+<tr>
+<td>Verify stage</td>
+<td><code>np.max(np.abs(keras_out - tflite_out))</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="05-quantization"><a href="../level-1/05-quantization/">05 · Quantization</a><a class="headerlink" href="#05-quantization" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Enable quantization</td>
+<td><code>converter.optimizations = [tf.lite.Optimize.DEFAULT]</code></td>
+</tr>
+<tr>
+<td>Dynamic range (weights only)</td>
+<td>the line above, nothing else</td>
+</tr>
+<tr>
+<td>Full integer</td>
+<td>+ <code>converter.representative_dataset = gen</code></td>
+</tr>
+<tr>
+<td>Enforce pure int8 ops</td>
+<td><code>converter.target_spec.supported_ops = [tf.lite.OpsSet.TFLITE_BUILTINS_INT8]</code></td>
+</tr>
+<tr>
+<td>int8 I/O tensors</td>
+<td><code>converter.inference_input_type = tf.int8</code> (and output)</td>
+</tr>
+<tr>
+<td>Read scale/zero-point</td>
+<td><code>input_details[0]["quantization"]</code> → <code>(scale, zp)</code></td>
+</tr>
+<tr>
+<td>Quantize a value</td>
+<td><code>q = round(x / scale) + zero_point</code></td>
+</tr>
+<tr>
+<td>Dequantize a value</td>
+<td><code>x = (q − zero_point) × scale</code></td>
+</tr>
+<tr>
+<td>Judge success</td>
+<td>size ratio + metric delta on the same held-out test set</td>
+</tr>
+</tbody>
+</table>
+<h3 id="06-tflite-micro-c-arrays"><a href="../level-1/06-tflite-micro-c-arrays/">06 · TFLite-Micro &amp; C Arrays</a><a class="headerlink" href="#06-tflite-micro-c-arrays" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Command / code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Model → C array</td>
+<td><code>xxd -i model.tflite &gt; model_data.cc</code></td>
+</tr>
+<tr>
+<td>Keep model in flash</td>
+<td><code>alignas(16) const unsigned char g_model[]</code></td>
+</tr>
+<tr>
+<td>Load model</td>
+<td><code>tflite::GetModel(g_model)</code></td>
+</tr>
+<tr>
+<td>Register ops (N of them)</td>
+<td><code>MicroMutableOpResolver&lt;N&gt; r; r.AddFullyConnected();</code></td>
+</tr>
+<tr>
+<td>Scratch memory</td>
+<td><code>alignas(16) uint8_t arena[SIZE];</code> (static, no malloc)</td>
+</tr>
+<tr>
+<td>Create interpreter</td>
+<td><code>MicroInterpreter(model, resolver, arena, SIZE)</code></td>
+</tr>
+<tr>
+<td>Plan memory</td>
+<td><code>interpreter.AllocateTensors()</code> — check <code>kTfLiteOk</code></td>
+</tr>
+<tr>
+<td>Measure real arena need</td>
+<td><code>interpreter.arena_used_bytes()</code></td>
+</tr>
+<tr>
+<td>I/O tensors</td>
+<td><code>interpreter.input(0)</code> / <code>interpreter.output(0)</code></td>
+</tr>
+<tr>
+<td>Quantization params in C</td>
+<td><code>tensor-&gt;params.scale</code>, <code>tensor-&gt;params.zero_point</code></td>
+</tr>
+<tr>
+<td>Run</td>
+<td><code>interpreter.Invoke()</code></td>
+</tr>
+<tr>
+<td>Desktop build</td>
+<td>TFLM repo <code>Makefile</code>, <code>hello_world</code> target</td>
+</tr>
+</tbody>
+</table>
+<h3 id="07-deploying-to-a-microcontroller"><a href="../level-1/07-deploying-to-microcontroller/">07 · Deploying to a Microcontroller</a><a class="headerlink" href="#07-deploying-to-a-microcontroller" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Task</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Add ESP32 boards to Arduino</td>
+<td>Boards Manager URL → install <strong>esp32</strong></td>
+</tr>
+<tr>
+<td>TFLM library for ESP32</td>
+<td><code>esp-tflite-micro</code> (Espressif) or Library Manager TFLM builds</td>
+</tr>
+<tr>
+<td>Keep model in flash</td>
+<td><code>alignas(16) const unsigned char g_model[]</code></td>
+</tr>
+<tr>
+<td>Interpreter objects that survive <code>setup()</code></td>
+<td>declare them <code>static</code></td>
+</tr>
+<tr>
+<td>Measure inference latency</td>
+<td><code>micros()</code> before/after <code>Invoke()</code></td>
+</tr>
+<tr>
+<td>Check flash fit</td>
+<td>Arduino IDE build output ("Sketch uses …")</td>
+</tr>
+<tr>
+<td>Right-size arena</td>
+<td><code>arena_used_bytes()</code> + ~10% headroom</td>
+</tr>
+<tr>
+<td>Fatal init error idiom</td>
+<td>print, then <code>while (true) {}</code></td>
+</tr>
+<tr>
+<td>Serial output</td>
+<td><code>Serial.begin(115200)</code> + Serial Monitor</td>
+</tr>
+<tr>
+<td>Browser simulation</td>
+<td>wokwi.com ESP32 project + <code>libraries.txt</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="08-sensors-feature-extraction"><a href="../level-1/08-sensors-feature-extraction/">08 · Sensors &amp; Feature Extraction</a><a class="headerlink" href="#08-sensors-feature-extraction" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Essentials</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Windowing</td>
+<td>fixed <code>window_len</code>, overlapping via <code>hop</code>; ring buffer on-device</td>
+</tr>
+<tr>
+<td>Window length</td>
+<td>must contain the event (gesture 1–2 s, keyword ~1 s)</td>
+</tr>
+<tr>
+<td>Mean</td>
+<td>orientation / DC level</td>
+</tr>
+<tr>
+<td>RMS</td>
+<td><code>sqrt(mean(s**2))</code> — energy; the workhorse motion feature</td>
+</tr>
+<tr>
+<td>Std dev</td>
+<td>variability around the mean</td>
+</tr>
+<tr>
+<td>Mean abs diff</td>
+<td>jerkiness / smoothness</td>
+</tr>
+<tr>
+<td>FFT</td>
+<td><code>np.abs(np.fft.rfft(s))</code> — magnitude spectrum</td>
+</tr>
+<tr>
+<td>Usable band</td>
+<td>0 … sample_rate/2 (Nyquist)</td>
+</tr>
+<tr>
+<td>Coarse spectrum</td>
+<td>average spectrum into 8–32 bins</td>
+</tr>
+<tr>
+<td>Spectrogram</td>
+<td>FFTs of sub-frames stacked over time (audio → image)</td>
+</tr>
+<tr>
+<td>Rule zero</td>
+<td>train-time and device preprocessing must match exactly</td>
+</tr>
+</tbody>
+</table>
+<h3 id="09-evaluating-debugging-edge-models"><a href="../level-1/09-evaluating-debugging/">09 · Evaluating &amp; Debugging Edge Models</a><a class="headerlink" href="#09-evaluating-debugging-edge-models" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Tool / method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Did conversion change the model?</td>
+<td>max abs diff, Keras vs. TFLite float (≈1e-7)</td>
+</tr>
+<tr>
+<td>Did quantization hurt?</td>
+<td>same metric, float vs. int8, same frozen test set</td>
+</tr>
+<tr>
+<td>Which classes suffer?</td>
+<td>confusion matrix on the int8 model</td>
+</tr>
+<tr>
+<td>False accepts vs. rejects</td>
+<td>off-diagonal cells; tune decision threshold</td>
+</tr>
+<tr>
+<td>Real latency</td>
+<td>median + max of 100 timed <code>Invoke()</code> + preprocessing</td>
+</tr>
+<tr>
+<td>Real RAM</td>
+<td><code>arena_used_bytes()</code> + app buffers</td>
+</tr>
+<tr>
+<td>C preprocessing correct?</td>
+<td>golden-file test: frozen window → assert features match Python</td>
+</tr>
+<tr>
+<td>Device vs. Python int8 agree?</td>
+<td>same input both places; must match to the last step</td>
+</tr>
+<tr>
+<td>Field data different?</td>
+<td>collect labeled windows from the device, evaluate offline</td>
+</tr>
+<tr>
+<td>Debug method</td>
+<td>record inputs, replay through isolated stages, diff</td>
+</tr>
+</tbody>
+</table>
+<h3 id="10-capstone-gesture-recognition"><a href="../level-1/10-capstone-gesture-recognition/">10 · Capstone — Gesture Recognition</a><a class="headerlink" href="#10-capstone-gesture-recognition" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Artifact</th>
+<th>Verify with</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Synthesize/collect</td>
+<td><code>data/gestures.npz</code></td>
+<td>class-mean RMS sanity check</td>
+</tr>
+<tr>
+<td>Features</td>
+<td><code>features.py</code> (single source)</td>
+<td>golden-file test vs. C later</td>
+</tr>
+<tr>
+<td>Train</td>
+<td><code>gesture_model.keras</code></td>
+<td>held-out test accuracy</td>
+</tr>
+<tr>
+<td>Quantize</td>
+<td><code>gesture_model_int8.tflite</code></td>
+<td>int8 acc within 2 pts of float</td>
+</tr>
+<tr>
+<td>Inspect</td>
+<td>confusion matrix</td>
+<td>only circle↔shake leakage</td>
+</tr>
+<tr>
+<td>Export</td>
+<td><code>gesture_model_data.cc/.h</code></td>
+<td>byte length; scale/zp in header</td>
+</tr>
+<tr>
+<td>Deploy (hardware)</td>
+<td>Arduino sketch + ring buffer</td>
+<td>on-device vs. Python int8 parity</td>
+</tr>
+<tr>
+<td>Field truth</td>
+<td>recorded real gestures</td>
+<td>offline eval on device-collected data</td>
+</tr>
+</tbody>
+</table>
+<h2 id="level-2-intermediate">Level 2 · Intermediate<a class="headerlink" href="#level-2-intermediate" title="Permanent link">&para;</a></h2>
+<h3 id="audio-wake-words-keyword-spotting"><a href="../level-2/01-audio-wake-words/">Audio Wake Words &amp; Keyword Spotting</a><a class="headerlink" href="#audio-wake-words-keyword-spotting" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Typical value / choice</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sample rate</td>
+<td>16 kHz (speech), 8 kHz on very tight budgets</td>
+</tr>
+<tr>
+<td>Frame / hop length</td>
+<td>25 ms / 10 ms</td>
+</tr>
+<tr>
+<td>Mel bands</td>
+<td>32–40</td>
+</tr>
+<tr>
+<td>Spectrogram shape (1s clip)</td>
+<td>~98 x 40</td>
+</tr>
+<tr>
+<td>Model size</td>
+<td>15–25K params, 15–30 KB int8 <code>.tflite</code></td>
+</tr>
+<tr>
+<td>Classes</td>
+<td>keywords + "unknown" + "silence/background"</td>
+</tr>
+<tr>
+<td>Sliding window</td>
+<td>1.0–1.5 s, re-run every 200–500 ms</td>
+</tr>
+<tr>
+<td>Debounce</td>
+<td>require 2–3 consecutive positive windows</td>
+</tr>
+<tr>
+<td>Power trick</td>
+<td>cheap VAD gate before running the CNN</td>
+</tr>
+<tr>
+<td>Latency budget</td>
+<td>detection within ~300-500 ms of keyword end</td>
+</tr>
+</tbody>
+</table>
+<h3 id="image-classification-on-microcontrollers"><a href="../level-2/02-image-classification-mcu/">Image Classification on Microcontrollers</a><a class="headerlink" href="#image-classification-on-microcontrollers" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Decision</th>
+<th>MCU-friendly choice</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Conv type</td>
+<td>depthwise-separable, except first layer</td>
+</tr>
+<tr>
+<td>Input size</td>
+<td>96x96 or 64x64, grayscale where possible</td>
+</tr>
+<tr>
+<td>Head</td>
+<td>GlobalAveragePooling2D + small Dense</td>
+</tr>
+<tr>
+<td>Compute cost of 3x3 conv</td>
+<td><code>9*Cin*Cout</code> MACs/pixel</td>
+</tr>
+<tr>
+<td>Compute cost of depthwise-separable</td>
+<td><code>9*Cin + Cin*Cout</code> MACs/pixel</td>
+</tr>
+<tr>
+<td>RAM driver</td>
+<td>tensor arena ~ 2 largest adjacent activations</td>
+</tr>
+<tr>
+<td>Flash driver</td>
+<td>quantized weight bytes (~1 byte/param int8)</td>
+</tr>
+<tr>
+<td>Preprocessing pitfall</td>
+<td>resize/color-convert must match training exactly</td>
+</tr>
+<tr>
+<td>Measure, don't guess</td>
+<td><code>interpreter.arena_used_bytes()</code> on real model</td>
+</tr>
+</tbody>
+</table>
+<h3 id="edge-impulse-end-to-end-workflows"><a href="../level-2/03-edge-impulse-workflows/">Edge Impulse End-to-End Workflows</a><a class="headerlink" href="#edge-impulse-end-to-end-workflows" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Edge Impulse concept</th>
+<th>Equivalent from this course</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Acquire</td>
+<td>data acquisition + train/test split</td>
+<td>your own data collection (Module 04)</td>
+</tr>
+<tr>
+<td>Process</td>
+<td>"processing block" (MFCC, Spectral, Image)</td>
+<td>hand-rolled feature extraction (Module 01/02)</td>
+</tr>
+<tr>
+<td>Learn</td>
+<td>"learning block" (NN, anomaly detection)</td>
+<td>Keras model definition</td>
+</tr>
+<tr>
+<td>Auto-tune</td>
+<td>EON Tuner</td>
+<td>manual tradeoff analysis (Module 09)</td>
+</tr>
+<tr>
+<td>Estimate cost</td>
+<td>Performance calculator</td>
+<td><code>arena_used_bytes()</code>, flash size math (Module 02)</td>
+</tr>
+<tr>
+<td>Export</td>
+<td>Arduino/C++/firmware/WASM/.tflite</td>
+<td>TFLite Micro C array pipeline (Level 1 Module 06)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="data-collection-dataset-design"><a href="../level-2/04-data-collection-datasets/">Data Collection &amp; Dataset Design</a><a class="headerlink" href="#data-collection-dataset-design" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Practice</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Split by session/speaker/device</td>
+<td>prevents leakage that inflates test accuracy</td>
+</tr>
+<tr>
+<td><code>class_balance_report</code></td>
+<td>catches skewed class counts before training</td>
+</tr>
+<tr>
+<td><code>condition_coverage</code> per class</td>
+<td>catches missing conditions (e.g. no dim negatives)</td>
+</tr>
+<tr>
+<td>Collect real hard negatives</td>
+<td>prevents the model learning the wrong signal</td>
+</tr>
+<tr>
+<td>Track augmented vs. real counts separately</td>
+<td>augmentation ≠ new information</td>
+</tr>
+<tr>
+<td><code>flag_label_disagreement</code></td>
+<td>catches ambiguous labeling instructions early</td>
+</tr>
+<tr>
+<td>Re-check coverage after every collection round</td>
+<td>datasets grow unevenly by default</td>
+</tr>
+</tbody>
+</table>
+<h3 id="model-pruning-knowledge-distillation"><a href="../level-2/05-pruning-distillation/">Model Pruning &amp; Knowledge Distillation</a><a class="headerlink" href="#model-pruning-knowledge-distillation" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Technique</th>
+<th>What it removes</th>
+<th>On-MCU benefit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Unstructured magnitude pruning</td>
+<td>individual weights</td>
+<td>flash only, and only with sparse storage/runtime support</td>
+</tr>
+<tr>
+<td>Structured channel pruning</td>
+<td>entire channels/neurons</td>
+<td>flash + compute + RAM, works on any runtime</td>
+</tr>
+<tr>
+<td>Iterative pruning</td>
+<td>--</td>
+<td>recovers more accuracy than one-shot pruning at same sparsity</td>
+</tr>
+<tr>
+<td>Knowledge distillation</td>
+<td>--</td>
+<td>lets a small "from-scratch" architecture reach closer to teacher accuracy</td>
+</tr>
+<tr>
+<td><code>temperature</code> (distillation)</td>
+<td>--</td>
+<td>higher = softer targets = more dark knowledge, typically 2-5</td>
+</tr>
+<tr>
+<td><code>alpha</code> (distillation)</td>
+<td>--</td>
+<td>weight on soft-teacher loss vs. hard-label loss</td>
+</tr>
+<tr>
+<td>Order of operations</td>
+<td>prune/distill first, quantize last</td>
+<td>quantization further shrinks whatever comes out</td>
+</tr>
+</tbody>
+</table>
+<h3 id="quantization-aware-training"><a href="../level-2/06-quantization-aware-training/">Quantization-Aware Training</a><a class="headerlink" href="#quantization-aware-training" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PTQ</td>
+<td>quantize after training; fast, usually sufficient</td>
+</tr>
+<tr>
+<td>QAT</td>
+<td>fake-quantize during training; recovers accuracy PTQ loses</td>
+</tr>
+<tr>
+<td>Fake quant node</td>
+<td>quantize-then-dequantize in the forward pass</td>
+</tr>
+<tr>
+<td>Straight-through estimator</td>
+<td>backward pass ignores the rounding op, passes gradient through</td>
+</tr>
+<tr>
+<td>Typical QAT recipe</td>
+<td>start from trained float model, fine-tune a few epochs with fake-quant active</td>
+</tr>
+<tr>
+<td><code>tfmot.quantization.keras.quantize_model()</code></td>
+<td>TF's automatic QAT wrapper (described only — not installed here)</td>
+</tr>
+<tr>
+<td>Symmetric quant</td>
+<td><code>zero_point=0</code>, used for weights</td>
+</tr>
+<tr>
+<td>Asymmetric quant</td>
+<td>nonzero <code>zero_point</code>, used for post-ReLU activations</td>
+</tr>
+<tr>
+<td>Decision rule</td>
+<td>try PTQ first; reach for QAT only if PTQ's accuracy loss is unacceptable</td>
+</tr>
+</tbody>
+</table>
+<h3 id="esp32-cam-vision-projects"><a href="../level-2/07-esp32-cam-projects/">ESP32-CAM Vision Projects</a><a class="headerlink" href="#esp32-cam-vision-projects" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Concern</th>
+<th>Practical answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Programming</td>
+<td>external FTDI adapter + <code>IO0</code>-<code>GND</code> jumper while flashing</td>
+</tr>
+<tr>
+<td>Confirm PSRAM present</td>
+<td><code>psramFound()</code> before requesting large frames</td>
+</tr>
+<tr>
+<td>Cheapest usable capture</td>
+<td><code>PIXFORMAT_GRAYSCALE</code> + <code>FRAMESIZE_96X96</code>, <code>fb_count=1</code></td>
+</tr>
+<tr>
+<td>Frame buffer size (96x96 gray)</td>
+<td>9,216 bytes, no PSRAM needed</td>
+</tr>
+<tr>
+<td>Match training preprocessing</td>
+<td>capture at model's native resolution to skip resize entirely</td>
+</tr>
+<tr>
+<td>Release frame buffer</td>
+<td>always <code>esp_camera_fb_return(fb)</code> after use</td>
+</tr>
+<tr>
+<td>GPIO conflict to remember</td>
+<td>GPIO4 = flash LED and an SD-card pin</td>
+</tr>
+<tr>
+<td>Vision model arena size</td>
+<td>tens to ~100+ KB, not the 4 KB sine-model arena</td>
+</tr>
+</tbody>
+</table>
+<h3 id="person-detection-visual-wake-words"><a href="../level-2/08-person-detection/">Person Detection (Visual Wake Words)</a><a class="headerlink" href="#person-detection-visual-wake-words" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Concern</th>
+<th>Guidance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Task framing</td>
+<td>binary classification, not detection — presence only</td>
+</tr>
+<tr>
+<td>Reference architecture</td>
+<td>Visual Wake Words: depthwise-separable CNN + GAP, ~250K params</td>
+</tr>
+<tr>
+<td>Dominant dataset risk</td>
+<td>scale variance — cover near AND far persons</td>
+</tr>
+<tr>
+<td>Hard negatives</td>
+<td>person-shaped non-persons (mannequins, photos, dogs)</td>
+</tr>
+<tr>
+<td>Sampling rate</td>
+<td>1-5fps typical; rely on temporal smoothing, not raw fps</td>
+</tr>
+<tr>
+<td>Smoothing</td>
+<td>EMA + hysteresis (different enter/exit thresholds)</td>
+</tr>
+<tr>
+<td>Failure to watch for</td>
+<td>model keying on frame brightness/blob size, not features</td>
+</tr>
+<tr>
+<td>When presence detection is the wrong tool</td>
+<td>you need counting or localization</td>
+</tr>
+</tbody>
+</table>
+<h3 id="optimizing-memory-latency-on-mcus"><a href="../level-2/09-memory-latency-optimization/">Optimizing Memory &amp; Latency on MCUs</a><a class="headerlink" href="#optimizing-memory-latency-on-mcus" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>How to measure</th>
+<th>Typical target for a small MCU</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Flash usage</td>
+<td>build tool output ("Sketch uses…")</td>
+<td>fits with room for OTA/other app code</td>
+</tr>
+<tr>
+<td>RAM / arena</td>
+<td><code>interpreter-&gt;arena_used_bytes()</code></td>
+<td>fits alongside WiFi/app buffers, Level 1 Module 07</td>
+</tr>
+<tr>
+<td>Latency</td>
+<td><code>micros()</code>/<code>millis()</code> around <code>Invoke()</code></td>
+<td>matches your sampling-rate budget (Module 08)</td>
+</tr>
+<tr>
+<td>Compute distribution</td>
+<td>MAC-count table per layer, or truncation-delta profiling</td>
+<td>identifies which layer to target first</td>
+</tr>
+<tr>
+<td>Resolution scaling law</td>
+<td>arena/compute scale ~ <code>(new_side/old_side)^2</code></td>
+<td>first-pass estimate before remeasuring</td>
+</tr>
+<tr>
+<td>Combine techniques in order</td>
+<td>prune/distill -&gt; quantize (QAT or PTQ) last</td>
+<td>smallest model gets the final lossy step</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p>Go deeper with the full <a href="../">Edge AI Mastery Path</a> curriculum or test yourself with the <a href="../interview-questions/">interview questions</a>.</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+  
+  <nav class="mp-related" aria-label="Related free courses">
+    <h2>Related free courses</h2>
+    <ul>
+      <li><a href="https://learnmasterypath.com/ai-ml-mastery-path/">AI/ML</a></li><li><a href="https://learnmasterypath.com/llm-dev-mastery-path/">LLM Dev</a></li><li><a href="https://learnmasterypath.com/rag-mastery-path/">RAG</a></li><li><a href="https://learnmasterypath.com/claude-training-mastery-path/">Claude Training</a></li><li><a href="https://learnmasterypath.com/ai-tools-mastery-path/">AI Tools</a></li>
+      <li><a href="https://learnmasterypath.com/">All 100+ courses &rarr;</a></li>
+    </ul>
+  </nav>
+  
+
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../interview-questions/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Interview Questions">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Interview Questions
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../level-1/" class="md-footer__link md-footer__link--next" aria-label="Next: Overview">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Overview
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+  <div class="mp-foot">
+    <div class="mp-foot-inner">
+      <a class="mp-foot-brand" href="https://learnmasterypath.com/"><svg class="mp-mark" viewBox="0 0 160 160" role="img" aria-label="Mastery Path logo">
+  <circle cx="80" cy="80" r="74" fill="#FAF7EF" stroke="#2FA98D" stroke-width="5"/>
+  <rect class="mp-bar mp-bar-1" x="36" y="90" width="17" height="24" rx="5" fill="#2FA98D"/>
+  <rect class="mp-bar mp-bar-2" x="59" y="74" width="17" height="40" rx="5" fill="#7FC9B7"/>
+  <rect class="mp-bar mp-bar-3" x="82" y="56" width="17" height="58" rx="5" fill="#E0B457"/>
+  <rect class="mp-bar mp-bar-4" x="105" y="38" width="17" height="76" rx="5" fill="#C97B4A"/>
+  <circle class="mp-dot" cx="44.5" cy="82" r="7" fill="#22261f"/>
+</svg><span>Mastery Path</span></a>
+      <nav class="mp-sitelinks" aria-label="Site and legal links">
+        <a href="https://learnmasterypath.com/">All courses</a>
+        <a href="https://learnmasterypath.com/about.html">About</a>
+        <a href="https://learnmasterypath.com/contact.html">Contact</a>
+        <a href="https://learnmasterypath.com/edge-ai-mastery-path/privacy/">Privacy Policy</a>
+        <a href="https://learnmasterypath.com/terms.html">Terms</a>
+        <a href="https://learnmasterypath.com/edge-ai-mastery-path/license/">License</a>
+        <a href="https://learnmasterypath.com/verify/">Verify a certificate</a>
+      </nav>
+    </div>
+    <p class="mp-license-note">
+      © 2026 Vinod Kumar Sigilipelli · Except where otherwise noted, lesson content is licensed under
+      <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> and code examples under the
+      <a href="https://opensource.org/license/mit">MIT License</a>.
+    </p>
+  </div>
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.path", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "navigation.indexes", "toc.follow", "content.code.copy", "content.code.annotate", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+        <script src="../javascripts/progress-tracker.js"></script>
+      
+        <script src="../javascripts/final-quiz.js"></script>
+      
+    
+  </body>
+</html>

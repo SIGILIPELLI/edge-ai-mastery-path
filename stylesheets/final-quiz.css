@@ -1,0 +1,98 @@
+/* ---------- Final quiz ---------- */
+.mp-quiz-question {
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin: 0 0 18px;
+}
+.mp-quiz-question legend {
+  font-weight: 700;
+  padding: 0 4px;
+  font-size: 0.95rem;
+}
+.mp-quiz-options { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+.mp-quiz-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color .15s ease;
+}
+.mp-quiz-option:hover { background: color-mix(in srgb, var(--md-accent-fg-color) 6%, transparent); }
+.mp-quiz-option input { margin-top: 3px; accent-color: var(--md-accent-fg-color, var(--md-primary-fg-color)); flex: none; }
+.mp-quiz-option span { font-size: 0.92rem; }
+.mp-quiz-option.is-correct {
+  background: color-mix(in srgb, var(--md-primary-fg-color) 14%, transparent);
+  font-weight: 600;
+}
+.mp-quiz-option.is-wrong {
+  background: color-mix(in srgb, #c0392b 12%, transparent);
+}
+.mp-quiz-explain {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--md-code-bg-color, color-mix(in srgb, var(--md-default-fg-color) 4%, var(--md-default-bg-color)));
+  font-size: 0.85rem;
+  color: var(--md-default-fg-color--light);
+}
+.mp-quiz-warning {
+  color: #c0392b;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.mp-quiz-submit {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: var(--md-accent-fg-color, var(--md-primary-fg-color));
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: opacity .15s ease;
+}
+.mp-quiz-submit:hover { opacity: 0.88; }
+.mp-quiz-summary {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 18px 20px;
+  border-radius: 12px;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  margin-bottom: 1.2rem;
+}
+.mp-quiz-summary.is-pass {
+  border-color: var(--md-primary-fg-color);
+  background: color-mix(in srgb, var(--md-primary-fg-color) 10%, var(--md-default-bg-color));
+}
+.mp-quiz-summary.is-fail {
+  border-color: #c0392b;
+  background: color-mix(in srgb, #c0392b 8%, var(--md-default-bg-color));
+}
+.mp-quiz-summary-score { font-size: 2rem; font-weight: 800; flex: none; }
+.mp-quiz-summary-text { display: flex; flex-direction: column; gap: 2px; flex: 1 1 auto; min-width: 180px; }
+.mp-quiz-summary-text span { font-size: 0.85rem; color: var(--md-default-fg-color--light); }
+.mp-quiz-retake {
+  flex: none;
+  padding: 9px 16px;
+  border: 1px solid var(--md-default-fg-color--light);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--md-default-fg-color);
+  font-weight: 600;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+.mp-quiz-retake:hover { background: var(--md-default-fg-color--lightest); }
+
+
+.mp-quiz-code { margin: 8px 0; padding: 10px 12px; border-radius: 6px; background: var(--md-code-bg-color, rgba(127,127,127,.12)); overflow-x: auto; font-size: .82rem; white-space: pre; }
+.mp-quiz-question legend code, .mp-quiz-option code, .mp-quiz-explain code { font-size: .85em; }
+.mp-quiz-question legend { white-space: normal; }
